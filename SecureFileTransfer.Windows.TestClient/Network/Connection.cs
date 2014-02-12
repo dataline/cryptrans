@@ -1,58 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using SecureFileTransfer.Security;
 
 namespace SecureFileTransfer.Network
 {
-    public class LocalServerConnection : IDisposable, IOpenConnection
+    public abstract class Connection : IDisposable
     {
-        public Socket Connection { get; private set; }
+        public Socket ConnectionSocket { get; protected set; }
 
-        private Encoding ASCII = new ASCIIEncoding();
+        protected Encoding ASCII = new ASCIIEncoding();
 
-        private EncryptionContext encCtx = null;
+        protected EncryptionContext encCtx = null;
 
-        public LocalServerConnection(Socket sock)
+        public Connection() { }
+        public Connection(Socket sock)
         {
-            Connection = sock;
+            ConnectionSocket = sock;
         }
 
-        public bool DoInitialHandshake()
-        {
-            Write("DLP2P");
-            byte[] answer = new byte[2];
-            Get(answer);
-            if (ASCII.GetString(answer) != "OK")
-                return false;
+        public abstract bool DoInitialHandshake();
 
-            EnableEncryption();
-
-            Write("OK");
-
-            return true;
-        }
-
-        public void EnableEncryption()
+        public void EnableEncryption(EncryptionContext.ConnectionType type)
         {
             encCtx = new EncryptionContext(this);
-            encCtx.PerformEncryptionHandshake(EncryptionContext.ConnectionType.Server);
+            encCtx.PerformEncryptionHandshake(type);
         }
-
         public void GetRaw(byte[] buf)
         {
             int written = 0;
             while (written < buf.Length)
             {
-                written += Connection.Receive(buf, written, buf.Length - written, SocketFlags.None);
+                written += ConnectionSocket.Receive(buf, written, buf.Length - written, SocketFlags.None);
             }
         }
 
         public void WriteRaw(byte[] buf)
         {
-            Connection.Send(buf);
+            ConnectionSocket.Send(buf);
         }
 
         public void WriteRaw(string str)
@@ -83,12 +71,13 @@ namespace SecureFileTransfer.Network
 
         public void Close()
         {
-            Connection.Close();
+            ConnectionSocket.Close();
         }
 
         public void Dispose()
         {
-            Connection.Close();
+            ConnectionSocket.Close();
         }
+
     }
 }

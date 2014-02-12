@@ -5,13 +5,6 @@ using System.Text;
 using System.Security.Cryptography;
 using SecureFileTransfer.Network;
 
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.OS;
-
 namespace SecureFileTransfer.Security
 {
     public class EncryptionContext
@@ -50,18 +43,6 @@ namespace SecureFileTransfer.Security
             // Receive 64 bytes (padded to RSA key size) containing AES Key and Ivec
             byte[] answer = new byte[Security.RSA.KeySize];
             Connection.GetRaw(answer);
-
-            string debugvalues = "Data:";
-            for (int i = 0; i < answer.Length; i++)
-            {
-                debugvalues += " " + answer.ToString();
-            }
-
-            AlertDialog.Builder b = new AlertDialog.Builder(null);
-            AlertDialog d = b.Create();
-            d.SetTitle("Info");
-            d.SetMessage(debugvalues);
-            d.Show();
 
             byte[] aeskey = answer.Take(Security.AES.KeySize).ToArray();
             byte[] aesivec = answer.Skip(Security.AES.KeySize).Take(Security.AES.BlockSize).ToArray();

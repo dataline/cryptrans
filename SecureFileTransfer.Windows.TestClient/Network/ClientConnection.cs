@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net;
+using System.Net.Sockets;
+
+namespace SecureFileTransfer.Network
+{
+    public class ClientConnection : Connection
+    {
+        public static ClientConnection ConnectTo(string hostName, int port)
+        {
+            ClientConnection c = new ClientConnection();
+            c.Connect(hostName, port);
+
+            if (!c.DoInitialHandshake())
+                return null;
+
+            return c;
+        }
+
+        private ClientConnection() { }
+
+        private void Connect(string host, int port)
+        {
+            IPHostEntry hostEntry = Dns.GetHostEntry(host);
+            IPAddress addr = hostEntry.AddressList[0];
+            IPEndPoint endPoint = new IPEndPoint(addr, port);
+
+            ConnectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ConnectionSocket.Connect(endPoint);
+        }
+
+        public override bool DoInitialHandshake()
+        {
+            byte[] hello = new byte[5];
+            Get(hello);
+            if (ASCII.GetString(hello) != "DLP2P")
+                return false;
+
+            WriteRaw("OK");
+
+            EnableEncryption(Security.EncryptionContext.ConnectionType.Client);
+
+            byte[] ok = new byte[2];
+            Get(ok);
+            return ASCII.GetString(ok) == "OK";
+        }
+    }
+}
