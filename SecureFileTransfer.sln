@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureFileTransfer", "SecureFileTransfer\SecureFileTransfer.csproj", "{2F4D1774-5C25-4380-816D-F7F941F0E746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureFileTransfer.Common", "SecureFileTransfer.Common\SecureFileTransfer.Common.csproj", "{0BF6289F-E3AE-40DC-87E2-690B428F80A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0BF6289F-E3AE-40DC-87E2-690B428F80A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BF6289F-E3AE-40DC-87E2-690B428F80A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BF6289F-E3AE-40DC-87E2-690B428F80A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BF6289F-E3AE-40DC-87E2-690B428F80A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
