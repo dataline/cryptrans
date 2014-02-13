@@ -9,6 +9,8 @@ namespace SecureFileTransfer.Network
 {
     public class LocalServerConnection : Connection
     {
+        public string ReceivedConnectionPassword { get; set; }
+
         public LocalServerConnection(Socket sock) : base(sock) { }
 
         public override bool DoInitialHandshake()
@@ -20,6 +22,9 @@ namespace SecureFileTransfer.Network
                 return false;
 
             EnableEncryption(EncryptionContext.ConnectionType.Server);
+
+            byte[] password = GetUndefinedLength();
+            ReceivedConnectionPassword = ASCII.GetString(password);
 
             Write("OK");
 

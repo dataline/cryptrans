@@ -7,10 +7,10 @@ namespace SecureFileTransfer.Security
 {
     public class Padding
     {
-        public static byte[] GetSecurelyPaddedData(byte[] buf, int blockSize)
+        public static byte[] GetSecurelyPaddedData(byte[] buf, int blockSize, bool forceNullTermination = false)
         {
             int lastBlockOverflowBytes = buf.Length % blockSize;
-            if (lastBlockOverflowBytes == 0)
+            if (lastBlockOverflowBytes == 0 && !forceNullTermination)
                 return buf;
 
             int toPad = blockSize - lastBlockOverflowBytes;

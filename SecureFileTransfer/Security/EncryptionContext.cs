@@ -76,9 +76,9 @@ namespace SecureFileTransfer.Security
             Connection.WriteRaw(rsa.Encrypt(aesAndIV));
         }
 
-        public void WriteEncrypted(byte[] buf)
+        public void WriteEncrypted(byte[] buf, bool forceNullTermination = false)
         {
-            Connection.WriteRaw(aes.Encrypt(Security.Padding.GetSecurelyPaddedData(buf, Security.AES.BlockSize)));
+            Connection.WriteRaw(aes.Encrypt(Security.Padding.GetSecurelyPaddedData(buf, Security.AES.BlockSize, forceNullTermination)));
         }
 
         public void GetEncrypted(byte[] buf)
@@ -92,8 +92,29 @@ namespace SecureFileTransfer.Security
                 toRead -= data.Length;
                 if (toRead < 0)
                     throw new Exception("Contents of block are larger than expected.");
-                Array.Copy(data, 0, buf, buf.Length - toRead - data.Length, data.Length);
+                if (data.Length > 0)
+                    Array.Copy(data, 0, buf, buf.Length - toRead - data.Length, data.Length);
             }
+        }
+
+        /// <summary>
+        /// Hierfür müssen die übertragenen Daten null-terminiert sein und dürfen selber kein Null-Byte enthalten.
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetEncryptedUndefinedLength()
+        {
+            List<byte[]> blocks = new List<byte[]>();
+            byte[] block = new byte[Security.AES.BlockSize];
+            while (true)
+            {
+                Connection.GetRaw(block);
+                byte[] data = Security.Padding.RemovePaddingFromData(aes.Decrypt(block));
+                if (data.Length > 0)
+                    blocks.Add(data);
+                if (data.Length < Security.AES.BlockSize)
+                    break;
+            }
+            return blocks.Aggregate((a, b) => a.Concat(b).ToArray());
         }
     }
 }

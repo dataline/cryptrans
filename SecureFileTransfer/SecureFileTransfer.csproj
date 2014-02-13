@@ -60,6 +60,7 @@
     <Compile Include="Security\ICryptoKey.cs" />
     <Compile Include="Security\KeyProvider.cs" />
     <Compile Include="Security\Padding.cs" />
+    <Compile Include="Security\PasswordGenerator.cs" />
     <Compile Include="Security\RNG.cs" />
     <Compile Include="Security\RSA.cs" />
   </ItemGroup>

@@ -52,6 +52,8 @@ namespace SecureFileTransfer.Network
 
             EnableEncryption(Security.EncryptionContext.ConnectionType.Client);
 
+            Write("Test.", true);
+
             byte[] ok = new byte[2];
             Get(ok);
             return ASCII.GetString(ok) == "OK";

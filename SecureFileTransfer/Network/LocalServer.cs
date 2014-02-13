@@ -13,6 +13,8 @@ namespace SecureFileTransfer.Network
     {
         public static LocalServer Instance { get; private set; }
 
+        public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
+
         public static async Task<LocalServerConnection> WaitForConnectionAsync()
         {
             if (Instance != null)

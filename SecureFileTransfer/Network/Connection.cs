@@ -56,17 +56,30 @@ namespace SecureFileTransfer.Network
                 GetRaw(buf);
         }
 
-        public void Write(byte[] buf)
+        public byte[] GetUndefinedLength()
         {
-            if (encCtx != null)
-                encCtx.WriteEncrypted(buf);
-            else
-                WriteRaw(buf);
+            if (encCtx == null)
+                throw new NotSupportedException("Getting undefined lengths is only available after encryption was enabled.");
+            return encCtx.GetEncryptedUndefinedLength();
         }
 
-        public void Write(string str)
+        public void Write(byte[] buf, bool forceNullTermination = false)
         {
-            Write(ASCII.GetBytes(str));
+            if (encCtx != null)
+            {
+                encCtx.WriteEncrypted(buf, forceNullTermination);
+            }
+            else
+            {
+                if (forceNullTermination)
+                    throw new NotSupportedException("Null termination is only available after encryption was enabled.");
+                WriteRaw(buf);
+            }
+        }
+
+        public void Write(string str, bool forceNullTermination = false)
+        {
+            Write(ASCII.GetBytes(str), forceNullTermination);
         }
 
         public void Close()
