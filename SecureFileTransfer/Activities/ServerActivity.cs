@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Activities
 {
@@ -17,7 +19,9 @@ namespace SecureFileTransfer.Activities
     {
         ImageView qrContainerView;
 
-        protected override void OnCreate(Bundle bundle)
+        CancellationTokenSource cts = new CancellationTokenSource();
+
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -27,6 +31,24 @@ namespace SecureFileTransfer.Activities
 
             qrContainerView = FindViewById<ImageView>(Resource.Id.QRContainer);
             qrContainerView.SetImageBitmap(null);
+
+            await Server();
+        }
+
+        protected override void OnDestroy()
+        {
+            cts.Cancel();
+
+            base.OnDestroy();
+        }
+
+        public async Task Server()
+        {
+            Network.LocalServer srv = await Network.LocalServer.CreateServerAsync();
+
+            qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
+
+            Network.LocalServerConnection connection = await srv.WaitForConnectionAsync(cts.Token);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

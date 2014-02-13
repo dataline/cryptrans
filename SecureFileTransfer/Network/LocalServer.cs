@@ -11,11 +11,34 @@ namespace SecureFileTransfer.Network
 {
     public class LocalServer : IDisposable
     {
-        public static LocalServer Instance { get; private set; }
-
         public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
 
-        public static async Task<LocalServerConnection> WaitForConnectionAsync()
+        public static async Task<LocalServer> CreateServerAsync()
+        {
+            var srv = new LocalServer();
+            await Task.Run(() => srv.EstablishSocket());
+
+            return srv;
+        }
+
+        public async Task<LocalServerConnection> WaitForConnectionAsync(CancellationToken ct)
+        {
+            return await Task.Run<LocalServerConnection>(() =>
+            {
+                LocalServerConnection conn = null;
+                do
+                {
+                    Socket socket = ListenForConnection();
+                    if (socket == null)
+                        return null;
+                    conn = new LocalServerConnection(socket);
+                } while (!conn.DoInitialHandshake());
+
+                return conn;
+            }, ct);
+        }
+
+        /*public static async Task<LocalServerConnection> WaitForConnectionAsync()
         {
             if (Instance != null)
                 throw new Exception("Server is already listening.");
@@ -41,19 +64,14 @@ namespace SecureFileTransfer.Network
             Instance = null;
 
             return connection;
-        }
-
-        public int MaxConnections { get; set; }
+        }*/
 
         Socket sock = null;
 
+        public string Address { get; set; }
         public const int Port = 23956;
 
-        private LocalServer() : this(1) { }
-        private LocalServer(int maxConnections)
-        {
-            MaxConnections = maxConnections;
-        }
+        private LocalServer() { }
 
         void EstablishSocket()
         {
@@ -63,6 +81,8 @@ namespace SecureFileTransfer.Network
 
             sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sock.Bind(local);
+
+            Address = addr.ToString();
         }
 
         Socket ListenForConnection()

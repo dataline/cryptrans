@@ -28,7 +28,7 @@ namespace SecureFileTransfer.Features
             qrString.Append("/");
             qrString.Append(connectionPassword);
 
-            BitMatrix qrMatrix = new QRCodeWriter().encode(qrString.ToString(), ZXing.BarcodeFormat.QR_CODE, 500, 500);
+            BitMatrix qrMatrix = new QRCodeWriter().encode(qrString.ToString(), ZXing.BarcodeFormat.QR_CODE, 800, 800);
 
             return new BitmapRenderer().Render(qrMatrix, ZXing.BarcodeFormat.QR_CODE, string.Empty);
         }
