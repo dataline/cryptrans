@@ -24,6 +24,10 @@ namespace SecureFileTransfer
             EditText connPass = FindViewById<EditText>(Resource.Id.ConnectionPasswordField);
             TextView publicConnPass = FindViewById<TextView>(Resource.Id.PublicConnectionPasswordField);
 
+            ImageView qrContainer = FindViewById<ImageView>(Resource.Id.QRContainer);
+
+            qrContainer.SetImageBitmap(Features.QR.Create("abc", 1000, "def"));
+
             ipField.Text = "192.168.0.139";
             publicConnPass.Text = Network.LocalServer.PublicConnectionPassword;
 

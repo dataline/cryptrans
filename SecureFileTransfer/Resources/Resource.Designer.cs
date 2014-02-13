@@ -26,6 +26,9 @@ namespace SecureFileTransfer
 		
 		public static void UpdateIdValues()
 		{
+			global::ZXing.Mobile.Resource.Id.contentFrame = global::SecureFileTransfer.Resource.Id.contentFrame;
+			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::SecureFileTransfer.Resource.Layout.zxingscanneractivitylayout;
+			global::ZXing.Mobile.Resource.Layout.zxingscannerfragmentlayout = global::SecureFileTransfer.Resource.Layout.zxingscannerfragmentlayout;
 		}
 		
 		public partial class Attribute
@@ -69,11 +72,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050004
 			public const int PublicConnectionPasswordField = 2131034116;
 			
+			// aapt resource value: 0x7f050005
+			public const int QRContainer = 2131034117;
+			
 			// aapt resource value: 0x7f050001
 			public const int TestClient = 2131034113;
 			
 			// aapt resource value: 0x7f050000
 			public const int TestServer = 2131034112;
+			
+			// aapt resource value: 0x7f050006
+			public const int contentFrame = 2131034118;
 			
 			static Id()
 			{
@@ -90,6 +99,12 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f030000
 			public const int Main = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int zxingscanneractivitylayout = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int zxingscannerfragmentlayout = 2130903042;
 			
 			static Layout()
 			{
