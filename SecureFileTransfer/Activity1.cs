@@ -24,13 +24,26 @@ namespace SecureFileTransfer
 
             ipField.Text = "192.168.0.139";
 
-            testServer.Click += (s, e) =>
+            testServer.Click += async (s, e) =>
             {
-                Network.LocalServerConnection connection = Network.LocalServer.WaitForConnectionAsync().Result;
+                Network.LocalServerConnection connection = await Network.LocalServer.WaitForConnectionAsync();
+
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                AlertDialog a = b.Create();
+                a.SetTitle("Info");
+                a.SetMessage("Established connection to client.");
+                a.Show();
+
             };
-            testClient.Click += (s, e) =>
+            testClient.Click += async (s, e) =>
             {
-                Network.ClientConnection connection = Network.ClientConnection.ConnectTo(ipField.Text, Network.LocalServer.Port);
+                Network.ClientConnection connection = await Network.ClientConnection.ConnectToAsync(ipField.Text, Network.LocalServer.Port);
+
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                AlertDialog a = b.Create();
+                a.SetTitle("Info");
+                a.SetMessage("Established connection to server.");
+                a.Show();
             };
 
             Security.KeyProvider.StartKeyGeneration();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
 {
@@ -18,6 +19,14 @@ namespace SecureFileTransfer.Network
                 return null;
 
             return c;
+        }
+
+        public static async Task<ClientConnection> ConnectToAsync(string hostName, int port)
+        {
+            return await Task.Run<ClientConnection>(() =>
+            {
+                return ConnectTo(hostName, port);
+            });
         }
 
         private ClientConnection() { }
