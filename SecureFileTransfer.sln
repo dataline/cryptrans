@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureFileTransfer", "SecureFileTransfer\SecureFileTransfer.csproj", "{2F4D1774-5C25-4380-816D-F7F941F0E746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureFileTransfer.Windows.TestClient", "SecureFileTransfer.Windows.TestClient\SecureFileTransfer.Windows.TestClient.csproj", "{15DAF353-68B5-4953-9E3C-A0D70F2EB8EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,10 +17,6 @@ Global
 		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F4D1774-5C25-4380-816D-F7F941F0E746}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{15DAF353-68B5-4953-9E3C-A0D70F2EB8EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15DAF353-68B5-4953-9E3C-A0D70F2EB8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15DAF353-68B5-4953-9E3C-A0D70F2EB8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15DAF353-68B5-4953-9E3C-A0D70F2EB8EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
