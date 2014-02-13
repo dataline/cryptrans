@@ -51,18 +51,6 @@ namespace SecureFileTransfer.Security
             byte[] answer = new byte[Security.RSA.KeySize];
             Connection.GetRaw(answer);
 
-            string debugvalues = "Data:";
-            for (int i = 0; i < answer.Length; i++)
-            {
-                debugvalues += " " + answer.ToString();
-            }
-
-            AlertDialog.Builder b = new AlertDialog.Builder(null);
-            AlertDialog d = b.Create();
-            d.SetTitle("Info");
-            d.SetMessage(debugvalues);
-            d.Show();
-
             byte[] aeskey = answer.Take(Security.AES.KeySize).ToArray();
             byte[] aesivec = answer.Skip(Security.AES.KeySize).Take(Security.AES.BlockSize).ToArray();
 
