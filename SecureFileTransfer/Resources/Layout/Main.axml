@@ -18,4 +18,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/IPField"
         android:layout_marginTop="40.7dp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ConnectionPasswordField"
+        android:layout_marginTop="24.0dp" />
+    <TextView
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PublicConnectionPasswordField"
+        android:layout_marginTop="96.0dp"
+        android:layout_marginLeft="12.7dp" />
 </LinearLayout>

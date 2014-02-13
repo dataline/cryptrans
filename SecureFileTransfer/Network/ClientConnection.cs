@@ -10,9 +10,12 @@ namespace SecureFileTransfer.Network
 {
     public class ClientConnection : Connection
     {
-        public static ClientConnection ConnectTo(string hostName, int port)
+        public string ConnectionPassword { get; set; }
+
+        public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
             ClientConnection c = new ClientConnection();
+            c.ConnectionPassword = connectionPassword;
             c.Connect(hostName, port);
 
             if (!c.DoInitialHandshake())
@@ -21,11 +24,11 @@ namespace SecureFileTransfer.Network
             return c;
         }
 
-        public static async Task<ClientConnection> ConnectToAsync(string hostName, int port)
+        public static async Task<ClientConnection> ConnectToAsync(string hostName, int port, string connectionPassword)
         {
             return await Task.Run<ClientConnection>(() =>
             {
-                return ConnectTo(hostName, port);
+                return ConnectTo(hostName, port, connectionPassword);
             });
         }
 
@@ -52,7 +55,7 @@ namespace SecureFileTransfer.Network
 
             EnableEncryption(Security.EncryptionContext.ConnectionType.Client);
 
-            Write("Test.", true);
+            Write(ConnectionPassword, true);
 
             byte[] ok = new byte[2];
             Get(ok);

@@ -21,8 +21,12 @@ namespace SecureFileTransfer
             Button testServer = FindViewById<Button>(Resource.Id.TestServer);
             Button testClient = FindViewById<Button>(Resource.Id.TestClient);
             EditText ipField = FindViewById<EditText>(Resource.Id.IPField);
+            EditText connPass = FindViewById<EditText>(Resource.Id.ConnectionPasswordField);
+            TextView publicConnPass = FindViewById<TextView>(Resource.Id.PublicConnectionPasswordField);
 
             ipField.Text = "192.168.0.139";
+            publicConnPass.Text = Network.LocalServer.PublicConnectionPassword;
+
 
             testServer.Click += async (s, e) =>
             {
@@ -37,7 +41,7 @@ namespace SecureFileTransfer
             };
             testClient.Click += async (s, e) =>
             {
-                Network.ClientConnection connection = await Network.ClientConnection.ConnectToAsync(ipField.Text, Network.LocalServer.Port);
+                Network.ClientConnection connection = await Network.ClientConnection.ConnectToAsync(ipField.Text, Network.LocalServer.Port, connPass.Text);
 
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 AlertDialog a = b.Create();
