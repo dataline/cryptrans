@@ -12,36 +12,28 @@ namespace SecureFileTransfer
     [Activity(Label = "SecureFileTransfer", MainLauncher = true, Icon = "@drawable/icon")]
     public class Activity1 : Activity
     {
-        int count = 1;
-
-        protected override async void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Get our button from the layout resource,
-            // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.MyButton);
+            Button testServer = FindViewById<Button>(Resource.Id.TestServer);
+            Button testClient = FindViewById<Button>(Resource.Id.TestClient);
+            EditText ipField = FindViewById<EditText>(Resource.Id.IPField);
 
-            button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+            ipField.Text = "192.168.0.139";
+
+            testServer.Click += (s, e) =>
+            {
+                Network.LocalServerConnection connection = Network.LocalServer.WaitForConnectionAsync().Result;
+            };
+            testClient.Click += (s, e) =>
+            {
+                Network.ClientConnection connection = Network.ClientConnection.ConnectTo(ipField.Text, Network.LocalServer.Port);
+            };
 
             Security.KeyProvider.StartKeyGeneration();
-            //Security.AES aes = await Security.KeyProvider.GetAESAsync();
-            //string debugvalues = "Key:";
-            //for (int i = 0; i < aes.aesKey.Length; i++)
-            //{
-            //    debugvalues += " " + aes.aesKey[i].ToString();
-            //}
-            //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            //AlertDialog dialog = builder.Create();
-            //dialog.SetTitle("Info");
-            //dialog.SetMessage(debugvalues);
-            //dialog.Show();
-
-            if (Network.LocalServer.Instance == null)
-                await Network.LocalServer.WaitForConnection();
         }
     }
 }

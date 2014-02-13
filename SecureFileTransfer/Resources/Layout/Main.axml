@@ -2,12 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/TestServer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Server" />
+    <Button
+        android:text="Test Client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TestClient" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/IPField"
+        android:layout_marginTop="40.7dp" />
 </LinearLayout>

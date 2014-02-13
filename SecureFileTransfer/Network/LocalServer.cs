@@ -13,7 +13,7 @@ namespace SecureFileTransfer.Network
     {
         public static LocalServer Instance { get; private set; }
 
-        public static async Task<LocalServerConnection> WaitForConnection()
+        public static async Task<LocalServerConnection> WaitForConnectionAsync()
         {
             if (Instance != null)
                 throw new Exception("Server is already listening.");
