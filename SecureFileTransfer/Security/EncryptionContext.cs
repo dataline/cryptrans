@@ -51,8 +51,10 @@ namespace SecureFileTransfer.Security
             byte[] answer = new byte[Security.RSA.KeySize];
             Connection.GetRaw(answer);
 
-            byte[] aeskey = answer.Take(Security.AES.KeySize).ToArray();
-            byte[] aesivec = answer.Skip(Security.AES.KeySize).Take(Security.AES.BlockSize).ToArray();
+            byte[] decryptedKeyInfo = rsa.Decrypt(answer);
+
+            byte[] aeskey = decryptedKeyInfo.Take(Security.AES.KeySize).ToArray();
+            byte[] aesivec = decryptedKeyInfo.Skip(Security.AES.KeySize).Take(Security.AES.BlockSize).ToArray();
 
             aes = new Security.AES(aeskey, aesivec);
         }
@@ -90,7 +92,7 @@ namespace SecureFileTransfer.Security
                 toRead -= data.Length;
                 if (toRead < 0)
                     throw new Exception("Contents of block are larger than expected.");
-                Array.Copy(data, 0, buf, buf.Length - toRead, data.Length);
+                Array.Copy(data, 0, buf, buf.Length - toRead - data.Length, data.Length);
             }
         }
     }
