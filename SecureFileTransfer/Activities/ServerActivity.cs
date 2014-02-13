@@ -42,13 +42,29 @@ namespace SecureFileTransfer.Activities
             base.OnDestroy();
         }
 
+        //public override void OnBackPressed()
+        //{
+        //    base.OnBackPressed();
+        //}
+
         public async Task Server()
         {
             Network.LocalServer srv = await Network.LocalServer.CreateServerAsync();
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
 
-            Network.LocalServerConnection connection = await srv.WaitForConnectionAsync(cts.Token);
+            Network.LocalServerConnection connection = null;
+            try
+            {
+                 connection = await srv.WaitForConnectionAsync(cts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                srv.Dispose();
+                return;
+            }
+
+            Console.WriteLine("Test.");
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

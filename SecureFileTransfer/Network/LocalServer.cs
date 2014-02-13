@@ -25,14 +25,23 @@ namespace SecureFileTransfer.Network
         {
             return await Task.Run<LocalServerConnection>(() =>
             {
+                ct.Register(() => sock.Close());
                 LocalServerConnection conn = null;
-                do
+
+                try
                 {
-                    Socket socket = ListenForConnection();
-                    if (socket == null)
-                        return null;
-                    conn = new LocalServerConnection(socket);
-                } while (!conn.DoInitialHandshake());
+                    do
+                    {
+                        Socket socket = ListenForConnection();
+                        if (socket == null)
+                            return null;
+                        conn = new LocalServerConnection(socket);
+                    } while (!conn.DoInitialHandshake());
+                }
+                catch (SocketException)
+                {
+                    ct.ThrowIfCancellationRequested();
+                }
 
                 return conn;
             }, ct);
