@@ -4,36 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <Button
-        android:id="@+id/TestServer"
+        android:id="@+id/ReceiveFilesButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Test Server" />
+        android:text="@string/ReceiveFiles" />
     <Button
-        android:text="Test Client"
+        android:text="@string/SendFiles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TestClient" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/IPField"
-        android:layout_marginTop="0.0dp" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ConnectionPasswordField"
-        android:layout_marginTop="0.0dp" />
-    <TextView
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/PublicConnectionPasswordField"
-        android:layout_marginTop="0.0dp"
-        android:layout_marginLeft="12.7dp" />
-    <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/QRContainer" />
+        android:id="@+id/SendFilesButton" />
 </LinearLayout>

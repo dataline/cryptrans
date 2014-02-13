@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Hello World, Click Me!</string>
-    <string name="ApplicationName">SecureFileTransfer</string>
+  <string name="ApplicationName">SecureFileTransfer</string>
+  <string name="ServerQRCodeInformation">Scan this code using SecureFileTransfer on another device to start receiving files:</string>
+  <string name="ServerConnectManually">Connect manually</string>
+  <string name="ReceiveFiles">Receive Files</string>
+  <string name="SendFiles">Send Files</string>
 </resources>

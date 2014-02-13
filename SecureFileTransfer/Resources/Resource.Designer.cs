@@ -63,26 +63,23 @@ namespace SecureFileTransfer
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int ConnectionPasswordField = 2131034115;
-			
-			// aapt resource value: 0x7f050002
-			public const int IPField = 2131034114;
-			
 			// aapt resource value: 0x7f050004
-			public const int PublicConnectionPasswordField = 2131034116;
+			public const int ConnectManuallyButton = 2131034116;
 			
-			// aapt resource value: 0x7f050005
-			public const int QRContainer = 2131034117;
-			
-			// aapt resource value: 0x7f050001
-			public const int TestClient = 2131034113;
+			// aapt resource value: 0x7f050003
+			public const int QRContainer = 2131034115;
 			
 			// aapt resource value: 0x7f050000
-			public const int TestServer = 2131034112;
+			public const int ReceiveFilesButton = 2131034112;
 			
-			// aapt resource value: 0x7f050006
-			public const int contentFrame = 2131034118;
+			// aapt resource value: 0x7f050001
+			public const int SendFilesButton = 2131034113;
+			
+			// aapt resource value: 0x7f050005
+			public const int contentFrame = 2131034117;
+			
+			// aapt resource value: 0x7f050002
+			public const int textView1 = 2131034114;
 			
 			static Id()
 			{
@@ -101,10 +98,13 @@ namespace SecureFileTransfer
 			public const int Main = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int zxingscanneractivitylayout = 2130903041;
+			public const int ServerActivity = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int zxingscannerfragmentlayout = 2130903042;
+			public const int zxingscanneractivitylayout = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int zxingscannerfragmentlayout = 2130903043;
 			
 			static Layout()
 			{
@@ -119,11 +119,20 @@ namespace SecureFileTransfer
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
-			
 			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			public const int ApplicationName = 2130968576;
+			
+			// aapt resource value: 0x7f040003
+			public const int ReceiveFiles = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public const int SendFiles = 2130968580;
+			
+			// aapt resource value: 0x7f040002
+			public const int ServerConnectManually = 2130968578;
+			
+			// aapt resource value: 0x7f040001
+			public const int ServerQRCodeInformation = 2130968577;
 			
 			static String()
 			{

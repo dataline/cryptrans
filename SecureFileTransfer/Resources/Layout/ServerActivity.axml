@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TextView
+        android:text="@string/ServerQRCodeInformation"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="6.0dp"
+        android:layout_marginLeft="6.0dp"
+        android:layout_marginTop="5.3dp"
+        android:layout_marginBottom="6.7dp" />
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/QRContainer"
+        android:layout_weight="40"
+        android:layout_gravity="fill" />
+    <Button
+        android:text="@string/ServerConnectManually"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ConnectManuallyButton"
+        android:layout_gravity="bottom"
+        android:layout_weight="2"
+        android:layout_marginTop="7.4dp"
+        android:layout_marginRight="6.0dp"
+        android:layout_marginLeft="6.0dp"
+        android:layout_marginBottom="6.0dp" />
+</LinearLayout>
