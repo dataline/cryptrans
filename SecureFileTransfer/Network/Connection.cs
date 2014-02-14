@@ -58,6 +58,16 @@ namespace SecureFileTransfer.Network
                 GetRaw(buf);
         }
 
+        protected void SendAccept()
+        {
+            Write("OK");
+        }
+
+        protected void SendDecline()
+        {
+            Write("..");
+        }
+
         public byte[] GetUndefinedLength()
         {
             if (encCtx == null)

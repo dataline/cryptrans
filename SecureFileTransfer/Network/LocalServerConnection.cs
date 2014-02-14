@@ -4,12 +4,21 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using SecureFileTransfer.Security;
+using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
 {
     public class LocalServerConnection : Connection
     {
         public static LocalServerConnection CurrentConnection { get; set; }
+
+        public delegate bool AcceptRequestEventHandler(Request req);
+        public delegate void DisconnectedEventHandler();
+
+        public event AcceptRequestEventHandler AcceptRequest;
+        public event DisconnectedEventHandler Disconnected;
+
+        public bool Receiving { get; private set; }
 
         public LocalServerConnection(Socket sock) : base(sock) {
             CurrentConnection = this;
@@ -35,6 +44,27 @@ namespace SecureFileTransfer.Network
             Write(Android.OS.Build.Model, true);
 
             return true;
+        }
+
+        public void BeginReceiving()
+        {
+            if (Receiving)
+                return;
+            Receiving = true;
+            Task.Run(() =>
+            {
+                string requestString = ASCII.GetString(GetUndefinedLength());
+                Request req = Request.GetRequestForIdentifier(requestString);
+                if (req != null)
+                {
+                    SendAccept();
+                    req.Process(this);
+                }
+                else
+                {
+                    SendDecline();
+                }
+            });
         }
 
         public override void Dispose()

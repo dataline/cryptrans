@@ -84,6 +84,8 @@ namespace SecureFileTransfer.Activities
 
             progressDialog.Dismiss();
 
+            Console.WriteLine("Starting new client for " + resString);
+
             if (connection != null)
                 StartActivity(typeof(ClientActivity));
         }

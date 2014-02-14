@@ -36,6 +36,8 @@ namespace SecureFileTransfer.Activities
                 Disconnect();
                 Finish();
             };
+
+            Network.LocalServerConnection.CurrentConnection.BeginReceiving();
         }
 
         public override void OnBackPressed()
