@@ -80,6 +80,8 @@ namespace SecureFileTransfer.Network
             base.Dispose();
 
             CurrentConnection = null;
+
+            Console.WriteLine("ClientConnection terminated.");
         }
     }
 }

@@ -29,8 +29,6 @@ namespace SecureFileTransfer.Activities
 
             SetContentView(Resource.Layout.ServerActivity);
 
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-
             var connectManuallyButton = FindViewById<Button>(Resource.Id.ConnectManuallyButton);
             connectManuallyButton.Click += (s, e) =>
             {
@@ -51,21 +49,29 @@ namespace SecureFileTransfer.Activities
             await Server();
         }
 
-        protected override void OnDestroy()
+        void CancelServer()
         {
             cts.Cancel();
 
+            if (Network.LocalServer.CurrentServer != null)
+                Network.LocalServer.CurrentServer.Dispose();
+        }
+
+        protected override void OnDestroy()
+        {
             base.OnDestroy();
         }
 
-        //public override void OnBackPressed()
-        //{
-        //    base.OnBackPressed();
-        //}
+        public override void OnBackPressed()
+        {
+            CancelServer();
+
+            base.OnBackPressed();
+        }
 
         public async Task Server()
         {
-            srv = await Network.LocalServer.CreateServerAsync();
+            srv = await Network.LocalServer.GetServerAsync();
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
 

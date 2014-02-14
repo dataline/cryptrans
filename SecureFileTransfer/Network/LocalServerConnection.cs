@@ -42,6 +42,8 @@ namespace SecureFileTransfer.Network
             base.Dispose();
 
             CurrentConnection = null;
+
+            Console.WriteLine("LocalServerConnection terminated.");
         }
     }
 }

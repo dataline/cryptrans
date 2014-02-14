@@ -13,6 +13,16 @@ namespace SecureFileTransfer.Network
     {
         public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
 
+        public static LocalServer CurrentServer { get; private set; }
+
+        public static async Task<LocalServer> GetServerAsync()
+        {
+            if (CurrentServer != null)
+                return CurrentServer;
+
+            return await CreateServerAsync();
+        }
+
         public static async Task<LocalServer> CreateServerAsync()
         {
             if (LocalServerConnection.CurrentConnection != null)
@@ -20,6 +30,8 @@ namespace SecureFileTransfer.Network
 
             var srv = new LocalServer();
             await Task.Run(() => srv.EstablishSocket());
+
+            CurrentServer = srv;
 
             return srv;
         }
@@ -123,6 +135,8 @@ namespace SecureFileTransfer.Network
                 sock.Close();
 
             Console.WriteLine("Local Server terminated.");
+
+            CurrentServer = null;
         }
     }
 }
