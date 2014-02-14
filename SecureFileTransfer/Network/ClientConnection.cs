@@ -10,16 +10,23 @@ namespace SecureFileTransfer.Network
 {
     public class ClientConnection : Connection
     {
+        public static ClientConnection CurrentConnection { get; private set; }
+
         public string ConnectionPassword { get; set; }
 
         public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
+            if (CurrentConnection != null)
+                throw new NotSupportedException("There is already a client connection available.");
+
             ClientConnection c = new ClientConnection();
             c.ConnectionPassword = connectionPassword;
             c.Connect(hostName, port);
 
             if (!c.DoInitialHandshake())
                 return null;
+
+            CurrentConnection = c;
 
             return c;
         }
@@ -60,6 +67,13 @@ namespace SecureFileTransfer.Network
             byte[] ok = new byte[2];
             Get(ok);
             return ASCII.GetString(ok) == "OK";
+        }
+
+        public void Dispose()
+        {
+            base.Dispose();
+
+            CurrentConnection = null;
         }
     }
 }

@@ -71,14 +71,21 @@ namespace SecureFileTransfer.Activities
 
             string host, password;
             int port;
-            Features.QR.GetComponents(resString, out host, out port, out password);
+            Features.QR.GetComponents(resString, out host, out port, out password); 
+            
+            var progressDialog = new ProgressDialog(this)
+            {
+                Indeterminate = true
+            };
+            progressDialog.SetMessage(GetString(Resource.String.Connecting));
+            progressDialog.Show();
 
-            Intent clientIntent = new Intent(this, typeof(ClientActivity))
-                .PutExtra(ClientActivity.IE_CONNECTION_HOSTNAME, host)
-                .PutExtra(ClientActivity.IE_CONNECTION_PORT, port)
-                .PutExtra(ClientActivity.IE_CONNECTION_PASSWORD, password);
+            var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
 
-            StartActivity(clientIntent);
+            progressDialog.Dismiss();
+
+            if (connection != null)
+                StartActivity(typeof(ClientActivity));
         }
 
         void ShowInvalidCodeAlert()
