@@ -25,6 +25,9 @@ namespace SecureFileTransfer.Activities
             {
                 Finish();
             }
+
+            var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);
+            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.ClientConnection.CurrentConnection.RemoteName);
         }
     }
 }

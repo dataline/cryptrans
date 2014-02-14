@@ -24,8 +24,11 @@ namespace SecureFileTransfer.Network
             string password = ASCII.GetString(GetUndefinedLength());
             if (password != LocalServer.PublicConnectionPassword)
                 return false;
+            RemoteName = ASCII.GetString(GetUndefinedLength());
 
             Write("OK");
+
+            Write(Android.OS.Build.Model, true);
 
             return true;
         }

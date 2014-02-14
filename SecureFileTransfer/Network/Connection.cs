@@ -16,6 +16,8 @@ namespace SecureFileTransfer.Network
 
         protected EncryptionContext encCtx = null;
 
+        public string RemoteName { get; set; }
+
         public Connection() { }
         public Connection(Socket sock)
         {
@@ -87,7 +89,7 @@ namespace SecureFileTransfer.Network
             ConnectionSocket.Close();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             ConnectionSocket.Close();
         }

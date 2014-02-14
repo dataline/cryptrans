@@ -63,13 +63,19 @@ namespace SecureFileTransfer.Network
             EnableEncryption(Security.EncryptionContext.ConnectionType.Client);
 
             Write(ConnectionPassword, true);
+            Write(Android.OS.Build.Model, true);
 
             byte[] ok = new byte[2];
             Get(ok);
-            return ASCII.GetString(ok) == "OK";
+            if (ASCII.GetString(ok) != "OK")
+                return false;
+
+            RemoteName = ASCII.GetString(GetUndefinedLength());
+
+            return true;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             base.Dispose();
 

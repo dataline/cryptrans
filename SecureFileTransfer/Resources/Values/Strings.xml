@@ -10,6 +10,7 @@
   <string name="SendFiles">Send Files</string>
   <string name="Disconnect">Disconnect</string>
   <string name="Connecting">Connecting...</string>
+  <string name="ConnectedToFormatStr">Connected to {0}</string>
   <string name="ClientSendPictures">Send Pictures/Videos</string>
   <string name="ClientSendContacts">Send Contacts</string>
   <string name="ClientSendOther">Send Other</string>

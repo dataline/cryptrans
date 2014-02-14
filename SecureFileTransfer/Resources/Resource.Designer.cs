@@ -143,14 +143,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f040000
 			public const int ApplicationName = 2130968576;
 			
-			// aapt resource value: 0x7f04000b
-			public const int ClientSendContacts = 2130968587;
-			
 			// aapt resource value: 0x7f04000c
-			public const int ClientSendOther = 2130968588;
+			public const int ClientSendContacts = 2130968588;
+			
+			// aapt resource value: 0x7f04000d
+			public const int ClientSendOther = 2130968589;
+			
+			// aapt resource value: 0x7f04000b
+			public const int ClientSendPictures = 2130968587;
 			
 			// aapt resource value: 0x7f04000a
-			public const int ClientSendPictures = 2130968586;
+			public const int ConnectedToFormatStr = 2130968586;
 			
 			// aapt resource value: 0x7f040009
 			public const int Connecting = 2130968585;
