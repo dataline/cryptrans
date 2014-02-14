@@ -13,21 +13,22 @@ using Android.Widget;
 namespace SecureFileTransfer.Activities
 {
     [Activity(Label = "")]
-    public class ClientActivity : Activity
+    public class ServerConnectedActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            SetContentView(Resource.Layout.ClientActivity);
+            SetContentView(Resource.Layout.ServerConnectedActivity);
 
-            if (Network.ClientConnection.CurrentConnection == null)
+            if (Network.LocalServerConnection.CurrentConnection == null)
             {
                 Finish();
+                return;
             }
 
             var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);
-            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.ClientConnection.CurrentConnection.RemoteName);
+            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.LocalServerConnection.CurrentConnection.RemoteName);
 
             var disconnectButton = FindViewById<Button>(Resource.Id.DisconnectButton);
             disconnectButton.Click += (s, e) =>
@@ -46,7 +47,7 @@ namespace SecureFileTransfer.Activities
 
         public void Disconnect()
         {
-            Network.ClientConnection.CurrentConnection.Dispose();
+            Network.LocalServerConnection.CurrentConnection.Dispose();
         }
     }
 }

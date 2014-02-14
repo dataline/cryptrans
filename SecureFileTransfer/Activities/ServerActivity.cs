@@ -88,7 +88,8 @@ namespace SecureFileTransfer.Activities
             if (connection == null)
                 return; //aborted.
 
-            Console.WriteLine("Test.");
+            StartActivity(typeof(ServerConnectedActivity));
+            Finish();
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

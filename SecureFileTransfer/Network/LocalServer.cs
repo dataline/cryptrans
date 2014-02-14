@@ -15,6 +15,9 @@ namespace SecureFileTransfer.Network
 
         public static async Task<LocalServer> CreateServerAsync()
         {
+            if (LocalServerConnection.CurrentConnection != null)
+                throw new NotSupportedException("There is already a server connection available.");
+
             var srv = new LocalServer();
             await Task.Run(() => srv.EstablishSocket());
 
@@ -23,6 +26,9 @@ namespace SecureFileTransfer.Network
 
         public async Task<LocalServerConnection> WaitForConnectionAsync(CancellationToken ct)
         {
+            if (LocalServerConnection.CurrentConnection != null)
+                throw new NotSupportedException("There is already a server connection available.");
+
             return await Task.Run<LocalServerConnection>(() =>
             {
                 ct.Register(() => sock.Close());

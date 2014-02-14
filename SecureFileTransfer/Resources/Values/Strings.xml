@@ -14,4 +14,5 @@
   <string name="ClientSendPictures">Send Pictures/Videos</string>
   <string name="ClientSendContacts">Send Contacts</string>
   <string name="ClientSendOther">Send Other</string>
+  <string name="IncomingFileTransfers">Incoming transfers:</string>
 </resources>

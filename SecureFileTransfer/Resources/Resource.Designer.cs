@@ -122,10 +122,13 @@ namespace SecureFileTransfer
 			public const int ServerActivity = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int zxingscanneractivitylayout = 2130903043;
+			public const int ServerConnectedActivity = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int zxingscannerfragmentlayout = 2130903044;
+			public const int zxingscanneractivitylayout = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int zxingscannerfragmentlayout = 2130903045;
 			
 			static Layout()
 			{
@@ -160,6 +163,9 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f040008
 			public const int Disconnect = 2130968584;
+			
+			// aapt resource value: 0x7f04000e
+			public const int IncomingFileTransfers = 2130968590;
 			
 			// aapt resource value: 0x7f040005
 			public const int QRCodeInvalid = 2130968581;

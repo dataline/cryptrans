@@ -60,6 +60,7 @@
     <Compile Include="Activities\ClientActivity.cs" />
     <Compile Include="Activities\HomeActivity.cs" />
     <Compile Include="Activities\ServerActivity.cs" />
+    <Compile Include="Activities\ServerConnectedActivity.cs" />
     <Compile Include="Features\QR.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
@@ -83,6 +84,9 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ClientActivity.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ServerConnectedActivity.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

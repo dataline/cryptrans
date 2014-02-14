@@ -9,7 +9,11 @@ namespace SecureFileTransfer.Network
 {
     public class LocalServerConnection : Connection
     {
-        public LocalServerConnection(Socket sock) : base(sock) { }
+        public static LocalServerConnection CurrentConnection { get; set; }
+
+        public LocalServerConnection(Socket sock) : base(sock) {
+            CurrentConnection = this;
+        }
 
         public override bool DoInitialHandshake()
         {
@@ -31,6 +35,13 @@ namespace SecureFileTransfer.Network
             Write(Android.OS.Build.Model, true);
 
             return true;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            CurrentConnection = null;
         }
     }
 }
