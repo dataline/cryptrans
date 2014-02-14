@@ -3,6 +3,14 @@
   <string name="ApplicationName">SecureFileTransfer</string>
   <string name="ServerQRCodeInformation">Scan this code using SecureFileTransfer on another device to start receiving files:</string>
   <string name="ServerConnectManually">Connect manually</string>
+  <string name="ServerConnectManuallyInfoFormatStr">Enter this data to establish a connection:\n\nIP Address\n{0}\n\nPassword\n{1}</string>
+  <string name="QRCodeInvalidTitle">Invalid Code</string>
+  <string name="QRCodeInvalid">The code you scanned was invalid.</string>
   <string name="ReceiveFiles">Receive Files</string>
   <string name="SendFiles">Send Files</string>
+  <string name="Disconnect">Disconnect</string>
+  <string name="Connecting">Connecting...</string>
+  <string name="ClientSendPictures">Send Pictures/Videos</string>
+  <string name="ClientSendContacts">Send Contacts</string>
+  <string name="ClientSendOther">Send Other</string>
 </resources>

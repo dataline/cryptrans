@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ConnectedToField"
+        android:layout_marginTop="14.0dp"
+        android:layout_marginRight="6.0dp"
+        android:layout_marginLeft="6.0dp"
+        android:layout_marginBottom="40.0dp"
+        android:gravity="center_horizontal" />
+    <Button
+        android:text="@string/ClientSendPictures"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SendPicturesButton"
+        android:layout_marginRight="26.0dp"
+        android:layout_marginLeft="26.0dp"
+        android:layout_marginBottom="12.0dp" />
+    <Button
+        android:text="@string/ClientSendContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SendContactsButton"
+        android:layout_marginRight="26.0dp"
+        android:layout_marginLeft="26.0dp"
+        android:layout_marginBottom="12.0dp" />
+    <Button
+        android:text="@string/ClientSendOther"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SendOtherButton"
+        android:layout_marginRight="26.0dp"
+        android:layout_marginLeft="26.0dp"
+        android:layout_marginBottom="12.0dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_weight="1"
+        android:layout_gravity="bottom">
+        <Button
+            android:text="@string/Disconnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DisconnectButton"
+            android:layout_marginRight="26.0dp"
+            android:layout_marginLeft="26.0dp"
+            android:layout_marginBottom="12.0dp"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+</LinearLayout>

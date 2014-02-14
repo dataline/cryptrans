@@ -62,11 +62,32 @@ namespace SecureFileTransfer.Activities
             if (result == null)
                 return;
 
-            AlertDialog.Builder b = new AlertDialog.Builder(this);
-            AlertDialog a = b.Create();
-            a.SetTitle("Info");
-            a.SetMessage("Scanned: " + result.Text);
-            a.Show();
+            string resString = result.Text;
+            if (!Features.QR.IsValid(resString))
+            {
+                ShowInvalidCodeAlert();
+                return;
+            }
+
+            string host, password;
+            int port;
+            Features.QR.GetComponents(resString, out host, out port, out password);
+
+            Intent clientIntent = new Intent(this, typeof(ClientActivity))
+                .PutExtra(ClientActivity.IE_CONNECTION_HOSTNAME, host)
+                .PutExtra(ClientActivity.IE_CONNECTION_PORT, port)
+                .PutExtra(ClientActivity.IE_CONNECTION_PASSWORD, password);
+
+            StartActivity(clientIntent);
+        }
+
+        void ShowInvalidCodeAlert()
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog alert = builder.Create();
+            alert.SetTitle(Resource.String.QRCodeInvalidTitle);
+            alert.SetMessage(GetString(Resource.String.QRCodeInvalid));
+            alert.Show();
         }
     }
 }

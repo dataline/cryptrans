@@ -32,5 +32,29 @@ namespace SecureFileTransfer.Features
 
             return new BitmapRenderer().Render(qrMatrix, ZXing.BarcodeFormat.QR_CODE, string.Empty);
         }
+
+        public static bool IsValid(string qrString)
+        {
+            if (!qrString.StartsWith(QRStringPrefix))
+                return false;
+
+            int count = 0;
+            foreach (char c in qrString)
+            {
+                if (c == '/')
+                    count++;
+            }
+
+            return count == 3;
+        }
+
+        public static void GetComponents(string qrString, out string host, out int port, out string password)
+        {
+            string[] components = qrString.Split('/');
+
+            host = components[1];
+            port = Convert.ToInt32(components[2]);
+            password = components[3];
+        }
     }
 }

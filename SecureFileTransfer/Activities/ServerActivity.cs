@@ -19,6 +19,8 @@ namespace SecureFileTransfer.Activities
     {
         ImageView qrContainerView;
 
+        Network.LocalServer srv = null;
+
         CancellationTokenSource cts = new CancellationTokenSource();
 
         protected override async void OnCreate(Bundle bundle)
@@ -28,6 +30,20 @@ namespace SecureFileTransfer.Activities
             SetContentView(Resource.Layout.ServerActivity);
 
             ActionBar.SetDisplayHomeAsUpEnabled(true);
+
+            var connectManuallyButton = FindViewById<Button>(Resource.Id.ConnectManuallyButton);
+            connectManuallyButton.Click += (s, e) =>
+            {
+                if (srv == null)
+                    return;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog info = builder.Create();
+
+                info.SetTitle(Resource.String.ServerConnectManually);
+                info.SetMessage(string.Format(GetString(Resource.String.ServerConnectManuallyInfoFormatStr), srv.Address, Network.LocalServer.PublicConnectionPassword));
+                info.Show();
+            };
 
             qrContainerView = FindViewById<ImageView>(Resource.Id.QRContainer);
             qrContainerView.SetImageBitmap(null);
@@ -49,20 +65,28 @@ namespace SecureFileTransfer.Activities
 
         public async Task Server()
         {
-            Network.LocalServer srv = await Network.LocalServer.CreateServerAsync();
+            srv = await Network.LocalServer.CreateServerAsync();
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
 
             Network.LocalServerConnection connection = null;
-            try
+
+            while (connection == null)
             {
-                 connection = await srv.WaitForConnectionAsync(cts.Token);
+                try
+                {
+                    connection = await srv.WaitForConnectionAsync(cts.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    break;
+                }
             }
-            catch (TaskCanceledException)
-            {
-                srv.Dispose();
-                return;
-            }
+
+            srv.Dispose();
+
+            if (connection == null)
+                return; //aborted.
 
             Console.WriteLine("Test.");
         }

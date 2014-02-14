@@ -92,6 +92,8 @@ namespace SecureFileTransfer.Network
             sock.Bind(local);
 
             Address = addr.ToString();
+
+            Console.WriteLine("Local Server started.");
         }
 
         Socket ListenForConnection()
@@ -113,6 +115,8 @@ namespace SecureFileTransfer.Network
         {
             if (sock != null)
                 sock.Close();
+
+            Console.WriteLine("Local Server terminated.");
         }
     }
 }
