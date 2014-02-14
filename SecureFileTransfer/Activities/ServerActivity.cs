@@ -75,24 +75,12 @@ namespace SecureFileTransfer.Activities
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
 
-            Network.LocalServerConnection connection = null;
+            srv.GotConnection += srv_GotConnection;
+        }
 
-            while (connection == null)
-            {
-                try
-                {
-                    connection = await srv.WaitForConnectionAsync(cts.Token);
-                }
-                catch (TaskCanceledException)
-                {
-                    break;
-                }
-            }
-
-            srv.Dispose();
-
-            if (connection == null)
-                return; //aborted.
+        void srv_GotConnection(Network.LocalServerConnection connection)
+        {
+            Network.LocalServer.CurrentServer.Dispose();
 
             StartActivity(typeof(ServerConnectedActivity));
             Finish();

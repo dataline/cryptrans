@@ -15,6 +15,10 @@ namespace SecureFileTransfer.Network
 
         public static LocalServer CurrentServer { get; private set; }
 
+        public delegate void GotConnectionEventHandler(LocalServerConnection connection);
+
+        public event GotConnectionEventHandler GotConnection;
+
         public static async Task<LocalServer> GetServerAsync()
         {
             if (CurrentServer != null)
@@ -36,34 +40,34 @@ namespace SecureFileTransfer.Network
             return srv;
         }
 
-        public async Task<LocalServerConnection> WaitForConnectionAsync(CancellationToken ct)
-        {
-            if (LocalServerConnection.CurrentConnection != null)
-                throw new NotSupportedException("There is already a server connection available.");
-
-            return await Task.Run<LocalServerConnection>(() =>
-            {
-                ct.Register(() => sock.Close());
-                LocalServerConnection conn = null;
-
-                try
-                {
-                    do
-                    {
-                        Socket socket = ListenForConnection();
-                        if (socket == null)
-                            return null;
-                        conn = new LocalServerConnection(socket);
-                    } while (!conn.DoInitialHandshake());
-                }
-                catch (SocketException)
-                {
-                    ct.ThrowIfCancellationRequested();
-                }
-
-                return conn;
-            }, ct);
-        }
+        //public async Task<LocalServerConnection> WaitForConnectionAsync(CancellationToken ct)
+        //{
+        //    if (LocalServerConnection.CurrentConnection != null)
+        //        throw new NotSupportedException("There is already a server connection available.");
+        //
+        //    return await Task.Run<LocalServerConnection>(() =>
+        //    {
+        //        ct.Register(() => sock.Close());
+        //        LocalServerConnection conn = null;
+        //
+        //        try
+        //        {
+        //            do
+        //            {
+        //                Socket socket = ListenForConnection();
+        //                if (socket == null)
+        //                    return null;
+        //                conn = new LocalServerConnection(socket);
+        //            } while (!conn.DoInitialHandshake());
+        //        }
+        //        catch (SocketException)
+        //        {
+        //            ct.ThrowIfCancellationRequested();
+        //        }
+        //
+        //        return conn;
+        //    }, ct);
+        //}
 
         /*public static async Task<LocalServerConnection> WaitForConnectionAsync()
         {
@@ -111,22 +115,31 @@ namespace SecureFileTransfer.Network
 
             Address = addr.ToString();
 
+            sock.Listen(100);
+            sock.BeginAccept(new AsyncCallback(AcceptCallback), sock);
+
             Console.WriteLine("Local Server started.");
         }
 
-        Socket ListenForConnection()
+        void AcceptCallback(IAsyncResult ar)
         {
-            sock.Listen(100);
-            Socket accepted;
             try
             {
-                accepted = sock.Accept();
+                Socket accepted = (ar.AsyncState as Socket).EndAccept(ar);
+
+                var conn = new LocalServerConnection(accepted);
+
+                if (conn.DoInitialHandshake() && GotConnection != null)
+                    GotConnection(conn);
+                else
+                {
+                    conn.Dispose();
+                    sock.BeginAccept(new AsyncCallback(AcceptCallback), sock);
+                }
             }
             catch (ObjectDisposedException)
             {
-                accepted = null;
             }
-            return accepted;
         }
 
         public void Dispose()
