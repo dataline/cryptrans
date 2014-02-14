@@ -68,6 +68,11 @@ namespace SecureFileTransfer.Network
             Write("..");
         }
 
+        protected void SendShutdown()
+        {
+            Write("bye");
+        }
+
         public byte[] GetUndefinedLength()
         {
             if (encCtx == null)
