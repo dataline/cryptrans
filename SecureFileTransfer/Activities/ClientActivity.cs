@@ -36,8 +36,16 @@ namespace SecureFileTransfer.Activities
                 Finish();
             };
 
+            var sendOtherButton = FindViewById<Button>(Resource.Id.SendOtherButton);
+            sendOtherButton.Click += sendOtherButton_Click;
+
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
+        }
+
+        void sendOtherButton_Click(object sender, EventArgs e)
+        {
+            Network.ClientConnection.CurrentConnection.FileTransferTest();
         }
 
         void CurrentConnection_Disconnected()

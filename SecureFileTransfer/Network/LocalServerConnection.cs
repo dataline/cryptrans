@@ -61,18 +61,18 @@ namespace SecureFileTransfer.Network
 
             Write(Android.OS.Build.Model, true);
 
-            AES dataConnectionAES = new AES();
-            dataConnectionAES.Generate();
+            //AES dataConnectionAES = new AES();
+            //dataConnectionAES.Generate();
 
             DataConnection = SingleTransferServer.GetServer();
             DataConnection.ParentConnection = this;
-
+            
             Write(DataConnection.Address, true);
             Write(SingleTransferServer.Port.ToString(), true);
-            Write(dataConnectionAES.aesKey);
-            Write(dataConnectionAES.aesIV);
+            //Write(dataConnectionAES.aesKey);
+            //Write(dataConnectionAES.aesIV);
 
-            return DataConnection.GetConnection(dataConnectionAES);
+            return DataConnection.GetConnection();
         }
 
         protected override void InternalBeginReceiving()

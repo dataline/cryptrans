@@ -19,10 +19,10 @@ namespace SecureFileTransfer.Network
             return srv;
         }
 
-        public bool GetConnection(Security.AES aes)
+        public bool GetConnection()
         {
             Listen();
-            return DoInitialHandshake(aes);
+            return DoInitialHandshake();
         }
 
         private SingleTransferServer() { }
@@ -33,6 +33,8 @@ namespace SecureFileTransfer.Network
         public LocalServerConnection ParentConnection { get; set; }
 
         public FileTransferRequest CurrentRequest { get; private set; }
+
+        public bool AbortCurrentTransfer { get; set; }
 
         Socket listenerSocket;
 
@@ -55,6 +57,7 @@ namespace SecureFileTransfer.Network
         void Listen()
         {
             ConnectionSocket = listenerSocket.Accept();
+            ConnectionSocket.ReceiveTimeout = 1000;
 
             listenerSocket.Close();
             listenerSocket.Dispose();
@@ -63,14 +66,7 @@ namespace SecureFileTransfer.Network
 
         public override bool DoInitialHandshake()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool DoInitialHandshake(Security.AES aes)
-        {
             Write(CMD_CONN_MAGIC);
-
-            encCtx = new Security.EncryptionContext(this, aes);
 
             byte[] ok = new byte[2];
             Get(ok);
@@ -88,9 +84,21 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
-        public void BeginReceiving(FileTransferRequest request)
+        public void BeginReceiving(FileTransferRequest request, SecureFileTransfer.Security.AES aes)
         {
+            encCtx = new Security.EncryptionContext(this, aes);
+
+            byte[] ok = new byte[2];
+            Get(ok);
+            if (ASCII.GetString(ok) != CMD_OK)
+            {
+                ParentConnection.SendDecline();
+                return;
+            }
+            SendAccept();
+
             CurrentRequest = request;
+            AbortCurrentTransfer = false;
             ParentConnection.RaiseFileTransferStarted(this);
 
             Task.Run(() =>
@@ -103,7 +111,17 @@ namespace SecureFileTransfer.Network
                 while (toRead > 0)
                 {
                     byte[] buf = new byte[toRead > Security.AES.BlockSize ? Security.AES.BlockSize : toRead];
-                    Get(buf);
+                    try
+                    {
+                        Get(buf);
+                    }
+                    catch (SocketException se)
+                    {
+                        if (se.SocketErrorCode == SocketError.TimedOut && !AbortCurrentTransfer)
+                            continue; // noch mal versuchen
+
+                        throw;
+                    }
                     Array.Copy(buf, 0, file, file.Length - toRead, buf.Length);
 
                     toRead -= buf.Length;

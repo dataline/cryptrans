@@ -98,17 +98,23 @@ namespace SecureFileTransfer.Network
 
         public void SendAccept()
         {
-            Write(CMD_OK);
+            Write(CMD_OK, true);
         }
 
         public void SendDecline()
         {
-            Write(CMD_DECLINE);
+            Write(CMD_DECLINE, true);
         }
 
         public void SendShutdown()
         {
-            Write(CMD_SHUTDOWN);
+            Write(CMD_SHUTDOWN, true);
+        }
+
+        public bool DoesAccept()
+        {
+            string answer = GetUndefinedLengthString();
+            return answer == CMD_OK;
         }
 
         public byte[] GetUndefinedLength()

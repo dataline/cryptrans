@@ -38,7 +38,13 @@ namespace SecureFileTransfer.Activities
             };
 
             Network.LocalServerConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
+            Network.LocalServerConnection.CurrentConnection.AcceptRequest += CurrentConnection_AcceptRequest;
             Network.LocalServerConnection.CurrentConnection.BeginReceiving();
+        }
+
+        bool CurrentConnection_AcceptRequest(Network.Request req)
+        {
+            return true;
         }
 
         void CurrentConnection_Disconnected()

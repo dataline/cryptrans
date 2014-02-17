@@ -18,47 +18,47 @@ namespace SecureFileTransfer.Network
 
         public override void Process(LocalServerConnection conn)
         {
-            //FileName = conn.GetUndefinedLengthString();
-            //
-            //byte[] filelength = new byte[8];
-            //conn.Get(filelength)
-            //FileLength = BitConverter.ToInt64(filelength, 0);
-            //
-            //FileType = conn.GetUndefinedLengthString();
-            //
-            //if (!conn.DoesAcceptRequest(this))
-            //{
-            //    conn.SendDecline();
-            //    return;
-            //}
-            //
-            //Security.AES fileAES = new Security.AES();
-            //fileAES.Generate();
-            //
-            //SingleTransferServer srv = SingleTransferServer.GetServer();
-            //srv.ParentRequest = this;
-            //srv.ParentConnection = conn;
-            //
-            //conn.SendAccept();
-            //conn.Write(srv.Address, true);
-            //conn.Write(BitConverter.GetBytes((Int32)SingleTransferServer.Port));
-            //conn.Write(fileAES.aesKey);
-            //conn.Write(fileAES.aesIV);
-            //
-            //if (!srv.GetConnection(fileAES))
-            //{
-            //    conn.SendDecline();
-            //    return;
-            //}
-            //
-            //conn.CurrentFileTransfer = srv;
-            //
-            //srv.BeginReceiving();
+            FileName = conn.GetUndefinedLengthString();
+            FileLength = Convert.ToInt64(conn.GetUndefinedLengthString());
+            FileType = conn.GetUndefinedLengthString();
+            
+            if (!conn.DoesAcceptRequest(this))
+            {
+                conn.SendDecline();
+                return;
+            }
+            
+            Security.AES fileAES = new Security.AES();
+            fileAES.Generate();
+            
+            conn.SendAccept();
+            conn.Write(fileAES.aesKey);
+            conn.Write(fileAES.aesIV);
+
+            conn.DataConnection.BeginReceiving(this, fileAES);
         }
 
-        public override void Perform(ClientConnection conn)
+        public override bool Perform(ClientConnection conn)
         {
-            throw new NotImplementedException();
+            conn.Write(RequestIdentifier, true);
+            if (!conn.DoesAccept())
+                return false;
+            
+            conn.Write(FileName, true);
+            conn.Write(FileLength.ToString(), true);
+            conn.Write(FileType, true);
+
+            if (!conn.DoesAccept())
+                return false;
+
+            byte[] aesKey = new byte[Security.AES.KeySize];
+            byte[] aesIv = new byte[Security.AES.BlockSize];
+            conn.Get(aesKey);
+            conn.Get(aesIv);
+
+            conn.DataConnection.BeginSending(this, aesKey, aesIv);
+
+            return true;
         }
     }
 }

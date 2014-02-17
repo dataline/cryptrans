@@ -9,12 +9,12 @@ namespace SecureFileTransfer.Network
 {
     public class SingleTransferClient : Connection
     {
-        public static SingleTransferClient ConnectTo(string hostName, int port, byte[] aesKey, byte[] aesIv)
+        public static SingleTransferClient ConnectTo(string hostName, int port)
         {
             var client = new SingleTransferClient();
             client.Connect(hostName, port);
 
-            if (!client.DoInitialHandshake(aesKey, aesIv))
+            if (!client.DoInitialHandshake())
                 return null;
 
             Console.WriteLine("SingleTransferClient established.");
@@ -36,17 +36,10 @@ namespace SecureFileTransfer.Network
 
         public override bool DoInitialHandshake()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool DoInitialHandshake(byte[] aesKey, byte[] aesIv)
-        {
             byte[] hello = new byte[5];
             Get(hello);
             if (ASCII.GetString(hello) != CMD_CONN_MAGIC)
                 return false;
-
-            encCtx = new Security.EncryptionContext(this, aesKey, aesIv);
 
             SendAccept();
 
@@ -56,6 +49,22 @@ namespace SecureFileTransfer.Network
         protected override void InternalBeginReceiving()
         {
             throw new NotImplementedException();
+        }
+
+        public void BeginSending(FileTransferRequest request, byte[] aesKey, byte[] aesIv)
+        {
+            encCtx = new Security.EncryptionContext(this, aesKey, aesIv);
+            SendAccept();
+            byte[] ok = new byte[2];
+            Get(ok);
+            if (ASCII.GetString(ok) != CMD_OK)
+                return;
+
+            byte[] test = new byte[16];
+            for (int i = 0; i < 100; i++)
+            {
+                Write(test);
+            }
         }
 
         public override void Dispose()

@@ -9,7 +9,7 @@ namespace SecureFileTransfer.Network
     {
         public abstract void Process(LocalServerConnection conn);
 
-        public abstract void Perform(ClientConnection conn);
+        public abstract bool Perform(ClientConnection conn);
 
         public static Request GetRequestForIdentifier(string id)
         {

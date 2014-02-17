@@ -81,12 +81,12 @@ namespace SecureFileTransfer.Network
             string dcAddress = GetUndefinedLengthString();
             int dcPort = Convert.ToInt32(GetUndefinedLengthString());
 
-            byte[] dcAesKey = new byte[Security.AES.KeySize];
-            byte[] dcAesIv = new byte[Security.AES.BlockSize];
-            Get(dcAesKey);
-            Get(dcAesIv);
+            //byte[] dcAesKey = new byte[Security.AES.KeySize];
+            //byte[] dcAesIv = new byte[Security.AES.BlockSize];
+            //Get(dcAesKey);
+            //Get(dcAesIv);
 
-            DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort, dcAesKey, dcAesIv);
+            DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort);
 
             return DataConnection != null;
         }
@@ -111,6 +111,17 @@ namespace SecureFileTransfer.Network
                     return;
                 }
             });
+        }
+
+        public void FileTransferTest()
+        {
+            FileTransferRequest req = new FileTransferRequest()
+            {
+                FileName = "Testdatei.txt",
+                FileLength = 1600,
+                FileType = "data"
+            };
+            req.Perform(this);
         }
 
         public override void Dispose()
