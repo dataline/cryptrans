@@ -68,6 +68,8 @@
     <Compile Include="Network\LocalServer.cs" />
     <Compile Include="Network\LocalServerConnection.cs" />
     <Compile Include="Network\Request.cs" />
+    <Compile Include="Network\SingleTransferClient.cs" />
+    <Compile Include="Network\SingleTransferServer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AES.cs" />

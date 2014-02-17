@@ -12,6 +12,8 @@ namespace SecureFileTransfer.Network
     {
         public static ClientConnection CurrentConnection { get; private set; }
 
+        public SingleTransferClient DataConnection { get; set; }
+
         public string ConnectionPassword { get; set; }
 
         public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
@@ -76,7 +78,20 @@ namespace SecureFileTransfer.Network
 
             RemoteName = ASCII.GetString(GetUndefinedLength());
 
-            return true;
+            string dcAddress = GetUndefinedLengthString();
+
+            byte[] portBytes = new byte[4];
+            Get(portBytes);
+            int dcPort = BitConverter.ToInt32(portBytes, 0);
+
+            byte[] dcAesKey = new byte[Security.AES.KeySize];
+            byte[] dcAesIv = new byte[Security.AES.BlockSize];
+            Get(dcAesKey);
+            Get(dcAesIv);
+
+            DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort, dcAesKey, dcAesIv);
+
+            return DataConnection != null;
         }
 
         protected override void InternalBeginReceiving()

@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace SecureFileTransfer.Security
 {
-    public class RNG
+    public static class RNG
     {
         static RandomNumberGenerator Generator = null;
 

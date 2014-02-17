@@ -96,17 +96,17 @@ namespace SecureFileTransfer.Network
                 GetRaw(buf);
         }
 
-        protected void SendAccept()
+        public void SendAccept()
         {
             Write(CMD_OK);
         }
 
-        protected void SendDecline()
+        public void SendDecline()
         {
             Write(CMD_DECLINE);
         }
 
-        protected void SendShutdown()
+        public void SendShutdown()
         {
             Write(CMD_SHUTDOWN);
         }
@@ -116,6 +116,11 @@ namespace SecureFileTransfer.Network
             if (encCtx == null)
                 throw new NotSupportedException("Getting undefined lengths is only available after encryption was enabled.");
             return encCtx.GetEncryptedUndefinedLength();
+        }
+
+        public string GetUndefinedLengthString()
+        {
+            return ASCII.GetString(GetUndefinedLength());
         }
 
         public void Write(byte[] buf, bool forceNullTermination = false)

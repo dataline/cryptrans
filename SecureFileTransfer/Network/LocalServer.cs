@@ -40,63 +40,6 @@ namespace SecureFileTransfer.Network
             return srv;
         }
 
-        //public async Task<LocalServerConnection> WaitForConnectionAsync(CancellationToken ct)
-        //{
-        //    if (LocalServerConnection.CurrentConnection != null)
-        //        throw new NotSupportedException("There is already a server connection available.");
-        //
-        //    return await Task.Run<LocalServerConnection>(() =>
-        //    {
-        //        ct.Register(() => sock.Close());
-        //        LocalServerConnection conn = null;
-        //
-        //        try
-        //        {
-        //            do
-        //            {
-        //                Socket socket = ListenForConnection();
-        //                if (socket == null)
-        //                    return null;
-        //                conn = new LocalServerConnection(socket);
-        //            } while (!conn.DoInitialHandshake());
-        //        }
-        //        catch (SocketException)
-        //        {
-        //            ct.ThrowIfCancellationRequested();
-        //        }
-        //
-        //        return conn;
-        //    }, ct);
-        //}
-
-        /*public static async Task<LocalServerConnection> WaitForConnectionAsync()
-        {
-            if (Instance != null)
-                throw new Exception("Server is already listening.");
-
-            Instance = new LocalServer();
-            Instance.EstablishSocket();
-
-            LocalServerConnection connection = await Task.Run<LocalServerConnection>(() =>
-            {
-                LocalServerConnection conn = null;
-                do
-                {
-                    Socket socket = Instance.ListenForConnection();
-                    if (socket == null)
-                        return null;
-                    conn = new LocalServerConnection(socket);
-                } while (!conn.DoInitialHandshake());
-
-                return conn;
-            });
-
-            Instance.Dispose();
-            Instance = null;
-
-            return connection;
-        }*/
-
         Socket sock = null;
 
         public string Address { get; set; }

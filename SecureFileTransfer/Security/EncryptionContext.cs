@@ -27,6 +27,18 @@ namespace SecureFileTransfer.Security
             Connection = conn;
         }
 
+        public EncryptionContext(Connection conn, byte[] aesKey, byte[] aesIvec)
+            : this(conn)
+        {
+            aes = new Security.AES(aesKey, aesIvec);
+        }
+
+        public EncryptionContext(Connection conn, AES aes)
+            : this(conn)
+        {
+            this.aes = aes;
+        }
+
         public enum ConnectionType
         {
             Server, Client

@@ -12,12 +12,32 @@ namespace SecureFileTransfer.Network
     {
         public static LocalServerConnection CurrentConnection { get; set; }
 
+        public SingleTransferServer DataConnection { get; set; }
+
         public delegate bool AcceptRequestEventHandler(Request req);
         public event AcceptRequestEventHandler AcceptRequest;
+
+        public delegate void FileTransferStartedEventHandler(SingleTransferServer srv);
+        public event FileTransferStartedEventHandler FileTransferStarted;
+
+        public delegate void FileTransferEndedEventHandler(SingleTransferServer srv, bool success);
+        public event FileTransferEndedEventHandler FileTransferEnded;
 
 
         public LocalServerConnection(Socket sock) : base(sock) {
             CurrentConnection = this;
+        }
+
+        public void RaiseFileTransferStarted(SingleTransferServer srv)
+        {
+            if (FileTransferStarted != null)
+                FileTransferStarted(srv);
+        }
+
+        public void RaiseFileTransferEnded(SingleTransferServer srv, bool success)
+        {
+            if (FileTransferEnded != null)
+                FileTransferEnded(srv, success);
         }
 
         public override bool DoInitialHandshake()
@@ -41,7 +61,18 @@ namespace SecureFileTransfer.Network
 
             Write(Android.OS.Build.Model, true);
 
-            return true;
+            AES dataConnectionAES = new AES();
+            dataConnectionAES.Generate();
+
+            DataConnection = SingleTransferServer.GetServer();
+            DataConnection.ParentConnection = this;
+
+            Write(DataConnection.Address, true);
+            Write(BitConverter.GetBytes((Int32)SingleTransferServer.Port));
+            Write(dataConnectionAES.aesKey);
+            Write(dataConnectionAES.aesIV);
+
+            return DataConnection.GetConnection(dataConnectionAES);
         }
 
         protected override void InternalBeginReceiving()
@@ -78,6 +109,13 @@ namespace SecureFileTransfer.Network
                     SendDecline();
                 }
             });
+        }
+
+        public bool DoesAcceptRequest(Request req)
+        {
+            if (AcceptRequest == null)
+                return false;
+            return AcceptRequest(req);
         }
 
         public override void Dispose()
