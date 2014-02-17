@@ -28,7 +28,7 @@ namespace SecureFileTransfer.Network
 
         public const string CMD_OK = "OK";
         public const string CMD_DECLINE = "..";
-        public const string CMD_SHUTDOWN = "bye";
+        public const string CMD_SHUTDOWN = "qq";
 
         public const string CMD_CONN_MAGIC = "DLP2P";
 
@@ -98,23 +98,24 @@ namespace SecureFileTransfer.Network
 
         public void SendAccept()
         {
-            Write(CMD_OK, true);
+            Write(CMD_OK);
         }
 
         public void SendDecline()
         {
-            Write(CMD_DECLINE, true);
+            Write(CMD_DECLINE);
         }
 
         public void SendShutdown()
         {
-            Write(CMD_SHUTDOWN, true);
+            Write(CMD_SHUTDOWN);
         }
 
         public bool DoesAccept()
         {
-            string answer = GetUndefinedLengthString();
-            return answer == CMD_OK;
+            byte[] answer = new byte[2];
+            Get(answer);
+            return ASCII.GetString(answer) == CMD_OK;
         }
 
         public byte[] GetUndefinedLength()
