@@ -119,6 +119,9 @@ namespace SecureFileTransfer.Network
 
             CurrentConnection = null;
 
+            if (DataConnection != null)
+                DataConnection.Dispose();
+
             Console.WriteLine("ClientConnection terminated.");
 
             base.Dispose();
