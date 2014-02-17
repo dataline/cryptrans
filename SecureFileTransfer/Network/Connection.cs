@@ -16,7 +16,22 @@ namespace SecureFileTransfer.Network
 
         protected EncryptionContext encCtx = null;
 
+        public const string CMD_OK = "OK";
+        public const string CMD_DECLINE = "..";
+        public const string CMD_SHUTDOWN = "bye";
+
+        public const string CMD_CONN_MAGIC = "DLP2P";
+
+        public const Int16 CurrentVersion = 1;
+
+
         public string RemoteName { get; set; }
+
+        public struct ServerInformation
+        {
+            public Int16 version;
+            public Int32 flags;
+        }
 
         public Connection() { }
         public Connection(Socket sock)
@@ -25,6 +40,15 @@ namespace SecureFileTransfer.Network
         }
 
         public abstract bool DoInitialHandshake();
+
+        protected ServerInformation CreateServerInformation()
+        {
+            return new ServerInformation()
+            {
+                version = CurrentVersion,
+                flags = 0
+            };
+        }
 
         public void EnableEncryption(EncryptionContext.ConnectionType type)
         {
@@ -60,17 +84,17 @@ namespace SecureFileTransfer.Network
 
         protected void SendAccept()
         {
-            Write("OK");
+            Write(CMD_OK);
         }
 
         protected void SendDecline()
         {
-            Write("..");
+            Write(CMD_DECLINE);
         }
 
         protected void SendShutdown()
         {
-            Write("bye");
+            Write(CMD_SHUTDOWN);
         }
 
         public byte[] GetUndefinedLength()
@@ -97,6 +121,28 @@ namespace SecureFileTransfer.Network
         public void Write(string str, bool forceNullTermination = false)
         {
             Write(ASCII.GetBytes(str), forceNullTermination);
+        }
+
+        public void Write(ServerInformation si)
+        {
+            byte[] version = BitConverter.GetBytes(si.version);
+            byte[] flags = BitConverter.GetBytes(si.flags);
+            Write(version);
+            Write(flags);
+        }
+
+        public ServerInformation GetServerInformation()
+        {
+            byte[] version = new byte[2];
+            byte[] flags = new byte[4];
+            Get(version);
+            Get(flags);
+
+            return new ServerInformation()
+            {
+                version = BitConverter.ToInt16(version, 0),
+                flags = BitConverter.ToInt32(flags, 0)
+            };
         }
 
         public void Close()

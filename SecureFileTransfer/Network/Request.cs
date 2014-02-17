@@ -13,10 +13,16 @@ namespace SecureFileTransfer.Network
 
         public static Request GetRequestForIdentifier(string id)
         {
+            if (id == Connection.CMD_SHUTDOWN)
+                throw new ConnectionShutDownException();
             if (id == FileTransferRequest.RequestIdentifier)
                 return new FileTransferRequest();
 
             return null;
         }
+    }
+
+    public class ConnectionShutDownException : Exception
+    { 
     }
 }

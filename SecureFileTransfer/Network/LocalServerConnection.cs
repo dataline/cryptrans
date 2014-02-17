@@ -26,10 +26,12 @@ namespace SecureFileTransfer.Network
 
         public override bool DoInitialHandshake()
         {
-            Write("DLP2P");
+            Write(CMD_CONN_MAGIC);
+            Write(CreateServerInformation());
+
             byte[] answer = new byte[2];
             Get(answer);
-            if (ASCII.GetString(answer) != "OK")
+            if (ASCII.GetString(answer) != CMD_OK)
                 return false;
 
             EnableEncryption(EncryptionContext.ConnectionType.Server);
@@ -39,7 +41,7 @@ namespace SecureFileTransfer.Network
                 return false;
             RemoteName = ASCII.GetString(GetUndefinedLength());
 
-            Write("OK");
+            Write(CMD_OK);
 
             Write(Android.OS.Build.Model, true);
 

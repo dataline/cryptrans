@@ -55,10 +55,14 @@ namespace SecureFileTransfer.Network
         {
             byte[] hello = new byte[5];
             Get(hello);
-            if (ASCII.GetString(hello) != "DLP2P")
+            if (ASCII.GetString(hello) != CMD_CONN_MAGIC)
                 return false;
 
-            WriteRaw("OK");
+            ServerInformation si = GetServerInformation();
+            if (si.version != CurrentVersion)
+                return false;
+
+            WriteRaw(CMD_OK);
 
             EnableEncryption(Security.EncryptionContext.ConnectionType.Client);
 
@@ -67,7 +71,7 @@ namespace SecureFileTransfer.Network
 
             byte[] ok = new byte[2];
             Get(ok);
-            if (ASCII.GetString(ok) != "OK")
+            if (ASCII.GetString(ok) != CMD_OK)
                 return false;
 
             RemoteName = ASCII.GetString(GetUndefinedLength());
@@ -77,11 +81,13 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            base.Dispose();
+            Write(CMD_SHUTDOWN);
 
             CurrentConnection = null;
 
             Console.WriteLine("ClientConnection terminated.");
+
+            base.Dispose();
         }
     }
 }
