@@ -12,6 +12,16 @@ namespace SecureFileTransfer.Network
     {
         public Socket ConnectionSocket { get; protected set; }
 
+
+        public delegate void DisconnectedEventHandler();
+        public event DisconnectedEventHandler Disconnected;
+
+        protected void RaiseDisconnected()
+        {
+            if (Disconnected != null)
+                Disconnected();
+        }
+
         protected Encoding ASCII = new ASCIIEncoding();
 
         protected EncryptionContext encCtx = null;
@@ -23,6 +33,8 @@ namespace SecureFileTransfer.Network
         public const string CMD_CONN_MAGIC = "DLP2P";
 
         public const Int16 CurrentVersion = 1;
+
+        private bool Receiving = false;
 
 
         public string RemoteName { get; set; }
@@ -40,6 +52,8 @@ namespace SecureFileTransfer.Network
         }
 
         public abstract bool DoInitialHandshake();
+
+        protected abstract void InternalBeginReceiving();
 
         protected ServerInformation CreateServerInformation()
         {
@@ -143,6 +157,14 @@ namespace SecureFileTransfer.Network
                 version = BitConverter.ToInt16(version, 0),
                 flags = BitConverter.ToInt32(flags, 0)
             };
+        }
+
+        public void BeginReceiving()
+        {
+            if (Receiving)
+                return;
+            Receiving = true;
+            InternalBeginReceiving();
         }
 
         public void Close()

@@ -79,9 +79,23 @@ namespace SecureFileTransfer.Network
             return true;
         }
 
+        protected override void InternalBeginReceiving()
+        {
+            Task.Run(() =>
+            {
+                string requestString = ASCII.GetString(GetUndefinedLength());
+
+                if (requestString == CMD_SHUTDOWN)
+                {
+                    RaiseDisconnected();
+                    return;
+                }
+            });
+        }
+
         public override void Dispose()
         {
-            Write(CMD_SHUTDOWN);
+            SendShutdown();
 
             CurrentConnection = null;
 

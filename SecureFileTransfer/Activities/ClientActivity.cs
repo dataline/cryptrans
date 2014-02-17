@@ -35,6 +35,16 @@ namespace SecureFileTransfer.Activities
                 Disconnect();
                 Finish();
             };
+
+            Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
+            Network.ClientConnection.CurrentConnection.BeginReceiving();
+        }
+
+        void CurrentConnection_Disconnected()
+        {
+            Disconnect();
+
+            Finish();
         }
 
         public override void OnBackPressed()

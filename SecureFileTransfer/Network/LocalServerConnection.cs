@@ -13,12 +13,8 @@ namespace SecureFileTransfer.Network
         public static LocalServerConnection CurrentConnection { get; set; }
 
         public delegate bool AcceptRequestEventHandler(Request req);
-        public delegate void DisconnectedEventHandler();
-
         public event AcceptRequestEventHandler AcceptRequest;
-        public event DisconnectedEventHandler Disconnected;
 
-        public bool Receiving { get; private set; }
 
         public LocalServerConnection(Socket sock) : base(sock) {
             CurrentConnection = this;
@@ -48,15 +44,22 @@ namespace SecureFileTransfer.Network
             return true;
         }
 
-        public void BeginReceiving()
+        protected override void InternalBeginReceiving()
         {
-            if (Receiving)
-                return;
-            Receiving = true;
             Task.Run(() =>
             {
                 string requestString = ASCII.GetString(GetUndefinedLength());
-                Request req = Request.GetRequestForIdentifier(requestString);
+                Request req;
+                try
+                {
+                    req = Request.GetRequestForIdentifier(requestString);
+                }
+                catch (ConnectionShutDownException)
+                {
+                    RaiseDisconnected();
+                    return;
+                }
+
                 if (req != null)
                 {
                     SendAccept();
@@ -71,11 +74,13 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            base.Dispose();
+            SendShutdown();
 
             CurrentConnection = null;
 
             Console.WriteLine("LocalServerConnection terminated.");
+
+            base.Dispose();
         }
     }
 }
