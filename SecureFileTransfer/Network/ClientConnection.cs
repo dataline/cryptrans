@@ -83,7 +83,15 @@ namespace SecureFileTransfer.Network
         {
             Task.Run(() =>
             {
-                string requestString = ASCII.GetString(GetUndefinedLength());
+                string requestString;
+                try
+                {
+                    requestString = ASCII.GetString(GetUndefinedLength());
+                }
+                catch (ObjectDisposedException)
+                {
+                    return;
+                }
 
                 if (requestString == CMD_SHUTDOWN)
                 {
