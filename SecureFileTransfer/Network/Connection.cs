@@ -81,6 +81,7 @@ namespace SecureFileTransfer.Network
         public void WriteRaw(byte[] buf)
         {
             ConnectionSocket.Send(buf);
+            Console.WriteLine("Wrote {0} bytes.", buf.Length);
         }
 
         public void WriteRaw(string str)

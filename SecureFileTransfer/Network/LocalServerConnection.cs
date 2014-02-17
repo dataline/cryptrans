@@ -57,7 +57,7 @@ namespace SecureFileTransfer.Network
                 return false;
             RemoteName = ASCII.GetString(GetUndefinedLength());
 
-            Write(CMD_OK);
+            SendAccept();
 
             Write(Android.OS.Build.Model, true);
 
