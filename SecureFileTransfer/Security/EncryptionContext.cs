@@ -100,12 +100,12 @@ namespace SecureFileTransfer.Security
             while (toRead > 0)
             {
                 Connection.GetRaw(block);
-                byte[] data = Security.Padding.RemovePaddingFromData(aes.Decrypt(block));
-                toRead -= data.Length;
-                if (toRead < 0)
-                    throw new Exception("Contents of block are larger than expected.");
-                if (data.Length > 0)
-                    Array.Copy(data, 0, buf, buf.Length - toRead - data.Length, data.Length);
+                byte[] data = aes.Decrypt(block);
+                int validLen = toRead > data.Length ? data.Length : toRead;
+
+                Array.Copy(data, 0, buf, buf.Length - toRead, validLen);
+
+                toRead -= validLen;
             }
         }
 
