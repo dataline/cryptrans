@@ -79,10 +79,7 @@ namespace SecureFileTransfer.Network
             RemoteName = ASCII.GetString(GetUndefinedLength());
 
             string dcAddress = GetUndefinedLengthString();
-
-            byte[] portBytes = new byte[4];
-            Get(portBytes);
-            int dcPort = BitConverter.ToInt32(portBytes, 0);
+            int dcPort = Convert.ToInt32(GetUndefinedLengthString());
 
             byte[] dcAesKey = new byte[Security.AES.KeySize];
             byte[] dcAesIv = new byte[Security.AES.BlockSize];

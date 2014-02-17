@@ -68,7 +68,7 @@ namespace SecureFileTransfer.Network
             DataConnection.ParentConnection = this;
 
             Write(DataConnection.Address, true);
-            Write(BitConverter.GetBytes((Int32)SingleTransferServer.Port));
+            Write(SingleTransferServer.Port.ToString(), true);
             Write(dataConnectionAES.aesKey);
             Write(dataConnectionAES.aesIV);
 
