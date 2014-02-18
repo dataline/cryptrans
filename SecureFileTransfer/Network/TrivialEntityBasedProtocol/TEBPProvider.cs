@@ -70,9 +70,10 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         private void ListenLoop()
         {
-            string entityString;
+            string entityString, entityType;
             try
             {
+                entityType = Connection.Receive();
                 entityString = Connection.Receive();
             }
             catch (ObjectDisposedException)
@@ -81,14 +82,14 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 return;
             }
 
-            //Type type = Type.GetType(entityType);
-            //if (type == null)
-            //{
-            //    Console.WriteLine("TEBPProvider received an invalid entity (ignored).");
-            //    return;
-            //}
+            Type type = Type.GetType(entityType);
+            if (type == null)
+            {
+                Console.WriteLine("TEBPProvider received an invalid entity (ignored).");
+                return;
+            }
 
-            Entity ent = (Entity)JsonConvert.DeserializeObject(entityString);
+            Entity ent = (Entity)JsonConvert.DeserializeObject(entityString, type);
             ent.Provider = this;
 
             HandleReceiveEntity(ent);
@@ -160,7 +161,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
             string entityString = JsonConvert.SerializeObject(ent, Formatting.None, new JsonSerializerSettings() { });
 
-            //Connection.Send(ent.GetType().Name);
+            Connection.Send(ent.GetType().Name);
             Connection.Send(entityString);
         }
 
