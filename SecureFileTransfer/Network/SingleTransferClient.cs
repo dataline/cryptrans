@@ -1,15 +1,37 @@
-﻿using SecureFileTransfer.Network.Entities;
+﻿using SecureFileTransfer.Features;
+using SecureFileTransfer.Network.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
     public class SingleTransferClient : Connection
     {
+        public Transfer CurrentTransfer { get; private set; }
+
+        long currentTransferDataLeft;
+
+        Thread sendThread;
+
+        public int Progress
+        {
+            get
+            {
+                if (CurrentTransfer == null)
+                    return 0;
+
+                return (int)((1.0f - ((float)currentTransferDataLeft / (float)CurrentTransfer.FileLength)) * 100.0f);
+            }
+        }
+
+        public bool AbortCurrentTransfer { get; set; }
+
+
         public static SingleTransferClient ConnectTo(string hostName, int port)
         {
             var client = new SingleTransferClient();
@@ -52,20 +74,37 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
-        public void BeginSending(FileTransferRequest request, byte[] aesKey, byte[] aesIv)
+        public void BeginSending(Transfer transfer, byte[] aesKey, byte[] aesIv)
         {
+            CurrentTransfer = transfer;
+            AbortCurrentTransfer = false;
+
             encCtx = new Security.EncryptionContext(this, aesKey, aesIv);
+
+            sendThread = new Thread(() => TransferSend());
+            sendThread.Start();
+        }
+
+        private void TransferSend()
+        {
             SendAccept();
             byte[] ok = new byte[2];
             Get(ok);
             if (ASCII.GetString(ok) != CMD_OK)
                 return;
 
-            byte[] test = new byte[16];
-            for (int i = 0; i < 10000; i++)
+            currentTransferDataLeft = CurrentTransfer.FileLength;
+
+            while (currentTransferDataLeft > 0)
             {
-                Write(test);
+                byte[] buf = CurrentTransfer.GetData(Security.AES.BlockSize);
+
+                Write(buf);
+
+                currentTransferDataLeft -= buf.Length;
             }
+
+            CurrentTransfer = null;
         }
 
         public override void Shutdown()

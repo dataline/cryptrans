@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
 using SecureFileTransfer.Network.Entities;
+using SecureFileTransfer.Features;
 
 namespace SecureFileTransfer.Network
 {
@@ -116,20 +117,20 @@ namespace SecureFileTransfer.Network
 
         public void FileTransferTest()
         {
-            FileTransferRequest req = new FileTransferRequest()
+            var testTransfer = new UnsavedBinaryTransfer()
             {
-                FileName = "Testdatei.txt",
-                FileLength = 160000,
-                FileType = "data"
+                FileName = "Testdaten.txt",
+                FileLength = 200000
             };
-            TEBPProvider.Send(req, response =>
+
+            TEBPProvider.Send(testTransfer.GenerateRequest(), response =>
             {
                 if (response.Accepted)
                 {
                     Console.WriteLine("Server accepted FileTransferRequest.");
                     FileTransferResponse res = response as FileTransferResponse;
 
-                    DataConnection.BeginSending(req, res.AesKey, res.AesIv);
+                    DataConnection.BeginSending(testTransfer, res.AesKey, res.AesIv);
                 }
             });
         }

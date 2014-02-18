@@ -11,6 +11,8 @@ namespace SecureFileTransfer.Features
         public long FileLength { get; set; }
 
         public abstract void AppendData(byte[] buf);
+        public abstract byte[] GetData(int maxLen);
+        public abstract void PrepareForReading();
 
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)
         {
@@ -32,6 +34,26 @@ namespace SecureFileTransfer.Features
             }
 
             return t;
+        }
+
+        public Network.Entities.FileTransferRequest GenerateRequest()
+        {
+            string fileType = null;
+
+            if (this is UnsavedBinaryTransfer)
+                fileType = "data";
+
+            if (fileType == null)
+                throw new NotSupportedException("Could not find type of transfer.");
+
+            PrepareForReading();
+
+            return new Network.Entities.FileTransferRequest()
+            {
+                FileName = FileName,
+                FileLength = FileLength,
+                FileType = fileType
+            };
         }
     }
 }

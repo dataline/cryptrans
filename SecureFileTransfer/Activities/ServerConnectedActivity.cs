@@ -45,11 +45,12 @@ namespace SecureFileTransfer.Activities
             var transfersListView = FindViewById<ListView>(Resource.Id.TransfersListView);
             transfersListView.Adapter = transfersListAdapter;
 
-            Network.LocalServerConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
-            Network.LocalServerConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
-            Network.LocalServerConnection.CurrentConnection.FileTransferStarted += CurrentConnection_FileTransferStarted;
-            Network.LocalServerConnection.CurrentConnection.FileTransferEnded += CurrentConnection_FileTransferEnded;
-            Network.LocalServerConnection.CurrentConnection.BeginReceiving();
+            var currentConnection = Network.LocalServerConnection.CurrentConnection;
+            currentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
+            currentConnection.Disconnected += CurrentConnection_Disconnected;
+            currentConnection.FileTransferStarted += CurrentConnection_FileTransferStarted;
+            currentConnection.FileTransferEnded += CurrentConnection_FileTransferEnded;
+            currentConnection.BeginReceiving();
         }
 
         void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
