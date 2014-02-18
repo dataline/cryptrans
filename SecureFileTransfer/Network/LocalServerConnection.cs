@@ -87,10 +87,16 @@ namespace SecureFileTransfer.Network
             if (req is FileTransferRequest)
             {
                 Console.WriteLine("Got FileTransferRequest");
+
+                AES fileAES = new AES();
+                fileAES.Generate();
+
+                DataConnection.BeginReceiving(req as FileTransferRequest, fileAES);
+
                 FileTransferResponse resp = new FileTransferResponse()
                 {
-                    AesKey = new byte[AES.KeySize],
-                    AesIv = new byte[AES.BlockSize]
+                    AesKey = fileAES.aesKey,
+                    AesIv = fileAES.aesIV
                 };
                 req.Respond(resp);
             }

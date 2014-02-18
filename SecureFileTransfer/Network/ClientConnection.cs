@@ -126,7 +126,10 @@ namespace SecureFileTransfer.Network
             {
                 if (response.Accepted)
                 {
-                    Console.WriteLine("Accepted FileTransferRequest.");
+                    Console.WriteLine("Server accepted FileTransferRequest.");
+                    FileTransferResponse res = response as FileTransferResponse;
+
+                    DataConnection.BeginSending(req, res.AesKey, res.AesIv);
                 }
             });
         }
