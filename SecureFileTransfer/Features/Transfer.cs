@@ -12,7 +12,9 @@ namespace SecureFileTransfer.Features
 
         public abstract void AppendData(byte[] buf);
         public abstract byte[] GetData(int maxLen);
-        public abstract void PrepareForReading();
+        protected abstract void PrepareForReading();
+        protected abstract void PrepareForWriting();
+        public abstract void Close();
 
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)
         {
@@ -22,6 +24,9 @@ namespace SecureFileTransfer.Features
             {
                 case "data":
                     t = new UnsavedBinaryTransfer();
+                    break;
+                case "file":
+                    t = new ExistingFileTransfer();
                     break;
                 default:
                     break;
@@ -33,6 +38,8 @@ namespace SecureFileTransfer.Features
                 t.FileLength = req.FileLength;
             }
 
+            t.PrepareForWriting();
+
             return t;
         }
 
@@ -42,6 +49,8 @@ namespace SecureFileTransfer.Features
 
             if (this is UnsavedBinaryTransfer)
                 fileType = "data";
+            else if (this is ExistingFileTransfer)
+                fileType = "file";
 
             if (fileType == null)
                 throw new NotSupportedException("Could not find type of transfer.");

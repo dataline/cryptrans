@@ -104,6 +104,7 @@ namespace SecureFileTransfer.Network
                 currentTransferDataLeft -= buf.Length;
             }
 
+            CurrentTransfer.Close();
             CurrentTransfer = null;
         }
 

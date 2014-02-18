@@ -151,6 +151,8 @@ namespace SecureFileTransfer.Network
             Console.WriteLine("End receiving file.");
 
             ParentConnection.RaiseFileTransferEnded(this, true);
+
+            CurrentTransfer.Close();
             CurrentTransfer = null;
         }
 

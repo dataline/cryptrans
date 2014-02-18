@@ -134,6 +134,25 @@ namespace SecureFileTransfer.Network
             });
         }
 
+        public void StartFileTransfer(string localFilePath)
+        {
+            var fileTransfer = new ExistingFileTransfer()
+            {
+                AbsoluteFilePath = localFilePath
+            };
+
+            TEBPProvider.Send(fileTransfer.GenerateRequest(), response =>
+            {
+                if (response.Accepted)
+                {
+                    Console.WriteLine("Server accepted FileTransferRequest.");
+                    FileTransferResponse res = response as FileTransferResponse;
+
+                    DataConnection.BeginSending(fileTransfer, res.AesKey, res.AesIv);
+                }
+            });
+        }
+
         public override void Dispose()
         {
             if (TEBPProvider != null && !TEBPProvider.IsShutDown)

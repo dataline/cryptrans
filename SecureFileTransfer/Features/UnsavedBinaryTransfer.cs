@@ -40,11 +40,19 @@ namespace SecureFileTransfer.Features
             return buf;
         }
 
-        public override void PrepareForReading()
+        protected override void PrepareForReading()
         {
             Console.WriteLine("Writing " + FileLength + " test bytes.");
 
             buffer = new byte[FileLength];
+        }
+
+        protected override void PrepareForWriting()
+        {
+        }
+
+        public override void Close()
+        {
         }
     }
 }

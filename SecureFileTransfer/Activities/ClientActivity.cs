@@ -66,7 +66,7 @@ namespace SecureFileTransfer.Activities
 
             if (requestCode == REQUEST_IMAGECHOOSER && resultCode == Result.Ok)
             {
-                Console.WriteLine("Selected: {0}", data.DataString);
+                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.DataString);
             }
         }
         #endregion
