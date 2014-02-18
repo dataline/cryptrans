@@ -62,7 +62,7 @@ namespace SecureFileTransfer.Network
                 return;
 
             byte[] test = new byte[16];
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 Write(test);
             }

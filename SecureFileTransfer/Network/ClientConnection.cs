@@ -119,7 +119,7 @@ namespace SecureFileTransfer.Network
             FileTransferRequest req = new FileTransferRequest()
             {
                 FileName = "Testdatei.txt",
-                FileLength = 1600,
+                FileLength = 160000,
                 FileType = "data"
             };
             TEBPProvider.Send(req, response =>
