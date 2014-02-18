@@ -10,7 +10,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         public bool Accepted { get; set; }
 
         public Response()
-            : base(0, false, TYPE_RESPONSE)
+            : base(0, false)
         { 
         
         }

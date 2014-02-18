@@ -8,7 +8,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
     public abstract class Request : Entity
     {
         public Request()
-            : base(TEBPProvider.GetNextIdentifier(), true, TYPE_REQUEST)
+            : base(TEBPProvider.GetNextIdentifier(), true)
         { 
             
         }

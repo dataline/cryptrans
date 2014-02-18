@@ -99,21 +99,14 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         private void HandleReceiveEntity(Entity ent)
         {
-            switch (ent.Type)
-            {
-                case Entity.TYPE_NOTICE:
-                    HandleNotice(ent as Notice);
-                    break;
-                case Entity.TYPE_REQUEST:
-                    HandleRequest(ent as Request);
-                    break;
-                case Entity.TYPE_RESPONSE:
-                    HandleResponse(ent as Response);
-                    break;
-                default:
-                    Console.WriteLine("TEBPProvicer received an invalid entity (ignored).");
-                    break;
-            }
+            if (ent is Response)
+                HandleResponse(ent as Response);
+            else if (ent is Request)
+                HandleRequest(ent as Request);
+            else if (ent is Notice)
+                HandleNotice(ent as Notice);
+            else
+                Console.WriteLine("TEBPProvicer received an invalid entity (ignored).");
         }
 
         private void HandleRequest(Request req)

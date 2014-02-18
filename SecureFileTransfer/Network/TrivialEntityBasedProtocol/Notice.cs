@@ -8,7 +8,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
     public abstract class Notice : Entity
     {
         public Notice()
-            : base(0, false, TYPE_NOTICE)
+            : base(0, false)
         { 
         
         }
