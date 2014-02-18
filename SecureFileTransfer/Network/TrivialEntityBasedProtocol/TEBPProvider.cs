@@ -52,20 +52,22 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
             });
         }
 
-        private void ShutdownWithoutSendingDisconnect()
+        private void ShutdownWithoutSendingDisconnect(bool shutDownConnection = true)
         {
             IsShutDown = true;
-            Connection.Shutdown();
+
+            if (shutDownConnection)
+                Connection.Shutdown();
         }
 
-        public void Shutdown()
+        public void Shutdown(bool shutDownConnection = true)
         {
             if (UseDefaultEntities)
             {
                 Send(new DefaultEntities.DisconnectNotice());
             }
 
-            ShutdownWithoutSendingDisconnect();
+            ShutdownWithoutSendingDisconnect(shutDownConnection);
         }
 
         private void ListenLoop()
@@ -161,7 +163,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
             string entityString = JsonConvert.SerializeObject(ent, Formatting.None, new JsonSerializerSettings() { });
 
-            Connection.Send(ent.GetType().Name);
+            Connection.Send(ent.GetType().AssemblyQualifiedName);
             Connection.Send(entityString);
         }
 

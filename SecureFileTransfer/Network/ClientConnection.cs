@@ -127,7 +127,7 @@ namespace SecureFileTransfer.Network
         public override void Dispose()
         {
             if (TEBPProvider != null && !TEBPProvider.IsShutDown)
-                TEBPProvider.Shutdown();
+                TEBPProvider.Shutdown(false);
 
             CurrentConnection = null;
 
