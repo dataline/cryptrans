@@ -21,7 +21,7 @@ namespace SecureFileTransfer.Network
 
         protected void RaiseDisconnected()
         {
-            UIThreadSyncContext.Post(new SendOrPostCallback(state =>
+            UIThreadSyncContext.Send(new SendOrPostCallback(state =>
             {
                 if (Disconnected != null)
                     Disconnected();

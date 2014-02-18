@@ -31,7 +31,7 @@ namespace SecureFileTransfer.Network
 
         public void RaiseFileTransferStarted(SingleTransferServer srv)
         {
-            UIThreadSyncContext.Post(new System.Threading.SendOrPostCallback(state =>
+            UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
                 if (FileTransferStarted != null)
                     FileTransferStarted(srv);
@@ -40,7 +40,7 @@ namespace SecureFileTransfer.Network
 
         public void RaiseFileTransferEnded(SingleTransferServer srv, bool success)
         {
-            UIThreadSyncContext.Post(new System.Threading.SendOrPostCallback(state =>
+            UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
                 if (FileTransferEnded != null)
                     FileTransferEnded(srv, success);

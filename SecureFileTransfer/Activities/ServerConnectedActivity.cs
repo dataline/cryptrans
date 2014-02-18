@@ -54,8 +54,8 @@ namespace SecureFileTransfer.Activities
 
         void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
         {
-            transfersListAdapter.CurrentTransfer = null;
             transfersListAdapter.CompletedTransfers.Add(srv.CurrentTransfer);
+            transfersListAdapter.CurrentTransfer = null;
 
             transfersListAdapter.NotifyDataSetChanged();
         }

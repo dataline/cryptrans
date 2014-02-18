@@ -156,7 +156,12 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         public void Send(Entity ent, EntityResponseDelegate responseDelegate = null)
         {
             if (IsShutDown)
+            {
+                if (ent is DefaultEntities.DisconnectNotice)
+                    return; // Disconnect wird verworfen, wenn Connection schon down ist.
+
                 throw new ObjectDisposedException(this.ToString(), "The provider was shut down.");
+            }
             if (ent.RequiresAnswer)
             {
                 if (responseDelegate == null)

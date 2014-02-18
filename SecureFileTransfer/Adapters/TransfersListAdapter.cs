@@ -31,7 +31,11 @@ namespace SecureFileTransfer.Adapters
         {
             if (CurrentTransfer != null)
                 index--;
-            return CompletedTransfers[index];
+            var trans = CompletedTransfers[index];
+            //if (trans == null)
+            //    throw new Exception();
+
+            return trans;
         }
 
         public override int Count
