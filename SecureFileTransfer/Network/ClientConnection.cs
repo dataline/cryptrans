@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
@@ -14,7 +15,11 @@ namespace SecureFileTransfer.Network
 
         public SingleTransferClient DataConnection { get; set; }
 
+        public TrivialEntityBasedProtocol.TEBPProvider TEBPProvider;
+
         public string ConnectionPassword { get; set; }
+
+        private Action RunAfterAcceptAction = null;
 
         public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
@@ -93,24 +98,19 @@ namespace SecureFileTransfer.Network
 
         protected override void InternalBeginReceiving()
         {
-            Task.Run(() =>
-            {
-                string requestString;
-                try
-                {
-                    requestString = ASCII.GetString(GetUndefinedLength());
-                }
-                catch (ObjectDisposedException)
-                {
-                    return;
-                }
+            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
+            TEBPProvider.ReceivedRequest += TEBPProvider_ReceivedRequest;
+            TEBPProvider.Init();
+        }
 
-                if (requestString == CMD_SHUTDOWN)
-                {
-                    RaiseDisconnected();
-                    return;
-                }
-            });
+        void TEBPProvider_ReceivedRequest(TrivialEntityBasedProtocol.Request req)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Shutdown()
+        {
+            RaiseDisconnected();
         }
 
         public void FileTransferTest()
@@ -126,7 +126,8 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            SendShutdown();
+            if (TEBPProvider != null)
+                TEBPProvider.Shutdown();
 
             CurrentConnection = null;
 

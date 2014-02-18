@@ -67,6 +67,11 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        public override void Shutdown()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Dispose()
         {
             base.Dispose();

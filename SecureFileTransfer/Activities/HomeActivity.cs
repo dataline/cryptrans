@@ -48,6 +48,10 @@ namespace SecureFileTransfer.Activities
             //};
 
             Security.KeyProvider.StartKeyGeneration();
+
+            //var prov = new Network.TrivialEntityBasedProtocol.TEBPProvider(null);
+            //var disco = new Network.TrivialEntityBasedProtocol.DefaultEntities.DisconnectNotice();
+            //prov.Send(disco);
         }
 
         async Task TestClient()

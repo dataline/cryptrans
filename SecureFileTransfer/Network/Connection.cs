@@ -8,7 +8,7 @@ using SecureFileTransfer.Security;
 
 namespace SecureFileTransfer.Network
 {
-    public abstract class Connection : IDisposable
+    public abstract class Connection : IDisposable, TrivialEntityBasedProtocol.IConnection
     {
         public Socket ConnectionSocket { get; protected set; }
 
@@ -112,7 +112,7 @@ namespace SecureFileTransfer.Network
             Write(CMD_SHUTDOWN);
         }
 
-        public bool DoesAccept()
+        public virtual bool DoesAccept()
         {
             byte[] answer = new byte[2];
             Get(answer);
@@ -184,6 +184,22 @@ namespace SecureFileTransfer.Network
         {
             ConnectionSocket.Close();
         }
+
+        #region IConnection
+
+        public void Send(string str)
+        {
+            Write(str, true);
+        }
+
+        public string Receive()
+        {
+            return GetUndefinedLengthString();
+        }
+
+        public abstract void Shutdown();
+
+        #endregion
 
         public virtual void Dispose()
         {

@@ -14,6 +14,8 @@ namespace SecureFileTransfer.Network
 
         public SingleTransferServer DataConnection { get; set; }
 
+        public TrivialEntityBasedProtocol.TEBPProvider TEBPProvider;
+
         public delegate bool AcceptRequestEventHandler(Request req);
         public event AcceptRequestEventHandler AcceptRequest;
 
@@ -77,50 +79,25 @@ namespace SecureFileTransfer.Network
 
         protected override void InternalBeginReceiving()
         {
-            Task.Run(() =>
-            {
-                string requestString;
-                try
-                {
-                    requestString = ASCII.GetString(GetUndefinedLength());
-                }
-                catch (ObjectDisposedException)
-                {
-                    return;
-                }
-                Request req;
-                try
-                {
-                    req = Request.GetRequestForIdentifier(requestString);
-                }
-                catch (ConnectionShutDownException)
-                {
-                    RaiseDisconnected();
-                    return;
-                }
-
-                if (req != null)
-                {
-                    SendAccept();
-                    req.Process(this);
-                }
-                else
-                {
-                    SendDecline();
-                }
-            });
+            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
+            TEBPProvider.ReceivedRequest += TEBPProvider_ReceivedRequest;
+            TEBPProvider.Init();
         }
 
-        public bool DoesAcceptRequest(Request req)
+        void TEBPProvider_ReceivedRequest(TrivialEntityBasedProtocol.Request req)
         {
-            if (AcceptRequest == null)
-                return false;
-            return AcceptRequest(req);
+            throw new NotImplementedException();
+        }
+
+        public override void Shutdown()
+        {
+            RaiseDisconnected();
         }
 
         public override void Dispose()
         {
-            SendShutdown();
+            if (TEBPProvider != null)
+                TEBPProvider.Shutdown();
 
             CurrentConnection = null;
 
