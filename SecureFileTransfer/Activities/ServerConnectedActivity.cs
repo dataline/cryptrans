@@ -16,6 +16,8 @@ namespace SecureFileTransfer.Activities
     [Activity(Label = "")]
     public class ServerConnectedActivity : Activity
     {
+        Adapters.TransfersListAdapter transfersListAdapter;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -38,9 +40,32 @@ namespace SecureFileTransfer.Activities
                 Finish();
             };
 
+            transfersListAdapter = new Adapters.TransfersListAdapter(this);
+
+            var transfersListView = FindViewById<ListView>(Resource.Id.TransfersListView);
+            transfersListView.Adapter = transfersListAdapter;
+
             Network.LocalServerConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.LocalServerConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
+            Network.LocalServerConnection.CurrentConnection.FileTransferStarted += CurrentConnection_FileTransferStarted;
+            Network.LocalServerConnection.CurrentConnection.FileTransferEnded += CurrentConnection_FileTransferEnded;
             Network.LocalServerConnection.CurrentConnection.BeginReceiving();
+        }
+
+        void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
+        {
+            transfersListAdapter.CurrentTransfer = null;
+            transfersListAdapter.CompletedTransfers.Add(srv.CurrentTransfer);
+
+            transfersListAdapter.NotifyDataSetChanged();
+        }
+
+        void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)
+        {
+            transfersListAdapter.CurrentTransfer = srv.CurrentTransfer;
+            transfersListAdapter.CurrentProgress = 0;
+
+            transfersListAdapter.NotifyDataSetChanged();
         }
 
         void CurrentConnection_Disconnected()

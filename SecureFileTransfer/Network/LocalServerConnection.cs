@@ -6,6 +6,7 @@ using System.Text;
 using SecureFileTransfer.Security;
 using System.Threading.Tasks;
 using SecureFileTransfer.Network.Entities;
+using SecureFileTransfer.Features;
 
 namespace SecureFileTransfer.Network
 {
@@ -97,7 +98,9 @@ namespace SecureFileTransfer.Network
                 AES fileAES = new AES();
                 fileAES.Generate();
 
-                DataConnection.BeginReceiving(req as FileTransferRequest, fileAES);
+                Transfer transfer = Transfer.GetForRequest(req as FileTransferRequest);
+
+                DataConnection.BeginReceiving(transfer, fileAES);
 
                 FileTransferResponse resp = new FileTransferResponse()
                 {

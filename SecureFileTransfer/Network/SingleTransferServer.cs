@@ -1,4 +1,5 @@
-﻿using SecureFileTransfer.Network.Entities;
+﻿using SecureFileTransfer.Features;
+using SecureFileTransfer.Network.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace SecureFileTransfer.Network
 
         public LocalServerConnection ParentConnection { get; set; }
 
-        public FileTransferRequest CurrentRequest { get; private set; }
+        public Transfer CurrentTransfer { get; private set; }
 
         public bool AbortCurrentTransfer { get; set; }
 
@@ -88,9 +89,9 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
-        public void BeginReceiving(FileTransferRequest request, SecureFileTransfer.Security.AES aes)
+        public void BeginReceiving(Transfer transfer, SecureFileTransfer.Security.AES aes)
         {
-            CurrentRequest = request;
+            CurrentTransfer = transfer;
             AbortCurrentTransfer = false;
 
             encCtx = new Security.EncryptionContext(this, aes);
@@ -111,8 +112,7 @@ namespace SecureFileTransfer.Network
             SendAccept();
             ParentConnection.RaiseFileTransferStarted(this);
 
-            long toRead = CurrentRequest.FileLength;
-            byte[] file = new byte[toRead];
+            long toRead = CurrentTransfer.FileLength;
 
             Console.WriteLine("Start receiving file.");
 
@@ -130,7 +130,7 @@ namespace SecureFileTransfer.Network
 
                     throw;
                 }
-                Array.Copy(buf, 0, file, file.Length - toRead, buf.Length);
+                CurrentTransfer.AppendData(buf);
 
                 toRead -= buf.Length;
             }
@@ -138,7 +138,7 @@ namespace SecureFileTransfer.Network
             Console.WriteLine("End receiving file.");
 
             ParentConnection.RaiseFileTransferEnded(this, true);
-            CurrentRequest = null;
+            CurrentTransfer = null;
         }
 
         public override void Shutdown()

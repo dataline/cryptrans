@@ -64,7 +64,10 @@
     <Compile Include="Activities\HomeActivity.cs" />
     <Compile Include="Activities\ServerActivity.cs" />
     <Compile Include="Activities\ServerConnectedActivity.cs" />
+    <Compile Include="Adapters\TransfersListAdapter.cs" />
     <Compile Include="Features\QR.cs" />
+    <Compile Include="Features\Transfer.cs" />
+    <Compile Include="Features\UnsavedBinaryTransfer.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\Entities\FileTransferRequest.cs" />
@@ -103,6 +106,12 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ServerConnectedActivity.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\TransferListItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\TransferListCompletedItem.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Net.Sockets;
 
 namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 {
@@ -82,10 +83,18 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 entityType = Connection.Receive();
                 entityString = Connection.Receive();
             }
-            catch (ObjectDisposedException)
+            catch (Exception ex)
             {
-                Shutdown();
-                return;
+                if (ex is ObjectDisposedException || ex is SocketException)
+                {
+                    // Socket unterbrochen
+                    Shutdown();
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
 
             Type type = Type.GetType(entityType);

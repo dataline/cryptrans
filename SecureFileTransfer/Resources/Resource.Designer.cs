@@ -72,6 +72,12 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050005
 			public const int DisconnectButton = 2131034117;
 			
+			// aapt resource value: 0x7f05000d
+			public const int FileNameLabel = 2131034125;
+			
+			// aapt resource value: 0x7f05000e
+			public const int ProgressBar = 2131034126;
+			
 			// aapt resource value: 0x7f050009
 			public const int QRContainer = 2131034121;
 			
@@ -90,8 +96,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050001
 			public const int SendPicturesButton = 2131034113;
 			
+			// aapt resource value: 0x7f05000f
+			public const int StatusLabel = 2131034127;
+			
 			// aapt resource value: 0x7f05000b
-			public const int contentFrame = 2131034123;
+			public const int TransfersListView = 2131034123;
+			
+			// aapt resource value: 0x7f050010
+			public const int contentFrame = 2131034128;
+			
+			// aapt resource value: 0x7f05000c
+			public const int imageView1 = 2131034124;
 			
 			// aapt resource value: 0x7f050004
 			public const int linearLayout1 = 2131034116;
@@ -125,10 +140,16 @@ namespace SecureFileTransfer
 			public const int ServerConnectedActivity = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int zxingscanneractivitylayout = 2130903044;
+			public const int TransferListCompletedItem = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int zxingscannerfragmentlayout = 2130903045;
+			public const int TransferListItem = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int zxingscanneractivitylayout = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int zxingscannerfragmentlayout = 2130903047;
 			
 			static Layout()
 			{
