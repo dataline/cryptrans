@@ -66,6 +66,22 @@ namespace SecureFileTransfer.Activities
             transfersListAdapter.CurrentProgress = 0;
 
             transfersListAdapter.NotifyDataSetChanged();
+
+            Handler refreshHandler = new Handler();
+            refreshHandler.PostDelayed(() => ReloadList(refreshHandler), 200);
+        }
+
+        void ReloadList(Handler handler)
+        {
+            var dc = Network.LocalServerConnection.CurrentConnection.DataConnection;
+
+            if (dc.CurrentTransfer != null)
+            {
+                transfersListAdapter.CurrentProgress = dc.Progress;
+                transfersListAdapter.NotifyDataSetChanged();
+
+                handler.PostDelayed(() => ReloadList(handler), 200);
+            }
         }
 
         void CurrentConnection_Disconnected()

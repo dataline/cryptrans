@@ -33,6 +33,19 @@ namespace SecureFileTransfer.Network
         public string Address { get; set; }
         public const int Port = LocalServer.Port + 1;
 
+        long currentTransferDataLeft;
+
+        public int Progress
+        {
+            get
+            {
+                if (CurrentTransfer == null)
+                    return 0;
+
+                return (int)((1.0f - ((float)currentTransferDataLeft / (float)CurrentTransfer.FileLength)) * 100.0f);
+            }
+        }
+
         public LocalServerConnection ParentConnection { get; set; }
 
         public Transfer CurrentTransfer { get; private set; }
@@ -112,13 +125,13 @@ namespace SecureFileTransfer.Network
             SendAccept();
             ParentConnection.RaiseFileTransferStarted(this);
 
-            long toRead = CurrentTransfer.FileLength;
+            currentTransferDataLeft = CurrentTransfer.FileLength;
 
             Console.WriteLine("Start receiving file.");
 
-            while (toRead > 0)
+            while (currentTransferDataLeft > 0)
             {
-                byte[] buf = new byte[toRead > Security.AES.BlockSize ? Security.AES.BlockSize : toRead];
+                byte[] buf = new byte[currentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : currentTransferDataLeft];
                 try
                 {
                     Get(buf);
@@ -132,7 +145,7 @@ namespace SecureFileTransfer.Network
                 }
                 CurrentTransfer.AppendData(buf);
 
-                toRead -= buf.Length;
+                currentTransferDataLeft -= buf.Length;
             }
 
             Console.WriteLine("End receiving file.");
