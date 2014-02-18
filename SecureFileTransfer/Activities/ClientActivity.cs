@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using System.Threading;
 
+using SecureFileTransfer.Features;
+
 namespace SecureFileTransfer.Activities
 {
     [Activity(Label = "")]
@@ -66,7 +68,7 @@ namespace SecureFileTransfer.Activities
 
             if (requestCode == REQUEST_IMAGECHOOSER && resultCode == Result.Ok)
             {
-                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.DataString);
+                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.Data.GetFilePathFromContentURI(ContentResolver));
             }
         }
         #endregion
