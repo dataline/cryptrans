@@ -21,5 +21,10 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
             res.Identifier = this.Identifier;
             Provider.Send(res);
         }
+
+        public void Decline()
+        {
+            Respond(new DefaultEntities.DeclineResponse());
+        }
     }
 }

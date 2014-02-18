@@ -67,12 +67,13 @@
     <Compile Include="Features\QR.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
-    <Compile Include="Network\FileTransferRequest.cs" />
+    <Compile Include="Network\Entities\FileTransferRequest.cs" />
+    <Compile Include="Network\Entities\FileTransferResponse.cs" />
     <Compile Include="Network\LocalServer.cs" />
     <Compile Include="Network\LocalServerConnection.cs" />
-    <Compile Include="Network\Request.cs" />
     <Compile Include="Network\SingleTransferClient.cs" />
     <Compile Include="Network\SingleTransferServer.cs" />
+    <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\DeclineResponse.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\DisconnectNotice.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Entity.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\IConnection.cs" />

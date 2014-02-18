@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
+using SecureFileTransfer.Network.Entities;
 
 namespace SecureFileTransfer.Network
 {
@@ -121,7 +122,13 @@ namespace SecureFileTransfer.Network
                 FileLength = 1600,
                 FileType = "data"
             };
-            req.Perform(this);
+            TEBPProvider.Send(req, response =>
+            {
+                if (response.Accepted)
+                {
+                    Console.WriteLine("Accepted FileTransferRequest.");
+                }
+            });
         }
 
         public override void Dispose()

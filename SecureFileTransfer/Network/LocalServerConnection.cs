@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using SecureFileTransfer.Security;
 using System.Threading.Tasks;
+using SecureFileTransfer.Network.Entities;
 
 namespace SecureFileTransfer.Network
 {
@@ -15,9 +16,6 @@ namespace SecureFileTransfer.Network
         public SingleTransferServer DataConnection { get; set; }
 
         public TrivialEntityBasedProtocol.TEBPProvider TEBPProvider;
-
-        public delegate bool AcceptRequestEventHandler(Request req);
-        public event AcceptRequestEventHandler AcceptRequest;
 
         public delegate void FileTransferStartedEventHandler(SingleTransferServer srv);
         public event FileTransferStartedEventHandler FileTransferStarted;
@@ -86,7 +84,20 @@ namespace SecureFileTransfer.Network
 
         void TEBPProvider_ReceivedRequest(TrivialEntityBasedProtocol.Request req)
         {
-            throw new NotImplementedException();
+            if (req is FileTransferRequest)
+            {
+                Console.WriteLine("Got FileTransferRequest");
+                FileTransferResponse resp = new FileTransferResponse()
+                {
+                    AesKey = new byte[AES.KeySize],
+                    AesIv = new byte[AES.BlockSize]
+                };
+                req.Respond(resp);
+            }
+            else
+            {
+                req.Decline();
+            }
         }
 
         public override void Shutdown()

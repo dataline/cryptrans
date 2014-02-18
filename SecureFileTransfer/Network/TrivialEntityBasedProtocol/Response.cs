@@ -11,8 +11,8 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         public Response()
             : base(0, false)
-        { 
-        
+        {
+            Accepted = true;
         }
     }
 }
