@@ -126,7 +126,9 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            SendShutdown();
+            //SendShutdown();
+            ConnectionSocket.Shutdown(SocketShutdown.Both);
+
 
             CurrentConnection = null;
 
