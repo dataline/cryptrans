@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 {
@@ -26,6 +27,8 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         private Dictionary<Entity, EntityResponseDelegate> Unanswered = new Dictionary<Entity, EntityResponseDelegate>();
 
+        private Thread ListenerThread;
+
         public TEBPProvider(IConnection conn)
         {
             Connection = conn;
@@ -43,13 +46,14 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         public void Init()
         {
-            Task.Run(() =>
+            ListenerThread = new Thread(() =>
             {
                 while (!IsShutDown)
                 {
                     ListenLoop();
                 }
             });
+            ListenerThread.Start();
         }
 
         private void ShutdownWithoutSendingDisconnect(bool shutDownConnection = true)

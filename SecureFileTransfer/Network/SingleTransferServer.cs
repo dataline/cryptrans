@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
@@ -39,6 +40,8 @@ namespace SecureFileTransfer.Network
 
         Socket listenerSocket;
 
+        Thread receiveThread;
+
         void EstablishSocket()
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -58,7 +61,7 @@ namespace SecureFileTransfer.Network
         void Listen()
         {
             ConnectionSocket = listenerSocket.Accept();
-            ConnectionSocket.ReceiveTimeout = 1000;
+            //ConnectionSocket.ReceiveTimeout = 1000;
 
             listenerSocket.Close();
             listenerSocket.Dispose();
@@ -87,8 +90,17 @@ namespace SecureFileTransfer.Network
 
         public void BeginReceiving(FileTransferRequest request, SecureFileTransfer.Security.AES aes)
         {
+            CurrentRequest = request;
+            AbortCurrentTransfer = false;
+
             encCtx = new Security.EncryptionContext(this, aes);
 
+            receiveThread = new Thread(obj => Receive(obj as Security.AES));
+            receiveThread.Start(aes);
+        }
+
+        private void Receive(Security.AES aes)
+        {
             byte[] ok = new byte[2];
             Get(ok);
             if (ASCII.GetString(ok) != CMD_OK)
@@ -97,42 +109,36 @@ namespace SecureFileTransfer.Network
                 return;
             }
             SendAccept();
-
-            CurrentRequest = request;
-            AbortCurrentTransfer = false;
             ParentConnection.RaiseFileTransferStarted(this);
 
-            Task.Run(() =>
+            long toRead = CurrentRequest.FileLength;
+            byte[] file = new byte[toRead];
+
+            Console.WriteLine("Start receiving file.");
+
+            while (toRead > 0)
             {
-                long toRead = request.FileLength;
-                byte[] file = new byte[toRead];
-
-                Console.WriteLine("Start receiving file.");
-
-                while (toRead > 0)
+                byte[] buf = new byte[toRead > Security.AES.BlockSize ? Security.AES.BlockSize : toRead];
+                try
                 {
-                    byte[] buf = new byte[toRead > Security.AES.BlockSize ? Security.AES.BlockSize : toRead];
-                    try
-                    {
-                        Get(buf);
-                    }
-                    catch (SocketException se)
-                    {
-                        if (se.SocketErrorCode == SocketError.TimedOut && !AbortCurrentTransfer)
-                            continue; // noch mal versuchen
-
-                        throw;
-                    }
-                    Array.Copy(buf, 0, file, file.Length - toRead, buf.Length);
-
-                    toRead -= buf.Length;
+                    Get(buf);
                 }
+                catch (SocketException se)
+                {
+                    if (se.SocketErrorCode == SocketError.TimedOut && !AbortCurrentTransfer)
+                        continue; // noch mal versuchen
 
-                Console.WriteLine("End receiving file.");
+                    throw;
+                }
+                Array.Copy(buf, 0, file, file.Length - toRead, buf.Length);
 
-                ParentConnection.RaiseFileTransferEnded(this, true);
-                CurrentRequest = null;
-            });
+                toRead -= buf.Length;
+            }
+
+            Console.WriteLine("End receiving file.");
+
+            ParentConnection.RaiseFileTransferEnded(this, true);
+            CurrentRequest = null;
         }
 
         public override void Shutdown()

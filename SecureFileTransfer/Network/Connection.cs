@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using SecureFileTransfer.Security;
+using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
@@ -16,10 +17,15 @@ namespace SecureFileTransfer.Network
         public delegate void DisconnectedEventHandler();
         public event DisconnectedEventHandler Disconnected;
 
+        public SynchronizationContext UIThreadSyncContext { get; set; }
+
         protected void RaiseDisconnected()
         {
-            if (Disconnected != null)
-                Disconnected();
+            UIThreadSyncContext.Post(new SendOrPostCallback(state =>
+            {
+                if (Disconnected != null)
+                    Disconnected();
+            }), null);
         }
 
         protected Encoding ASCII = new ASCIIEncoding();

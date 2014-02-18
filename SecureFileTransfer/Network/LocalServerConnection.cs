@@ -30,14 +30,20 @@ namespace SecureFileTransfer.Network
 
         public void RaiseFileTransferStarted(SingleTransferServer srv)
         {
-            if (FileTransferStarted != null)
-                FileTransferStarted(srv);
+            UIThreadSyncContext.Post(new System.Threading.SendOrPostCallback(state =>
+            {
+                if (FileTransferStarted != null)
+                    FileTransferStarted(srv);
+            }), null);
         }
 
         public void RaiseFileTransferEnded(SingleTransferServer srv, bool success)
         {
-            if (FileTransferEnded != null)
-                FileTransferEnded(srv, success);
+            UIThreadSyncContext.Post(new System.Threading.SendOrPostCallback(state =>
+            {
+                if (FileTransferEnded != null)
+                    FileTransferEnded(srv, success);
+            }), null);
         }
 
         public override bool DoInitialHandshake()

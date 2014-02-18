@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Threading;
 
 namespace SecureFileTransfer.Activities
 {
@@ -39,6 +40,7 @@ namespace SecureFileTransfer.Activities
             var sendOtherButton = FindViewById<Button>(Resource.Id.SendOtherButton);
             sendOtherButton.Click += sendOtherButton_Click;
 
+            Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
         }
