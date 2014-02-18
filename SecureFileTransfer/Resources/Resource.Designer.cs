@@ -197,6 +197,9 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f040006
 			public const int ReceiveFiles = 2130968582;
 			
+			// aapt resource value: 0x7f04000f
+			public const int SelectPictures = 2130968591;
+			
 			// aapt resource value: 0x7f040007
 			public const int SendFiles = 2130968583;
 			

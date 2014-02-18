@@ -101,7 +101,6 @@ namespace SecureFileTransfer.Network
         protected override void InternalBeginReceiving()
         {
             TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
-            TEBPProvider.ReceivedRequest += TEBPProvider_ReceivedRequest;
             TEBPProvider.Init();
         }
 
