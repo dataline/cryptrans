@@ -80,7 +80,7 @@ namespace SecureFileTransfer.Activities
 
         void sendOtherButton_Click(object sender, EventArgs e)
         {
-            Network.ClientConnection.CurrentConnection.FileTransferTest();
+            //Network.ClientConnection.CurrentConnection.FileTransferTest();
         }
 
         void CurrentConnection_Disconnected()

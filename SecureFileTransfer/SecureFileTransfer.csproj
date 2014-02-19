@@ -73,6 +73,7 @@
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\ConnectionException.cs" />
     <Compile Include="Network\Entities\FileTransferRequest.cs" />
     <Compile Include="Network\Entities\FileTransferResponse.cs" />
     <Compile Include="Network\LocalServer.cs" />

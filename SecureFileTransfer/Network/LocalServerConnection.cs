@@ -70,16 +70,13 @@ namespace SecureFileTransfer.Network
 
             //AES dataConnectionAES = new AES();
             //dataConnectionAES.Generate();
-
-            DataConnection = SingleTransferServer.GetServer();
-            DataConnection.ParentConnection = this;
             
-            Write(DataConnection.Address, true);
-            Write(SingleTransferServer.Port.ToString(), true);
+            //Write(SingleTransferServer.Port.ToString(), true);
+            //Write(DataConnection.Address, true);
             //Write(dataConnectionAES.aesKey);
             //Write(dataConnectionAES.aesIV);
 
-            return DataConnection.GetConnection();
+            return true;
         }
 
         protected override void InternalBeginReceiving()
@@ -100,14 +97,29 @@ namespace SecureFileTransfer.Network
 
                 Transfer transfer = Transfer.GetForRequest(req as FileTransferRequest);
 
+                DataConnection = SingleTransferServer.GetServer();
+                DataConnection.ParentConnection = this;
+
                 DataConnection.BeginReceiving(transfer, fileAES);
 
                 FileTransferResponse resp = new FileTransferResponse()
                 {
                     AesKey = fileAES.aesKey,
-                    AesIv = fileAES.aesIV
+                    AesIv = fileAES.aesIV,
+                    DataConnectionAddress = DataConnection.Address,
+                    DataConnectionPort = SingleTransferServer.Port
                 };
                 req.Respond(resp);
+
+                if (DataConnection.GetConnection())
+                {
+                    DataConnection.BeginReceiving();
+                }
+                else
+                {
+                    DataConnection.Dispose();
+                    DataConnection = null;
+                }
             }
             else
             {

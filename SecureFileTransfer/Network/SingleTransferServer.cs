@@ -150,10 +150,12 @@ namespace SecureFileTransfer.Network
 
             Console.WriteLine("End receiving file.");
 
-            ParentConnection.RaiseFileTransferEnded(this, true);
-
             CurrentTransfer.Close();
+
+            ParentConnection.RaiseFileTransferEnded(this, true);
             CurrentTransfer = null;
+
+            this.Dispose();
         }
 
         public override void Shutdown()

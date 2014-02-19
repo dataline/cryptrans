@@ -85,17 +85,19 @@ namespace SecureFileTransfer.Network
 
             RemoteName = ASCII.GetString(GetUndefinedLength());
 
-            string dcAddress = GetUndefinedLengthString();
-            int dcPort = Convert.ToInt32(GetUndefinedLengthString());
+            return true;
 
-            //byte[] dcAesKey = new byte[Security.AES.KeySize];
-            //byte[] dcAesIv = new byte[Security.AES.BlockSize];
-            //Get(dcAesKey);
-            //Get(dcAesIv);
-
-            DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort);
-
-            return DataConnection != null;
+            //string dcAddress = GetUndefinedLengthString();
+            //int dcPort = Convert.ToInt32(GetUndefinedLengthString());
+            //
+            ////byte[] dcAesKey = new byte[Security.AES.KeySize];
+            ////byte[] dcAesIv = new byte[Security.AES.BlockSize];
+            ////Get(dcAesKey);
+            ////Get(dcAesIv);
+            //
+            //DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort);
+            //
+            //return DataConnection != null;
         }
 
         protected override void InternalBeginReceiving()
@@ -114,25 +116,25 @@ namespace SecureFileTransfer.Network
             RaiseDisconnected();
         }
 
-        public void FileTransferTest()
-        {
-            var testTransfer = new UnsavedBinaryTransfer()
-            {
-                FileName = "Testdaten.txt",
-                FileLength = 200000
-            };
-
-            TEBPProvider.Send(testTransfer.GenerateRequest(), response =>
-            {
-                if (response.Accepted)
-                {
-                    Console.WriteLine("Server accepted FileTransferRequest.");
-                    FileTransferResponse res = response as FileTransferResponse;
-
-                    DataConnection.BeginSending(testTransfer, res.AesKey, res.AesIv);
-                }
-            });
-        }
+        //public void FileTransferTest()
+        //{
+        //    var testTransfer = new UnsavedBinaryTransfer()
+        //    {
+        //        FileName = "Testdaten.txt",
+        //        FileLength = 200000
+        //    };
+        //
+        //    TEBPProvider.Send(testTransfer.GenerateRequest(), response =>
+        //    {
+        //        if (response.Accepted)
+        //        {
+        //            Console.WriteLine("Server accepted FileTransferRequest.");
+        //            FileTransferResponse res = response as FileTransferResponse;
+        //
+        //            DataConnection.BeginSending(testTransfer, res.AesKey, res.AesIv);
+        //        }
+        //    });
+        //}
 
         public void StartFileTransfer(string localFilePath)
         {
@@ -165,6 +167,10 @@ namespace SecureFileTransfer.Network
                     Console.WriteLine("Server accepted FileTransferRequest.");
                     FileTransferResponse res = response as FileTransferResponse;
 
+                    DataConnection = SingleTransferClient.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
+                    if (DataConnection == null)
+                        throw new ConnectionException("Could not establish data connection.");
+
                     DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
                 }
             });
@@ -175,10 +181,10 @@ namespace SecureFileTransfer.Network
             if (TEBPProvider != null && !TEBPProvider.IsShutDown)
                 TEBPProvider.Shutdown(false);
 
-            CurrentConnection = null;
-
             if (DataConnection != null)
                 DataConnection.Dispose();
+
+            CurrentConnection = null;
 
             Console.WriteLine("ClientConnection terminated.");
 

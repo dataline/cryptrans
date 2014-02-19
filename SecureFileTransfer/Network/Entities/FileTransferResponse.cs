@@ -9,5 +9,7 @@ namespace SecureFileTransfer.Network.Entities
     {
         public byte[] AesKey { get; set; }
         public byte[] AesIv { get; set; }
+        public string DataConnectionAddress { get; set; }
+        public int DataConnectionPort { get; set; }
     }
 }

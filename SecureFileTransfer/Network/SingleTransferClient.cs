@@ -106,6 +106,8 @@ namespace SecureFileTransfer.Network
 
             CurrentTransfer.Close();
             CurrentTransfer = null;
+
+            this.Dispose();
         }
 
         public override void Shutdown()
