@@ -38,7 +38,7 @@
         android:layout_marginLeft="26.0dp"
         android:layout_marginBottom="12.0dp" />
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
@@ -46,6 +46,52 @@
         android:id="@+id/linearLayout1"
         android:layout_weight="1"
         android:layout_gravity="bottom">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linearLayout2"
+            android:layout_weight="2" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/CurrentTransferLayout"
+            android:layout_marginRight="10.0dp"
+            android:layout_marginLeft="10.7dp"
+            android:layout_marginBottom="8.0dp"
+            android:visibility="invisible">
+            <TextView
+                android:text="@string/CurrentFileTransfer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CurrentTransferFileNameField" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CurrentTransferProgressBar"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:layout_marginRight="0.0dp" />
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CurrentTransferStatus" />
+        </LinearLayout>
         <Button
             android:text="@string/Disconnect"
             android:layout_width="match_parent"
@@ -53,7 +99,7 @@
             android:id="@+id/DisconnectButton"
             android:layout_marginRight="26.0dp"
             android:layout_marginLeft="26.0dp"
-            android:layout_marginBottom="12.0dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="bottom" />
     </LinearLayout>
 </LinearLayout>

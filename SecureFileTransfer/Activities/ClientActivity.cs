@@ -21,6 +21,11 @@ namespace SecureFileTransfer.Activities
 
         TransferQueue transfers = new TransferQueue();
 
+        LinearLayout currentTransferLayout;
+        TextView currentTransferFileNameField;
+        TextView currentTransferStatusField;
+        ProgressBar currentTransferProgressBar;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -47,11 +52,38 @@ namespace SecureFileTransfer.Activities
             var sendOtherButton = FindViewById<Button>(Resource.Id.SendOtherButton);
             sendOtherButton.Click += sendOtherButton_Click;
 
+            currentTransferLayout = FindViewById<LinearLayout>(Resource.Id.CurrentTransferLayout);
+            currentTransferFileNameField = FindViewById<TextView>(Resource.Id.CurrentTransferFileNameField);
+            currentTransferStatusField = FindViewById<TextView>(Resource.Id.CurrentTransferStatus);
+            currentTransferProgressBar = FindViewById<ProgressBar>(Resource.Id.CurrentTransferProgressBar);
+
             Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
 
             transfers.Connection = Network.ClientConnection.CurrentConnection;
+        }
+
+        void StartReloadingCurrentTransferView(Handler handler = null)
+        {
+            if (handler == null)
+                handler = new Handler();
+
+            if (transfers.CurrentTransfer == null)
+            {
+                currentTransferLayout.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                currentTransferFileNameField.Text = transfers.CurrentTransfer.FileName;
+                currentTransferStatusField.Text = "Transferring...";
+                currentTransferProgressBar.Progress = Network.ClientConnection.CurrentConnection.DataConnection == null
+                    ? 0 : Network.ClientConnection.CurrentConnection.DataConnection.Progress;
+
+                currentTransferLayout.Visibility = ViewStates.Visible;
+
+                handler.PostDelayed(() => StartReloadingCurrentTransferView(handler), 200);
+            }
         }
 
         #region Image Chooser
