@@ -105,6 +105,9 @@ namespace SecureFileTransfer.Activities
 
         void ReloadList(Handler handler)
         {
+            if (Network.LocalServerConnection.CurrentConnection == null)
+                return;
+
             var dc = Network.LocalServerConnection.CurrentConnection.DataConnection;
 
             if (dc.CurrentTransfer != null)
