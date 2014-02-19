@@ -67,6 +67,7 @@
     <Compile Include="Adapters\TransfersListAdapter.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
     <Compile Include="Features\ExistingFileTransfer.cs" />
+    <Compile Include="Features\InputStreamFileTransfer.cs" />
     <Compile Include="Features\QR.cs" />
     <Compile Include="Features\Transfer.cs" />
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />

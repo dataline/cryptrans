@@ -68,7 +68,12 @@ namespace SecureFileTransfer.Activities
 
             if (requestCode == REQUEST_IMAGECHOOSER && resultCode == Result.Ok)
             {
-                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.Data.GetFilePathFromContentURI(ContentResolver));
+                long fileSize;
+                string fileName;
+
+                data.Data.GetMetadataFromContentURI(ContentResolver, out fileSize, out fileName);
+
+                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.Data.GetInputStreamFromContentURI(ContentResolver), fileSize, fileName);
             }
         }
         #endregion
@@ -94,7 +99,8 @@ namespace SecureFileTransfer.Activities
 
         public void Disconnect()
         {
-            Network.ClientConnection.CurrentConnection.Dispose();
+            if (Network.ClientConnection.CurrentConnection != null)
+                Network.ClientConnection.CurrentConnection.Dispose();
         }
     }
 }

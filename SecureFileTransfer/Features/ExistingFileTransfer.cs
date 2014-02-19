@@ -10,17 +10,17 @@ namespace SecureFileTransfer.Features
     {
         public string AbsoluteFilePath { get; set; }
 
-        FileStream file;
+        public Stream FileStream { get; set; }
 
         public override void AppendData(byte[] buf)
         {
-            file.Write(buf, 0, buf.Length);
+            FileStream.Write(buf, 0, buf.Length);
         }
 
         public override byte[] GetData(int maxLen)
         {
             byte[] buf = new byte[maxLen];
-            int n = file.Read(buf, 0, maxLen);
+            int n = FileStream.Read(buf, 0, maxLen);
 
             if (n == 0)
                 throw new NotSupportedException("Tried to read past end of ExistingFileTransfer buffer.");
@@ -35,12 +35,16 @@ namespace SecureFileTransfer.Features
 
         protected override void PrepareForReading()
         {
-            FileName = Path.GetFileName(AbsoluteFilePath);
-            
-            var fInfo = new FileInfo(AbsoluteFilePath);
-            FileLength = fInfo.Length;
+            if (FileStream == null)
+            {
+                // Datei wird aus AbsoluteFilePath gelesen
+                FileName = Path.GetFileName(AbsoluteFilePath);
 
-            file = new FileStream(AbsoluteFilePath, FileMode.Open, FileAccess.Read);
+                var fInfo = new FileInfo(AbsoluteFilePath);
+                FileLength = fInfo.Length;
+
+                FileStream = new FileStream(AbsoluteFilePath, FileMode.Open, FileAccess.Read);
+            }
         }
 
         protected override void PrepareForWriting()
@@ -65,13 +69,13 @@ namespace SecureFileTransfer.Features
                 appendNumber++;
             } while (File.Exists(AbsoluteFilePath));
 
-            file = new FileStream(AbsoluteFilePath, FileMode.Create, FileAccess.Write);
+            FileStream = new FileStream(AbsoluteFilePath, FileMode.Create, FileAccess.Write);
         }
 
         public override void Close()
         {
-            if (file != null)
-                file.Close();
+            if (FileStream != null)
+                FileStream.Close();
         }
     }
 }

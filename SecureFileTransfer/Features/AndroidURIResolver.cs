@@ -9,19 +9,24 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.IO;
 
 namespace SecureFileTransfer.Features
 {
     public static class AndroidURIResolver
     {
-        public static string GetFilePathFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver)
+        public static void GetMetadataFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver, out long size, out string fileName)
         {
-            var cursor = contentResolver.Query(uri, new string[] { Android.Provider.MediaStore.Images.ImageColumns.Data }, null, null, null);
+            var cursor = contentResolver.Query(uri, new string[] { Android.Provider.OpenableColumns.Size, Android.Provider.OpenableColumns.DisplayName }, null, null, null);
             cursor.MoveToFirst();
-            var filepath = cursor.GetString(0);
+            size = cursor.GetLong(0);
+            fileName = cursor.GetString(1);
             cursor.Close();
+        }
 
-            return filepath;
+        public static Stream GetInputStreamFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver)
+        {
+            return contentResolver.OpenInputStream(uri);
         }
     }
 }

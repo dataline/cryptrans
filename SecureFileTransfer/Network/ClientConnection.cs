@@ -141,14 +141,31 @@ namespace SecureFileTransfer.Network
                 AbsoluteFilePath = localFilePath
             };
 
-            TEBPProvider.Send(fileTransfer.GenerateRequest(), response =>
+            StartFileTransfer(fileTransfer);
+        }
+
+        public void StartFileTransfer(System.IO.Stream fileStream, long size, string name)
+        {
+            var fileTransfer = new ExistingFileTransfer()
+            {
+                FileStream = fileStream,
+                FileLength = size,
+                FileName = name
+            };
+
+            StartFileTransfer(fileTransfer);
+        }
+
+        public void StartFileTransfer(Transfer transfer)
+        {
+            TEBPProvider.Send(transfer.GenerateRequest(), response =>
             {
                 if (response.Accepted)
                 {
                     Console.WriteLine("Server accepted FileTransferRequest.");
                     FileTransferResponse res = response as FileTransferResponse;
 
-                    DataConnection.BeginSending(fileTransfer, res.AesKey, res.AesIv);
+                    DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
                 }
             });
         }

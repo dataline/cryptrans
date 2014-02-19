@@ -101,7 +101,8 @@ namespace SecureFileTransfer.Activities
 
         public void Disconnect()
         {
-            Network.LocalServerConnection.CurrentConnection.Dispose();
+            if (Network.LocalServerConnection.CurrentConnection != null)
+                Network.LocalServerConnection.CurrentConnection.Dispose();
         }
     }
 }
