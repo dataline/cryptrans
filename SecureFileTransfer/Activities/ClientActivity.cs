@@ -26,6 +26,8 @@ namespace SecureFileTransfer.Activities
         TextView currentTransferStatusField;
         ProgressBar currentTransferProgressBar;
 
+        bool statusReloadingHandlerEnabled = false;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -66,12 +68,19 @@ namespace SecureFileTransfer.Activities
 
         void StartReloadingCurrentTransferView(Handler handler = null)
         {
+            if (statusReloadingHandlerEnabled)
+                return;
+
+            statusReloadingHandlerEnabled = true;
+
             if (handler == null)
                 handler = new Handler();
 
             if (transfers.CurrentTransfer == null)
             {
                 currentTransferLayout.Visibility = ViewStates.Invisible;
+
+                statusReloadingHandlerEnabled = false;
             }
             else
             {
@@ -84,6 +93,13 @@ namespace SecureFileTransfer.Activities
 
                 handler.PostDelayed(() => StartReloadingCurrentTransferView(handler), 200);
             }
+        }
+
+        void DoTransfer(Transfer trans)
+        {
+            transfers.Enqueue(trans);
+
+            StartReloadingCurrentTransferView();
         }
 
         #region Image Chooser
@@ -110,7 +126,7 @@ namespace SecureFileTransfer.Activities
 
                 data.Data.GetMetadataFromContentURI(ContentResolver, out fileSize, out fileName);
 
-                transfers.Enqueue(new ExistingFileTransfer()
+                DoTransfer(new ExistingFileTransfer()
                 {
                     FileStream = data.Data.GetInputStreamFromContentURI(ContentResolver),
                     FileLength = fileSize,
