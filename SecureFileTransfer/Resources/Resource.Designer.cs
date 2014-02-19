@@ -191,6 +191,9 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f040012
 			public const int AbortAll = 2130968594;
 			
+			// aapt resource value: 0x7f040013
+			public const int AbortAreYouSure = 2130968595;
+			
 			// aapt resource value: 0x7f040000
 			public const int ApplicationName = 2130968576;
 			
@@ -218,6 +221,9 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f04000e
 			public const int IncomingFileTransfers = 2130968590;
 			
+			// aapt resource value: 0x7f040015
+			public const int No = 2130968597;
+			
 			// aapt resource value: 0x7f040005
 			public const int QRCodeInvalid = 2130968581;
 			
@@ -241,6 +247,9 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f040001
 			public const int ServerQRCodeInformation = 2130968577;
+			
+			// aapt resource value: 0x7f040014
+			public const int Yes = 2130968596;
 			
 			static String()
 			{

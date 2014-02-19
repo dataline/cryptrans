@@ -19,4 +19,7 @@
   <string name="SelectPictures">Select pictures to send</string>
   <string name="Abort">Abort</string>
   <string name="AbortAll">Abort all</string>
+  <string name="AbortAreYouSure">Are you sure you want to abort this transfer?</string>
+  <string name="Yes">Yes</string>
+  <string name="No">No</string>
 </resources>

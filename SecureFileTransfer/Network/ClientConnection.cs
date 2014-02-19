@@ -113,12 +113,19 @@ namespace SecureFileTransfer.Network
         protected override void InternalBeginReceiving()
         {
             TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
+            TEBPProvider.ReceivedNotice += TEBPProvider_ReceivedNotice;
             TEBPProvider.Init();
         }
 
-        void TEBPProvider_ReceivedRequest(TrivialEntityBasedProtocol.Request req)
+        void TEBPProvider_ReceivedNotice(TrivialEntityBasedProtocol.Notice not)
         {
-            throw new NotImplementedException();
+            if (not is FileTransferAbortNotice)
+            {
+                Console.WriteLine("Got FileTransferAbortNotice");
+
+                if (DataConnection != null)
+                    DataConnection.Abort();
+            }
         }
 
         public override void Shutdown()

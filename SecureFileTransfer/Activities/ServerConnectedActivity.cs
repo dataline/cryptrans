@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Threading;
+using SecureFileTransfer.Dialogs;
 
 namespace SecureFileTransfer.Activities
 {
@@ -17,6 +18,8 @@ namespace SecureFileTransfer.Activities
     public class ServerConnectedActivity : Activity
     {
         Adapters.TransfersListAdapter transfersListAdapter;
+
+        YesNoDialog abortCurrentTransferDialog = null;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,6 +47,7 @@ namespace SecureFileTransfer.Activities
 
             var transfersListView = FindViewById<ListView>(Resource.Id.TransfersListView);
             transfersListView.Adapter = transfersListAdapter;
+            transfersListView.ItemClick += transfersListView_ItemClick;
 
             var currentConnection = Network.LocalServerConnection.CurrentConnection;
             currentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
@@ -53,6 +57,27 @@ namespace SecureFileTransfer.Activities
             currentConnection.BeginReceiving();
         }
 
+        void transfersListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            if (transfersListAdapter.IsCurrentItem(e.Position))
+            {
+                abortCurrentTransferDialog = new YesNoDialog(this,
+                    GetString(Resource.String.AbortAreYouSure),
+                    Resource.String.Yes,
+                    Resource.String.No,
+                    result =>
+                    {
+                        if (result == YesNoDialog.AndroidDialogResult.Yes)
+                        {
+                            Network.LocalServerConnection.CurrentConnection.AbortFileTransfer();
+                        }
+
+                        abortCurrentTransferDialog = null;
+                    });
+                abortCurrentTransferDialog.Show("act");
+            }
+        }
+
         void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
         {
             if (success)
@@ -60,6 +85,11 @@ namespace SecureFileTransfer.Activities
             transfersListAdapter.CurrentTransfer = null;
 
             transfersListAdapter.NotifyDataSetChanged();
+
+            if (abortCurrentTransferDialog != null)
+            {
+                abortCurrentTransferDialog.Dismiss();
+            }
         }
 
         void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)

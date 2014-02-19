@@ -137,6 +137,14 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        public void AbortFileTransfer()
+        {
+            TEBPProvider.Send(new FileTransferAbortNotice());
+
+            if (DataConnection != null)
+                DataConnection.Abort();
+        }
+
         public override void Shutdown()
         {
             RaiseDisconnected();

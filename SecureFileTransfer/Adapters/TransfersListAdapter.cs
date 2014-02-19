@@ -38,6 +38,11 @@ namespace SecureFileTransfer.Adapters
             return trans;
         }
 
+        public bool IsCurrentItem(int position)
+        {
+            return CurrentTransfer != null && position == 0;
+        }
+
         public override int Count
         {
             get { return CurrentTransfer == null ? CompletedTransfers.Count : CompletedTransfers.Count + 1; }
@@ -63,13 +68,13 @@ namespace SecureFileTransfer.Adapters
 
         public override int GetItemViewType(int position)
         {
-            return CurrentTransfer != null && position == 0 ? 0 : 1;
+            return IsCurrentItem(position) ? 0 : 1;
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView;
-            bool isCurrentItem = CurrentTransfer != null && position == 0;
+            bool isCurrentItem = IsCurrentItem(position);
 
             if (view == null)
             {
