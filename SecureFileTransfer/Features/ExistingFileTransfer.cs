@@ -76,7 +76,8 @@ namespace SecureFileTransfer.Features
             {
                 string appendix = appendNumber > 1 ? "(" + appendNumber.ToString() + ")" : "";
 
-                AbsoluteFilePath = Path.Combine(incomingPath, fileName + appendix + extension);
+                FileName = fileName + appendix + extension;
+                AbsoluteFilePath = Path.Combine(incomingPath, FileName);
 
                 appendNumber++;
             } while (File.Exists(AbsoluteFilePath));
