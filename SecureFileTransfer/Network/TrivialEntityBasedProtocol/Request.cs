@@ -9,8 +9,8 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
     {
         public Request()
             : base(TEBPProvider.GetNextIdentifier(), true)
-        { 
-            
+        {
+            Responded = false;
         }
 
         public void Respond(Response res)
@@ -20,6 +20,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
             res.Identifier = this.Identifier;
             Provider.Send(res);
+            Responded = true;
         }
 
         public void Decline()

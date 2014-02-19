@@ -63,8 +63,11 @@ namespace SecureFileTransfer
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05000f
-			public const int ConnectManuallyButton = 2131034127;
+			// aapt resource value: 0x7f05000b
+			public const int AbortButton = 2131034123;
+			
+			// aapt resource value: 0x7f050011
+			public const int ConnectManuallyButton = 2131034129;
 			
 			// aapt resource value: 0x7f050000
 			public const int ConnectedToField = 2131034112;
@@ -81,26 +84,29 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f05000a
 			public const int CurrentTransferStatus = 2131034122;
 			
-			// aapt resource value: 0x7f05000b
-			public const int DisconnectButton = 2131034123;
-			
-			// aapt resource value: 0x7f050012
-			public const int FileNameLabel = 2131034130;
-			
-			// aapt resource value: 0x7f050013
-			public const int ProgressBar = 2131034131;
-			
-			// aapt resource value: 0x7f05000e
-			public const int QRContainer = 2131034126;
+			// aapt resource value: 0x7f050007
+			public const int CurrentTransferTitleLabel = 2131034119;
 			
 			// aapt resource value: 0x7f05000c
-			public const int ReceiveFilesButton = 2131034124;
+			public const int DisconnectButton = 2131034124;
+			
+			// aapt resource value: 0x7f050014
+			public const int FileNameLabel = 2131034132;
+			
+			// aapt resource value: 0x7f050015
+			public const int ProgressBar = 2131034133;
+			
+			// aapt resource value: 0x7f050010
+			public const int QRContainer = 2131034128;
+			
+			// aapt resource value: 0x7f05000d
+			public const int ReceiveFilesButton = 2131034125;
 			
 			// aapt resource value: 0x7f050002
 			public const int SendContactsButton = 2131034114;
 			
-			// aapt resource value: 0x7f05000d
-			public const int SendFilesButton = 2131034125;
+			// aapt resource value: 0x7f05000e
+			public const int SendFilesButton = 2131034126;
 			
 			// aapt resource value: 0x7f050003
 			public const int SendOtherButton = 2131034115;
@@ -108,17 +114,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050001
 			public const int SendPicturesButton = 2131034113;
 			
-			// aapt resource value: 0x7f050014
-			public const int StatusLabel = 2131034132;
+			// aapt resource value: 0x7f050016
+			public const int StatusLabel = 2131034134;
 			
-			// aapt resource value: 0x7f050010
-			public const int TransfersListView = 2131034128;
+			// aapt resource value: 0x7f050012
+			public const int TransfersListView = 2131034130;
 			
-			// aapt resource value: 0x7f050015
-			public const int contentFrame = 2131034133;
+			// aapt resource value: 0x7f050017
+			public const int contentFrame = 2131034135;
 			
-			// aapt resource value: 0x7f050011
-			public const int imageView1 = 2131034129;
+			// aapt resource value: 0x7f050013
+			public const int imageView1 = 2131034131;
 			
 			// aapt resource value: 0x7f050004
 			public const int linearLayout1 = 2131034116;
@@ -126,8 +132,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050005
 			public const int linearLayout2 = 2131034117;
 			
-			// aapt resource value: 0x7f050007
-			public const int textView1 = 2131034119;
+			// aapt resource value: 0x7f05000f
+			public const int textView1 = 2131034127;
 			
 			static Id()
 			{
@@ -179,6 +185,12 @@ namespace SecureFileTransfer
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f040011
+			public const int Abort = 2130968593;
+			
+			// aapt resource value: 0x7f040012
+			public const int AbortAll = 2130968594;
+			
 			// aapt resource value: 0x7f040000
 			public const int ApplicationName = 2130968576;
 			
@@ -198,7 +210,7 @@ namespace SecureFileTransfer
 			public const int Connecting = 2130968585;
 			
 			// aapt resource value: 0x7f04000f
-			public const int CurrentFileTransfer = 2130968591;
+			public const int CurrentFileTransferRemainingFormatStr = 2130968591;
 			
 			// aapt resource value: 0x7f040008
 			public const int Disconnect = 2130968584;

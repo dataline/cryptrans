@@ -29,6 +29,16 @@ namespace SecureFileTransfer.Features
 
         public Transfer CurrentTransfer { get; private set; }
 
+        public bool HasQueuedTransfers
+        {
+            get { return Queue.Count > 1; }
+        }
+
+        public int Remaining
+        {
+            get { return Queue.Count == 0 ? 0 : Queue.Count - 1; }
+        }
+
         void _connection_FileTransferEnded(SingleTransferClient cli, bool success)
         {
             var trans = cli.CurrentTransfer;

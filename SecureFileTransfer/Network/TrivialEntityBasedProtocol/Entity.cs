@@ -17,6 +17,8 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         //public const int TYPE_RESPONSE = 2;
         //public const int TYPE_NOTICE = 3;
 
+        public bool Responded { get; protected set; }
+
 
         [JsonIgnore]
         public TEBPProvider Provider { get; set; }
@@ -25,6 +27,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         {
             Identifier = identifier;
             RequiresAnswer = requiresAnswer;
+            Responded = false;
             //Type = type;
         }
     }

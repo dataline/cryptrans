@@ -83,7 +83,19 @@ namespace SecureFileTransfer.Network
         {
             TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
             TEBPProvider.ReceivedRequest += TEBPProvider_ReceivedRequest;
+            TEBPProvider.ReceivedNotice += TEBPProvider_ReceivedNotice;
             TEBPProvider.Init();
+        }
+
+        void TEBPProvider_ReceivedNotice(TrivialEntityBasedProtocol.Notice not)
+        {
+            if (not is FileTransferAbortNotice)
+            {
+                Console.WriteLine("Got FileTransferAbortNotice");
+
+                if (DataConnection != null)
+                    DataConnection.Abort();
+            }
         }
 
         void TEBPProvider_ReceivedRequest(TrivialEntityBasedProtocol.Request req)

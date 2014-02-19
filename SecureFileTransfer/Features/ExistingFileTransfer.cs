@@ -85,6 +85,14 @@ namespace SecureFileTransfer.Features
             FileStream = new FileStream(AbsoluteFilePath, FileMode.Create, FileAccess.Write);
         }
 
+        public override void CleanUpAfterWriteAbort()
+        {
+            if (File.Exists(AbsoluteFilePath))
+            {
+                File.Delete(AbsoluteFilePath);
+            }
+        }
+
         public override void Close()
         {
             if (FileStream != null)

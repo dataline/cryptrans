@@ -15,6 +15,8 @@
   <string name="ClientSendContacts">Send Contacts</string>
   <string name="ClientSendOther">Send Other</string>
   <string name="IncomingFileTransfers">Incoming transfers:</string>
-  <string name="CurrentFileTransfer">Current transfer</string>
+  <string name="CurrentFileTransferRemainingFormatStr">Current transfer ({0} remaining)</string>
   <string name="SelectPictures">Select pictures to send</string>
+  <string name="Abort">Abort</string>
+  <string name="AbortAll">Abort all</string>
 </resources>

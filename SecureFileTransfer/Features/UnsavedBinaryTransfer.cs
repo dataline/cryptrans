@@ -51,6 +51,10 @@ namespace SecureFileTransfer.Features
         {
         }
 
+        public override void CleanUpAfterWriteAbort()
+        {
+        }
+
         public override void Close()
         {
         }

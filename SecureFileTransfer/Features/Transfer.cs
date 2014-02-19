@@ -14,6 +14,7 @@ namespace SecureFileTransfer.Features
         public abstract byte[] GetData(int maxLen);
         protected abstract void PrepareForReading();
         protected abstract void PrepareForWriting();
+        public abstract void CleanUpAfterWriteAbort();
         public abstract void Close();
 
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)

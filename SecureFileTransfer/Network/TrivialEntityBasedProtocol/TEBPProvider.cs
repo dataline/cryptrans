@@ -120,6 +120,9 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 HandleNotice(ent as Notice);
             else
                 Console.WriteLine("TEBPProvicer received an invalid entity (ignored).");
+
+            if (ent.RequiresAnswer && !ent.Responded)
+                throw new NotSupportedException("The entity " + ent.ToString() + " has not been responded to.");
         }
 
         private void HandleRequest(Request req)

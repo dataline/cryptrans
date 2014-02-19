@@ -102,6 +102,17 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
+        public void Abort()
+        {
+            AbortCurrentTransfer = true;
+            if (ConnectionSocket != null)
+            {
+                // Eventuell im Get festhängenden Receive-Thread befreien:
+                ConnectionSocket.Close();
+                ConnectionSocket = null;
+            }
+        }
+
         public void BeginReceiving(Transfer transfer, SecureFileTransfer.Security.AES aes)
         {
             CurrentTransfer = transfer;
@@ -129,18 +140,21 @@ namespace SecureFileTransfer.Network
 
             Console.WriteLine("Start receiving file.");
 
-            while (currentTransferDataLeft > 0)
+            while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
                 byte[] buf = new byte[currentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : currentTransferDataLeft];
                 try
                 {
                     Get(buf);
                 }
-                catch (SocketException se)
+                catch (Exception ex)
                 {
-                    if (se.SocketErrorCode == SocketError.TimedOut && !AbortCurrentTransfer)
-                        continue; // noch mal versuchen
-
+                    if (((ex is SocketException && (ex as SocketException).SocketErrorCode == SocketError.Interrupted) ||
+                        ex is ObjectDisposedException) && AbortCurrentTransfer)
+                    { 
+                        // Transfer von Gegenstelle abgebrochen.
+                        break;
+                    }
                     throw;
                 }
                 CurrentTransfer.AppendData(buf);
@@ -151,11 +165,15 @@ namespace SecureFileTransfer.Network
             Console.WriteLine("End receiving file.");
 
             CurrentTransfer.Close();
+            if (AbortCurrentTransfer)
+            {
+                CurrentTransfer.CleanUpAfterWriteAbort();
+            }
 
             ConnectionSocket.Close();
             ConnectionSocket = null;
 
-            ParentConnection.RaiseFileTransferEnded(this, true);
+            ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer);
             CurrentTransfer = null;
 
             this.Dispose();
@@ -168,6 +186,8 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
+            AbortCurrentTransfer = true;
+
             if (listenerSocket != null)
                 listenerSocket.Close();
 

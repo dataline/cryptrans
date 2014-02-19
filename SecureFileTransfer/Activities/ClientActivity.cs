@@ -22,9 +22,11 @@ namespace SecureFileTransfer.Activities
         TransferQueue transfers = new TransferQueue();
 
         LinearLayout currentTransferLayout;
+        TextView currentTransferTitleLabel;
         TextView currentTransferFileNameField;
         TextView currentTransferStatusField;
         ProgressBar currentTransferProgressBar;
+        Button abortButton;
 
         bool statusReloadingHandlerEnabled = false;
 
@@ -55,9 +57,12 @@ namespace SecureFileTransfer.Activities
             sendOtherButton.Click += sendOtherButton_Click;
 
             currentTransferLayout = FindViewById<LinearLayout>(Resource.Id.CurrentTransferLayout);
+            currentTransferTitleLabel = FindViewById<TextView>(Resource.Id.CurrentTransferTitleLabel);
             currentTransferFileNameField = FindViewById<TextView>(Resource.Id.CurrentTransferFileNameField);
             currentTransferStatusField = FindViewById<TextView>(Resource.Id.CurrentTransferStatus);
             currentTransferProgressBar = FindViewById<ProgressBar>(Resource.Id.CurrentTransferProgressBar);
+
+            abortButton = FindViewById<Button>(Resource.Id.AbortButton);
 
             Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
@@ -84,10 +89,13 @@ namespace SecureFileTransfer.Activities
             }
             else
             {
+                currentTransferTitleLabel.Text = string.Format(GetString(Resource.String.CurrentFileTransferRemainingFormatStr), transfers.Remaining);
                 currentTransferFileNameField.Text = transfers.CurrentTransfer.FileName;
                 currentTransferStatusField.Text = "Transferring...";
                 currentTransferProgressBar.Progress = Network.ClientConnection.CurrentConnection.DataConnection == null
                     ? 0 : Network.ClientConnection.CurrentConnection.DataConnection.Progress;
+
+                abortButton.SetText(transfers.HasQueuedTransfers ? Resource.String.AbortAll : Resource.String.Abort);
 
                 currentTransferLayout.Visibility = ViewStates.Visible;
 
