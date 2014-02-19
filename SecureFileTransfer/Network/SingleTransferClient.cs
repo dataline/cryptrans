@@ -116,9 +116,9 @@ namespace SecureFileTransfer.Network
                 {
                     Write(buf);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    if (AbortCurrentTransfer)
+                    if (AbortCurrentTransfer || (ex is SocketException && (ex as SocketException).SocketErrorCode == SocketError.ConnectionReset))
                     {
                         // Transfer von Gegenstelle abgebrochen.
                         break;
