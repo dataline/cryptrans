@@ -100,8 +100,6 @@ namespace SecureFileTransfer.Network
                 DataConnection = SingleTransferServer.GetServer();
                 DataConnection.ParentConnection = this;
 
-                DataConnection.BeginReceiving(transfer, fileAES);
-
                 FileTransferResponse resp = new FileTransferResponse()
                 {
                     AesKey = fileAES.aesKey,
@@ -113,7 +111,7 @@ namespace SecureFileTransfer.Network
 
                 if (DataConnection.GetConnection())
                 {
-                    DataConnection.BeginReceiving();
+                    DataConnection.BeginReceiving(transfer, fileAES);
                 }
                 else
                 {
