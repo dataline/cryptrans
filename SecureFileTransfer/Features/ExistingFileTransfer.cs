@@ -17,19 +17,24 @@ namespace SecureFileTransfer.Features
             FileStream.Write(buf, 0, buf.Length);
         }
 
+        long readBytes;
+
         public override byte[] GetData(int maxLen)
         {
             byte[] buf = new byte[maxLen];
             int n = FileStream.Read(buf, 0, maxLen);
 
             if (n == 0)
-                throw new NotSupportedException("Tried to read past end of ExistingFileTransfer buffer.");
+                throw new ReadPastEndException();
+
+            readBytes += n;
 
             if (n == maxLen)
                 return buf;
 
             byte[] fittingBuf = new byte[n];
             Array.Copy(buf, fittingBuf, n);
+
             return fittingBuf;
         }
 
@@ -78,4 +83,7 @@ namespace SecureFileTransfer.Features
                 FileStream.Close();
         }
     }
+
+    public class ReadPastEndException : Exception
+    { }
 }
