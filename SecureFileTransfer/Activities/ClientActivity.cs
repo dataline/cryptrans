@@ -68,7 +68,7 @@ namespace SecureFileTransfer.Activities
 
         void StartReloadingCurrentTransferView(Handler handler = null)
         {
-            if (statusReloadingHandlerEnabled)
+            if (statusReloadingHandlerEnabled && handler == null)
                 return;
 
             statusReloadingHandlerEnabled = true;
