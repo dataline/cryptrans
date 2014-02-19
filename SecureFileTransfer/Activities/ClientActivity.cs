@@ -63,12 +63,18 @@ namespace SecureFileTransfer.Activities
             currentTransferProgressBar = FindViewById<ProgressBar>(Resource.Id.CurrentTransferProgressBar);
 
             abortButton = FindViewById<Button>(Resource.Id.AbortButton);
+            abortButton.Click += abortButton_Click;
 
             Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
 
             transfers.Connection = Network.ClientConnection.CurrentConnection;
+        }
+
+        void abortButton_Click(object sender, EventArgs e)
+        {
+            transfers.Abort();
         }
 
         void StartReloadingCurrentTransferView(Handler handler = null)

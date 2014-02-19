@@ -170,8 +170,11 @@ namespace SecureFileTransfer.Network
                 CurrentTransfer.CleanUpAfterWriteAbort();
             }
 
-            ConnectionSocket.Close();
-            ConnectionSocket = null;
+            if (ConnectionSocket != null)
+            {
+                ConnectionSocket.Close();
+                ConnectionSocket = null;
+            }
 
             ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer);
             CurrentTransfer = null;

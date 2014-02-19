@@ -87,6 +87,17 @@ namespace SecureFileTransfer.Network
             sendThread.Start();
         }
 
+        public void Abort()
+        {
+            AbortCurrentTransfer = true;
+            if (ConnectionSocket != null)
+            {
+                // Eventuell im Send festhängenden Send-Thread befreien:
+                ConnectionSocket.Close();
+                ConnectionSocket = null;
+            }
+        }
+
         private void TransferSend()
         {
             SendAccept();
@@ -97,22 +108,38 @@ namespace SecureFileTransfer.Network
 
             currentTransferDataLeft = CurrentTransfer.FileLength;
 
-            while (currentTransferDataLeft > 0)
+            while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
                 byte[] buf = CurrentTransfer.GetData(Security.AES.BlockSize);
 
-                Write(buf);
+                try
+                {
+                    Write(buf);
+                }
+                catch (Exception ex)
+                {
+                    if (((ex is SocketException && (ex as SocketException).SocketErrorCode == SocketError.Interrupted) ||
+                        ex is ObjectDisposedException) && AbortCurrentTransfer)
+                    {
+                        // Transfer von Gegenstelle abgebrochen.
+                        break;
+                    }
+                    throw;
+                }
 
                 currentTransferDataLeft -= buf.Length;
             }
 
             CurrentTransfer.Close();
 
-            ConnectionSocket.Close();
-            ConnectionSocket = null;
+            if (ConnectionSocket != null)
+            {
+                ConnectionSocket.Close();
+                ConnectionSocket = null;
+            }
 
 
-            ParentConnection.RaiseFileTransferEnded(this, true);
+            ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer);
 
             CurrentTransfer = null;
 

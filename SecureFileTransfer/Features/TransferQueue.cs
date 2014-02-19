@@ -42,7 +42,8 @@ namespace SecureFileTransfer.Features
         void _connection_FileTransferEnded(SingleTransferClient cli, bool success)
         {
             var trans = cli.CurrentTransfer;
-            Queue.Remove(trans);
+            if (Queue.Contains(trans))
+                Queue.Remove(trans);
 
             if (Queue.Count > 0)
             {
@@ -64,6 +65,18 @@ namespace SecureFileTransfer.Features
                 CurrentTransfer = trans;
                 Connection.StartFileTransfer(CurrentTransfer);
             }
+        }
+
+        public void Abort()
+        {
+            Queue.Clear();
+
+            if (CurrentTransfer != null)
+            {
+                Connection.AbortFileTransfer();
+            }
+
+            CurrentTransfer = null;
         }
 
     }
