@@ -24,8 +24,15 @@ namespace SecureFileTransfer.Features
             byte[] buf = new byte[maxLen];
             int n = FileStream.Read(buf, 0, maxLen);
 
+            //if (n == 0)
+            //    throw new ReadPastEndException();
+
             if (n == 0)
-                throw new ReadPastEndException();
+            {
+                // fix this stupid file size bug
+                n = maxLen;
+                //FIXME
+            }
 
             readBytes += n;
 

@@ -17,7 +17,10 @@ namespace SecureFileTransfer.Features
     {
         public static void GetMetadataFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver, out long size, out string fileName)
         {
-            var cursor = contentResolver.Query(uri, new string[] { Android.Provider.OpenableColumns.Size, Android.Provider.OpenableColumns.DisplayName }, null, null, null);
+            var cursor = contentResolver.Query(uri, new string[] { 
+                Android.Provider.OpenableColumns.Size,
+                Android.Provider.OpenableColumns.DisplayName 
+            }, null, null, null);
             cursor.MoveToFirst();
             size = cursor.GetLong(0);
             fileName = cursor.GetString(1);
