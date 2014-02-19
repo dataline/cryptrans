@@ -70,6 +70,7 @@
     <Compile Include="Features\InputStreamFileTransfer.cs" />
     <Compile Include="Features\QR.cs" />
     <Compile Include="Features\Transfer.cs" />
+    <Compile Include="Features\TransferQueue.cs" />
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />

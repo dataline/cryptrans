@@ -21,7 +21,17 @@ namespace SecureFileTransfer.Network
 
         public string ConnectionPassword { get; set; }
 
-        private Action RunAfterAcceptAction = null;
+        public delegate void FileTransferEndedEventHandler(SingleTransferClient cli, bool success);
+        public event FileTransferEndedEventHandler FileTransferEnded;
+
+        public void RaiseFileTransferEnded(SingleTransferClient cli, bool success)
+        {
+            UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
+            {
+                if (FileTransferEnded != null)
+                    FileTransferEnded(cli, success);
+            }), null);
+        }
 
         public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
@@ -170,6 +180,7 @@ namespace SecureFileTransfer.Network
                     DataConnection = SingleTransferClient.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
                     if (DataConnection == null)
                         throw new ConnectionException("Could not establish data connection.");
+                    DataConnection.ParentConnection = this;
 
                     DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
                 }

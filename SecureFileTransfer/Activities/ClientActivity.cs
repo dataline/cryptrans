@@ -18,6 +18,9 @@ namespace SecureFileTransfer.Activities
     [Activity(Label = "")]
     public class ClientActivity : Activity
     {
+
+        TransferQueue transfers = new TransferQueue();
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -47,6 +50,8 @@ namespace SecureFileTransfer.Activities
             Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
+
+            transfers.Connection = Network.ClientConnection.CurrentConnection;
         }
 
         #region Image Chooser
@@ -73,7 +78,12 @@ namespace SecureFileTransfer.Activities
 
                 data.Data.GetMetadataFromContentURI(ContentResolver, out fileSize, out fileName);
 
-                Network.ClientConnection.CurrentConnection.StartFileTransfer(data.Data.GetInputStreamFromContentURI(ContentResolver), fileSize, fileName);
+                transfers.Enqueue(new ExistingFileTransfer()
+                {
+                    FileStream = data.Data.GetInputStreamFromContentURI(ContentResolver),
+                    FileLength = fileSize,
+                    FileName = fileName
+                });
             }
         }
         #endregion

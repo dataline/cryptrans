@@ -14,6 +14,8 @@ namespace SecureFileTransfer.Network
     {
         public Transfer CurrentTransfer { get; private set; }
 
+        public ClientConnection ParentConnection { get; set; }
+
         long currentTransferDataLeft;
 
         Thread sendThread;
@@ -105,6 +107,13 @@ namespace SecureFileTransfer.Network
             }
 
             CurrentTransfer.Close();
+
+            ConnectionSocket.Close();
+            ConnectionSocket = null;
+
+
+            ParentConnection.RaiseFileTransferEnded(this, true);
+
             CurrentTransfer = null;
 
             this.Dispose();

@@ -152,6 +152,9 @@ namespace SecureFileTransfer.Network
 
             CurrentTransfer.Close();
 
+            ConnectionSocket.Close();
+            ConnectionSocket = null;
+
             ParentConnection.RaiseFileTransferEnded(this, true);
             CurrentTransfer = null;
 

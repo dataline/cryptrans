@@ -209,7 +209,8 @@ namespace SecureFileTransfer.Network
 
         public virtual void Dispose()
         {
-            ConnectionSocket.Close();
+            if (ConnectionSocket != null)
+                ConnectionSocket.Close();
         }
 
     }
