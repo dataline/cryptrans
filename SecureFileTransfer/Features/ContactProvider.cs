@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace SecureFileTransfer.Features
 {
-    public struct AndroidContactDataEntry
+    public class AndroidContactDataEntry
     {
         public string Data;
         public string Type;
@@ -26,6 +26,18 @@ namespace SecureFileTransfer.Features
             Type = type;
         }
     }
+    public class AndroidContactImEntry : AndroidContactDataEntry
+    {
+        public string Protocol;
+        public string CustomProtocol;
+
+        public AndroidContactImEntry(string data, string type, string protocol, string customProtocol)
+            : base(data, type)
+        {
+            Protocol = protocol;
+            CustomProtocol = customProtocol;
+        }
+    }
     public struct AndroidContact
     {
         [JsonIgnore]
@@ -34,11 +46,17 @@ namespace SecureFileTransfer.Features
         public Android.Net.Uri PhotoThumbnailUri;
 
         public string DisplayName;
-        public string DisplayNameAlternative;
+
+        public string Note;
 
         public AndroidContactDataEntry[] PhoneNumbers;
         public AndroidContactDataEntry[] EmailAddresses;
         public AndroidContactDataEntry[] PostalAddresses;
+
+        public AndroidContactDataEntry Nickname;
+
+        public AndroidContactImEntry[] Ims;
+        public AndroidContactDataEntry[] Websites;
     }
 
     public static class ContactProvider
@@ -96,14 +114,18 @@ namespace SecureFileTransfer.Features
             cursor.Close();
         }
 
-
+        /// <summary>
+        /// Holt unglaublich umständlich Kontaktdaten aus dem Tabellen-Wirrwarr Androids
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="contactId"></param>
+        /// <returns></returns>
         public static AndroidContact GetContactInformation(Context ctx, string contactId)
         {
             var contact = new AndroidContact();
 
             var generalProjection = new string[] { ContactsContract.Contacts.InterfaceConsts.Id,
                                                     ContactsContract.Contacts.InterfaceConsts.DisplayName,
-                                                    ContactsContract.Contacts.InterfaceConsts.DisplayNameAlternative,
                                                     ContactsContract.Contacts.InterfaceConsts.PhotoUri };
             var phoneProjection = new string[] { ContactsContract.CommonDataKinds.Phone.InterfaceConsts.ContactId,
                                                     ContactsContract.CommonDataKinds.Phone.Number,
@@ -114,6 +136,23 @@ namespace SecureFileTransfer.Features
             var addressProjection = new string[] { ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Id,
                                                     ContactsContract.CommonDataKinds.StructuredPostal.FormattedAddress,
                                                     ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Type };
+            var nicknameProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
+                                                    ContactsContract.Data.InterfaceConsts.Mimetype,
+                                                    ContactsContract.CommonDataKinds.Nickname.Name,
+                                                    ContactsContract.CommonDataKinds.Nickname.InterfaceConsts.Type };
+            var imProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
+                                                    ContactsContract.Data.InterfaceConsts.Mimetype,
+                                                    ContactsContract.CommonDataKinds.Im.InterfaceConsts.Data,
+                                                    ContactsContract.CommonDataKinds.Im.InterfaceConsts.Type,
+                                                    ContactsContract.CommonDataKinds.Im.Protocol,
+                                                    ContactsContract.CommonDataKinds.Im.CustomProtocol };
+            var websiteProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
+                                                    ContactsContract.Data.InterfaceConsts.Mimetype,
+                                                    ContactsContract.CommonDataKinds.Website.Url,
+                                                    ContactsContract.CommonDataKinds.Website.InterfaceConsts.Type };
+            var noteProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
+                                                    ContactsContract.Data.InterfaceConsts.Mimetype,
+                                                    ContactsContract.CommonDataKinds.Note.InterfaceConsts.Data1 };
 
             var generalCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Contacts.ContentUri,
@@ -139,17 +178,46 @@ namespace SecureFileTransfer.Features
                     ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.ContactId + " = ?",
                     new string[] { contactId },
                     null).LoadInBackground();
+            var nicknameCursor =
+                (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
+                    nicknameProjection,
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                        ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
+                    new string[] { contactId, ContactsContract.CommonDataKinds.Nickname.ContentItemType },
+                    null).LoadInBackground();
+            var imCursor =
+                (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
+                    imProjection,
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                        ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
+                    new string[] { contactId, ContactsContract.CommonDataKinds.Im.ContentItemType },
+                    null).LoadInBackground();
+            var websiteCursor =
+                (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
+                    websiteProjection,
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                        ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
+                    new string[] { contactId, ContactsContract.CommonDataKinds.Website.ContentItemType },
+                    null).LoadInBackground();
+            var noteCursor =
+                (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
+                    noteProjection,
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                        ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
+                    new string[] { contactId, ContactsContract.CommonDataKinds.Note.ContentItemType },
+                    null).LoadInBackground();
 
             if (!generalCursor.MoveToFirst() || !generalCursor.IsLast)
                 throw new NotSupportedException("Could not find contact or found multiple instances.");
 
             contact.DisplayName = generalCursor.GetString(1);
-            contact.DisplayNameAlternative = generalCursor.GetString(2);
             //TODO: photo
 
             List<AndroidContactDataEntry> phoneNumbers = new List<AndroidContactDataEntry>();
             List<AndroidContactDataEntry> emailAddresses = new List<AndroidContactDataEntry>();
             List<AndroidContactDataEntry> postalAddresses = new List<AndroidContactDataEntry>();
+            List<AndroidContactImEntry> ims = new List<AndroidContactImEntry>();
+            List<AndroidContactDataEntry> websites = new List<AndroidContactDataEntry>();
 
             if (phoneCursor.MoveToFirst())
             {
@@ -172,6 +240,24 @@ namespace SecureFileTransfer.Features
                     postalAddresses.Add(new AndroidContactDataEntry(addressCursor.GetString(1), addressCursor.GetString(2)));
                 } while (addressCursor.MoveToNext());
             }
+            if (nicknameCursor.MoveToFirst())
+                contact.Nickname = new AndroidContactDataEntry(nicknameCursor.GetString(2), nicknameCursor.GetString(3));
+            if (imCursor.MoveToFirst())
+            {
+                do
+                {
+                    ims.Add(new AndroidContactImEntry(imCursor.GetString(2), imCursor.GetString(3), imCursor.GetString(4), imCursor.GetString(5)));
+                } while (imCursor.MoveToNext());
+            }
+            if (websiteCursor.MoveToFirst())
+            {
+                do
+                {
+                    websites.Add(new AndroidContactDataEntry(websiteCursor.GetString(2), websiteCursor.GetString(3)));
+                } while (websiteCursor.MoveToNext());
+            }
+            if (noteCursor.MoveToFirst())
+                contact.Note = noteCursor.GetString(2);
 
             if (phoneNumbers.Count > 0)
                 contact.PhoneNumbers = phoneNumbers.ToArray();
@@ -179,11 +265,19 @@ namespace SecureFileTransfer.Features
                 contact.EmailAddresses = emailAddresses.ToArray();
             if (postalAddresses.Count > 0)
                 contact.PostalAddresses = postalAddresses.ToArray();
+            if (ims.Count > 0)
+                contact.Ims = ims.ToArray();
+            if (websites.Count > 0)
+                contact.Websites = websites.ToArray();
 
             generalCursor.Close();
             phoneCursor.Close();
             emailCursor.Close();
             addressCursor.Close();
+            nicknameCursor.Close();
+            imCursor.Close();
+            websiteCursor.Close();
+            noteCursor.Close();
 
             return contact;
         }
