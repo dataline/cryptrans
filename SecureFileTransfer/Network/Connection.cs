@@ -28,7 +28,7 @@ namespace SecureFileTransfer.Network
             }), null);
         }
 
-        protected Encoding ASCII = new ASCIIEncoding();
+        protected Encoding ASCII = new UTF8Encoding(); // war früher ASCII, sollte man mal umbenennen
 
         protected EncryptionContext encCtx = null;
 
