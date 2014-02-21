@@ -181,28 +181,28 @@ namespace SecureFileTransfer.Features
             var nicknameCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
                     nicknameProjection,
-                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND " +
                         ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
                     new string[] { contactId, ContactsContract.CommonDataKinds.Nickname.ContentItemType },
                     null).LoadInBackground();
             var imCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
                     imProjection,
-                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND " +
                         ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
                     new string[] { contactId, ContactsContract.CommonDataKinds.Im.ContentItemType },
                     null).LoadInBackground();
             var websiteCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
                     websiteProjection,
-                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND " +
                         ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
                     new string[] { contactId, ContactsContract.CommonDataKinds.Website.ContentItemType },
                     null).LoadInBackground();
             var noteCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Data.ContentUri,
                     noteProjection,
-                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND" +
+                    ContactsContract.Data.InterfaceConsts.ContactId + " = ? AND " +
                         ContactsContract.Data.InterfaceConsts.Mimetype + " = ?",
                     new string[] { contactId, ContactsContract.CommonDataKinds.Note.ContentItemType },
                     null).LoadInBackground();
