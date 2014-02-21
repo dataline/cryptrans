@@ -188,7 +188,7 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            AbortCurrentTransfer = true;
+            Abort();
 
             if (listenerSocket != null)
                 listenerSocket.Close();

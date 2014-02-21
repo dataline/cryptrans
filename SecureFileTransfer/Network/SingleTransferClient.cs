@@ -153,6 +153,8 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
+            Abort();
+
             base.Dispose();
 
             Console.WriteLine("SingleTransferClient terminated.");
