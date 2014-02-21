@@ -90,6 +90,7 @@ namespace SecureFileTransfer.Activities
             {
                 abortCurrentTransferDialog.Dismiss();
             }
+
         }
 
         void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)

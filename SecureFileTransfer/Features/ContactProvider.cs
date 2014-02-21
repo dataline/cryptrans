@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Provider;
+using Android.Database;
 
 namespace SecureFileTransfer.Features
 {
@@ -27,8 +28,9 @@ namespace SecureFileTransfer.Features
             string[] projection = { ContactsContract.Contacts.InterfaceConsts.Id, 
                                       ContactsContract.Contacts.InterfaceConsts.DisplayName,
                                       ContactsContract.Contacts.InterfaceConsts.PhotoThumbnailUri };
-
-            var cursor = context.ManagedQuery(ContactsContract.Contacts.ContentUri, projection, null, null, null);
+           
+            var loader = new CursorLoader(context, ContactsContract.Contacts.ContentUri, projection, null, null, null);
+            var cursor = (ICursor)loader.LoadInBackground();
 
             if (cursor.MoveToFirst())
             {
@@ -53,7 +55,8 @@ namespace SecureFileTransfer.Features
                                       ContactsContract.Contacts.InterfaceConsts.LookupKey, 
                                       ContactsContract.Contacts.InterfaceConsts.DisplayName };
 
-            var cursor = context.ManagedQuery(ContactsContract.Contacts.ContentUri, projection, null, null, null);
+            var loader = new CursorLoader(context, ContactsContract.Contacts.ContentUri, projection, null, null, null);
+            var cursor = (ICursor)loader.LoadInBackground();
 
             if (cursor.MoveToFirst())
             {
