@@ -37,6 +37,15 @@ namespace SecureFileTransfer.Adapters
                 .ToList();
         }
 
+        public IEnumerable<AndroidContact> SelectedContacts
+        {
+            get
+            {
+                return from ind in SelectedIndices
+                       select Contacts[ind];
+            }
+        }
+
         public override int Count
         {
             get { return Contacts.Count; }
@@ -74,7 +83,6 @@ namespace SecureFileTransfer.Adapters
             }
 
             ReloadChecked(view, position);
-            
 
             return view;
         }

@@ -61,14 +61,6 @@ namespace SecureFileTransfer.Features
 
         protected override void PrepareForWriting()
         {
-            string storagePath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-            string incomingPath = Path.Combine(storagePath, "SecureFileTransfer");
-
-            if (!Directory.Exists(incomingPath))
-            {
-                Directory.CreateDirectory(incomingPath);
-            }
-
             int appendNumber = 1;
             string fileName = Path.GetFileNameWithoutExtension(FileName);
             string extension = Path.GetExtension(FileName);
@@ -77,7 +69,7 @@ namespace SecureFileTransfer.Features
                 string appendix = appendNumber > 1 ? "(" + appendNumber.ToString() + ")" : "";
 
                 FileName = fileName + appendix + extension;
-                AbsoluteFilePath = Path.Combine(incomingPath, FileName);
+                AbsoluteFilePath = Path.Combine(IncomingPath, FileName);
 
                 appendNumber++;
             } while (File.Exists(AbsoluteFilePath));

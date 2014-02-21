@@ -78,6 +78,7 @@
     <Compile Include="Features\Transfer.cs" />
     <Compile Include="Features\TransferQueue.cs" />
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />
+    <Compile Include="Features\VCardTransfer.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\ConnectionException.cs" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\menu\ContactListMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

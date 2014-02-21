@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -29,6 +30,9 @@ namespace SecureFileTransfer.Features
                 case "file":
                     t = new ExistingFileTransfer();
                     break;
+                case "vcard":
+                    t = new VCardTransfer();
+                    break;
                 default:
                     break;
             }
@@ -52,6 +56,8 @@ namespace SecureFileTransfer.Features
                 fileType = "data";
             else if (this is ExistingFileTransfer)
                 fileType = "file";
+            else if (this is VCardTransfer)
+                fileType = "vcard";
 
             if (fileType == null)
                 throw new NotSupportedException("Could not find type of transfer.");
@@ -64,6 +70,22 @@ namespace SecureFileTransfer.Features
                 FileLength = FileLength,
                 FileType = fileType
             };
+        }
+
+        protected string IncomingPath
+        {
+            get
+            {
+                string storagePath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+                string incomingPath = Path.Combine(storagePath, "SecureFileTransfer");
+
+                if (!Directory.Exists(incomingPath))
+                {
+                    Directory.CreateDirectory(incomingPath);
+                }
+
+                return incomingPath;
+            }
         }
     }
 }

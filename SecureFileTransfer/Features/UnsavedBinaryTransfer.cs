@@ -7,7 +7,7 @@ namespace SecureFileTransfer.Features
 {
     public class UnsavedBinaryTransfer : Transfer
     {
-        byte[] buffer = null;
+        protected byte[] buffer = null;
         long curPtr = 0;
 
 
@@ -42,9 +42,14 @@ namespace SecureFileTransfer.Features
 
         protected override void PrepareForReading()
         {
-            Console.WriteLine("Writing " + FileLength + " test bytes.");
+            if (buffer == null)
+            {
+                // TEST BYTES
 
-            buffer = new byte[FileLength];
+                Console.WriteLine("Writing " + FileLength + " test bytes.");
+
+                buffer = new byte[FileLength];
+            }
         }
 
         protected override void PrepareForWriting()

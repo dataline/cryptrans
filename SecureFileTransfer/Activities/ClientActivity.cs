@@ -30,6 +30,9 @@ namespace SecureFileTransfer.Activities
 
         bool statusReloadingHandlerEnabled = false;
 
+        const int REQUEST_IMAGECHOOSER = 1;
+        const int REQUEST_CONTACTCHOOSER = 2;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -118,10 +121,6 @@ namespace SecureFileTransfer.Activities
             StartReloadingCurrentTransferView();
         }
 
-        #region Image Chooser
-
-        const int REQUEST_IMAGECHOOSER = 1;
-
         void sendPicturesButton_Click(object sender, EventArgs e)
         {
             var imageChooser = new Intent();
@@ -135,7 +134,10 @@ namespace SecureFileTransfer.Activities
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == REQUEST_IMAGECHOOSER && resultCode == Result.Ok)
+            if (resultCode != Result.Ok)
+                return;
+
+            if (requestCode == REQUEST_IMAGECHOOSER)
             {
                 long fileSize;
                 string fileName;
@@ -149,8 +151,22 @@ namespace SecureFileTransfer.Activities
                     FileName = fileName
                 });
             }
+            else if (requestCode == REQUEST_CONTACTCHOOSER)
+            {
+                long[] contactIds = data.GetLongArrayExtra(ContactListActivity.IE_RESULT_SELECTED_CONTACT_IDS);
+
+                List<Tuple<Android.Net.Uri, string>> vcfUris = ContactProvider.GetVcardUrisFromContactIds(this, contactIds).ToList();
+
+                foreach (var vcf in vcfUris)
+                {
+                    DoTransfer(new VCardTransfer()
+                    {
+                        VcardStream = vcf.Item1.GetInputStreamFromContentURI(ContentResolver),
+                        FileName = vcf.Item2
+                    });
+                }
+            }
         }
-        #endregion
 
         void sendOtherButton_Click(object sender, EventArgs e)
         {
@@ -159,7 +175,7 @@ namespace SecureFileTransfer.Activities
 
         void sendContactsButton_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(ContactListActivity));
+            StartActivityForResult(typeof(ContactListActivity), REQUEST_CONTACTCHOOSER);
         }
 
         void CurrentConnection_Disconnected()
