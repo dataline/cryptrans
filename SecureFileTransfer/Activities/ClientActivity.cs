@@ -164,6 +164,8 @@ namespace SecureFileTransfer.Activities
 
         public override void OnBackPressed()
         {
+            transfers.Abort();
+
             Disconnect();
 
             base.OnBackPressed();
