@@ -46,14 +46,12 @@ namespace SecureFileTransfer.Features
         public Android.Net.Uri PhotoThumbnailUri;
 
         public string DisplayName;
-
+        public string Nickname;
         public string Note;
 
         public AndroidContactDataEntry[] PhoneNumbers;
         public AndroidContactDataEntry[] EmailAddresses;
         public AndroidContactDataEntry[] PostalAddresses;
-
-        public AndroidContactDataEntry Nickname;
 
         public AndroidContactImEntry[] Ims;
         public AndroidContactDataEntry[] Websites;
@@ -138,8 +136,7 @@ namespace SecureFileTransfer.Features
                                                     ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Type };
             var nicknameProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
                                                     ContactsContract.Data.InterfaceConsts.Mimetype,
-                                                    ContactsContract.CommonDataKinds.Nickname.Name,
-                                                    ContactsContract.CommonDataKinds.Nickname.InterfaceConsts.Type };
+                                                    ContactsContract.CommonDataKinds.Nickname.Name };
             var imProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
                                                     ContactsContract.Data.InterfaceConsts.Mimetype,
                                                     ContactsContract.CommonDataKinds.Im.InterfaceConsts.Data,
@@ -241,7 +238,7 @@ namespace SecureFileTransfer.Features
                 } while (addressCursor.MoveToNext());
             }
             if (nicknameCursor.MoveToFirst())
-                contact.Nickname = new AndroidContactDataEntry(nicknameCursor.GetString(2), nicknameCursor.GetString(3));
+                contact.Nickname = nicknameCursor.GetString(2);
             if (imCursor.MoveToFirst())
             {
                 do

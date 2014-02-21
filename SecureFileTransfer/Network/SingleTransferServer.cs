@@ -153,7 +153,7 @@ namespace SecureFileTransfer.Network
                     { 
                         // Transfer von Gegenstelle abgebrochen.
                         AbortCurrentTransfer = true;
-
+                        
                         break;
                     }
                     throw;
