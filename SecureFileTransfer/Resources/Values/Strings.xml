@@ -22,4 +22,5 @@
   <string name="AbortAreYouSure">Are you sure you want to abort this transfer?</string>
   <string name="Yes">Yes</string>
   <string name="No">No</string>
+  <string name="SelectContacts">Select Contacts to send</string>
 </resources>

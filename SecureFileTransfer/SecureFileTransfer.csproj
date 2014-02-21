@@ -61,14 +61,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\ClientActivity.cs" />
+    <Compile Include="Activities\ContactListActivity.cs" />
     <Compile Include="Activities\HomeActivity.cs" />
     <Compile Include="Activities\ServerActivity.cs" />
     <Compile Include="Activities\ServerConnectedActivity.cs" />
+    <Compile Include="Adapters\CellClickManagingAdapter.cs" />
+    <Compile Include="Adapters\ContactsListAdapter.cs" />
     <Compile Include="Adapters\TransfersListAdapter.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
+    <Compile Include="Features\ContactProvider.cs" />
     <Compile Include="Features\ExistingFileTransfer.cs" />
+    <Compile Include="Features\FullNameComparer.cs" />
     <Compile Include="Features\QR.cs" />
+    <Compile Include="Features\StringExtensions.cs" />
     <Compile Include="Features\Transfer.cs" />
     <Compile Include="Features\TransferQueue.cs" />
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />
@@ -118,6 +124,12 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\TransferListCompletedItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ContactListActivity.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ContactItem.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -53,6 +53,8 @@ namespace SecureFileTransfer.Activities
 
             var sendPicturesButton = FindViewById<Button>(Resource.Id.SendPicturesButton);
             sendPicturesButton.Click += sendPicturesButton_Click;
+            var sendContactsButton = FindViewById<Button>(Resource.Id.SendContactsButton);
+            sendContactsButton.Click += sendContactsButton_Click;
             var sendOtherButton = FindViewById<Button>(Resource.Id.SendOtherButton);
             sendOtherButton.Click += sendOtherButton_Click;
 
@@ -153,6 +155,11 @@ namespace SecureFileTransfer.Activities
         void sendOtherButton_Click(object sender, EventArgs e)
         {
             //Network.ClientConnection.CurrentConnection.FileTransferTest();
+        }
+
+        void sendContactsButton_Click(object sender, EventArgs e)
+        {
+            StartActivity(typeof(ContactListActivity));
         }
 
         void CurrentConnection_Disconnected()

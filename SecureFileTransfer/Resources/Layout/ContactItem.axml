@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/CheckBox"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ContactPhoto"
+            android:minHeight="40dp"
+            android:minWidth="40dp"
+            android:maxWidth="40dp"
+            android:maxHeight="40dp"
+            android:layout_marginBottom="6.0dp"
+            android:layout_marginLeft="6.0dp"
+            android:layout_marginTop="6.0dp"
+            android:layout_marginRight="10.0dp" />
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ContactName"
+            android:gravity="center_vertical" />
+    </LinearLayout>
+</LinearLayout>
