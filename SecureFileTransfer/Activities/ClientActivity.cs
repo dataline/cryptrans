@@ -155,16 +155,20 @@ namespace SecureFileTransfer.Activities
             {
                 long[] contactIds = data.GetLongArrayExtra(ContactListActivity.IE_RESULT_SELECTED_CONTACT_IDS);
 
-                List<Tuple<Android.Net.Uri, string>> vcfUris = ContactProvider.GetVcardUrisFromContactIds(this, contactIds).ToList();
+                var stuff = ContactProvider.GetContactInformation(this, contactIds[0].ToString());
 
-                foreach (var vcf in vcfUris)
-                {
-                    DoTransfer(new VCardTransfer()
-                    {
-                        VcardStream = vcf.Item1.GetInputStreamFromContentURI(ContentResolver),
-                        FileName = vcf.Item2
-                    });
-                }
+                Console.WriteLine("Done.");
+
+                //List<Tuple<Android.Net.Uri, string>> vcfUris = ContactProvider.GetVcardUrisFromContactIds(this, contactIds).ToList();
+                //
+                //foreach (var vcf in vcfUris)
+                //{
+                //    DoTransfer(new VCardTransfer()
+                //    {
+                //        VcardStream = vcf.Item1.GetInputStreamFromContentURI(ContentResolver),
+                //        FileName = vcf.Item2
+                //    });
+                //}
             }
         }
 
