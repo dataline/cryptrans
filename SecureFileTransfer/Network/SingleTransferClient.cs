@@ -122,6 +122,8 @@ namespace SecureFileTransfer.Network
                         ((ex as SocketException).SocketErrorCode == SocketError.ConnectionReset || (ex as SocketException).SocketErrorCode == SocketError.Shutdown)))
                     {
                         // Transfer von Gegenstelle abgebrochen.
+                        AbortCurrentTransfer = true;
+
                         break;
                     }
                     throw;

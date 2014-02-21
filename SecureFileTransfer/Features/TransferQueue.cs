@@ -45,6 +45,15 @@ namespace SecureFileTransfer.Features
             if (Queue.Contains(trans))
                 Queue.Remove(trans);
 
+            if (!success)
+            {
+                //FIXME
+                CurrentTransfer = null;
+                Abort();
+
+                return;
+            }
+
             if (Queue.Count > 0)
             {
                 CurrentTransfer = Queue[0];

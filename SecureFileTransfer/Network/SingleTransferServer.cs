@@ -152,6 +152,8 @@ namespace SecureFileTransfer.Network
                     if (AbortCurrentTransfer)
                     { 
                         // Transfer von Gegenstelle abgebrochen.
+                        AbortCurrentTransfer = true;
+
                         break;
                     }
                     throw;
