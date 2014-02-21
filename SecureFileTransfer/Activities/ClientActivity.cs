@@ -47,7 +47,7 @@ namespace SecureFileTransfer.Activities
             var disconnectButton = FindViewById<Button>(Resource.Id.DisconnectButton);
             disconnectButton.Click += (s, e) =>
             {
-                Disconnect();
+                PushedDisconnect();
                 Finish();
             };
 
@@ -157,17 +157,21 @@ namespace SecureFileTransfer.Activities
 
         void CurrentConnection_Disconnected()
         {
-            Disconnect();
+            PushedDisconnect();
 
             Finish();
         }
 
-        public override void OnBackPressed()
+        void PushedDisconnect()
         {
             transfers.Abort();
 
             Disconnect();
+        }
 
+        public override void OnBackPressed()
+        {
+            PushedDisconnect();
             base.OnBackPressed();
         }
 
