@@ -370,7 +370,7 @@ namespace SecureFileTransfer.Features
                     .WithValue(ContactsContract.CommonDataKinds.Nickname.Name, contact.Nickname)
                     .Build());
             }
-            if (contact.Websites != null)
+            if (contact.Ims != null)
             {
                 foreach (var im in contact.Ims)
                 {
@@ -384,7 +384,7 @@ namespace SecureFileTransfer.Features
                         .Build());
                 }
             }
-            if (contact.Ims != null)
+            if (contact.Websites != null)
             {
                 foreach (var website in contact.Websites)
                 {
