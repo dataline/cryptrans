@@ -13,6 +13,10 @@ namespace SecureFileTransfer.Features
 
         public Stream FileStream { get; set; }
 
+        byte[] readBuffer;
+        long readBufferLength;
+        long readBufferOffset;
+
         public override void AppendData(byte[] buf, int length)
         {
             FileStream.Write(buf, 0, length);
@@ -20,13 +24,29 @@ namespace SecureFileTransfer.Features
 
         long readBytes;
 
+        void FillBuffer()
+        {
+            if (readBuffer == null)
+                readBuffer = new byte[Security.AES.BlockSize * 1000];
+
+            if ((readBufferLength = FileStream.Read(readBuffer, 0, readBuffer.Length)) == 0)
+                throw new ReadPastEndException();
+            
+            readBufferOffset = 0;
+        }
+
         public override int GetData(byte[] buf)
         {
-            int n = FileStream.Read(buf, 0, buf.Length);
+            if (readBuffer == null || readBufferOffset >= readBufferLength)
+                FillBuffer();
 
-            if (n == 0)
-                throw new ReadPastEndException();
+            int n = (int)(readBufferLength - readBufferOffset);
+            if (n > buf.Length)
+                n = buf.Length;
 
+            Array.Copy(readBuffer, readBufferOffset, buf, 0, n);
+
+            readBufferOffset += n;
             readBytes += n;
 
             return n;
@@ -85,6 +105,8 @@ namespace SecureFileTransfer.Features
         {
             if (FileStream != null)
                 FileStream.Close();
+            if (readBuffer != null)
+                readBuffer = null;
         }
     }
 
