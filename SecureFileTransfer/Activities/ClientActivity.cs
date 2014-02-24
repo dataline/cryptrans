@@ -16,7 +16,15 @@ using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "")]
+    [Activity(Label = ""),
+    IntentFilter(new string[] { Intent.ActionSend },
+        Categories = new string[] { Intent.CategoryOpenable },
+        DataMimeType = "*/*",
+        Label = "Share with SecureFileTransfer"),
+    IntentFilter(new string[] { Intent.ActionSend },
+        Categories = new string[] { Intent.CategoryDefault },
+        DataMimeType = "text/x-vcard",
+        Label = "Share with SecureFileTransfer")]
     public class ClientActivity : Activity
     {
 
@@ -34,15 +42,16 @@ namespace SecureFileTransfer.Activities
         const int REQUEST_FILECHOOSER = 1;
         const int REQUEST_CONTACTCHOOSER = 2;
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.ClientActivity);
 
-            if (Network.ClientConnection.CurrentConnection == null)
+            if (Network.ClientConnection.CurrentConnection == null && !(await ClientConnectionEstablisher.EstablishClientConnection(this)))
             {
                 Finish();
+                return;
             }
 
             var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);

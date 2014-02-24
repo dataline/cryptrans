@@ -23,7 +23,7 @@ namespace SecureFileTransfer.Activities
             Button sendFilesButton = FindViewById<Button>(Resource.Id.SendFilesButton);
 
             receiveFilesButton.Click += (s, e) => StartActivity(typeof(ServerActivity));
-            sendFilesButton.Click += async (s, e) => await TestClient();
+            sendFilesButton.Click += (s, e) => StartActivity(typeof(ClientActivity));
 
             //testServer.Click += async (s, e) =>
             //{
@@ -54,53 +54,14 @@ namespace SecureFileTransfer.Activities
             //prov.Send(disco);
         }
 
-        async Task TestClient()
+        protected override void OnStart()
         {
-            var options = new ZXing.Mobile.MobileBarcodeScanningOptions()
-            {
-                PossibleFormats = new System.Collections.Generic.List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE }
-            };
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner(this);
-            var result = await scanner.Scan(options);
+            base.OnStart();
 
-            if (result == null)
-                return;
-
-            string resString = result.Text;
-            if (!Features.QR.IsValid(resString))
+            if (Intent.Data != null)
             {
-                ShowInvalidCodeAlert();
-                return;
+                Toast.MakeText(this, "Data received", ToastLength.Long).Show();
             }
-
-            string host, password;
-            int port;
-            Features.QR.GetComponents(resString, out host, out port, out password); 
-            
-            var progressDialog = new ProgressDialog(this)
-            {
-                Indeterminate = true
-            };
-            progressDialog.SetMessage(GetString(Resource.String.Connecting));
-            progressDialog.Show();
-
-            var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
-
-            progressDialog.Dismiss();
-
-            Console.WriteLine("Starting new client for " + resString);
-
-            if (connection != null)
-                StartActivity(typeof(ClientActivity));
-        }
-
-        void ShowInvalidCodeAlert()
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            AlertDialog alert = builder.Create();
-            alert.SetTitle(Resource.String.QRCodeInvalidTitle);
-            alert.SetMessage(GetString(Resource.String.QRCodeInvalid));
-            alert.Show();
         }
     }
 }

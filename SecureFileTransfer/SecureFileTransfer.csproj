@@ -70,6 +70,7 @@
     <Compile Include="Adapters\TransfersListAdapter.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
+    <Compile Include="Features\ClientConnectionEstablisher.cs" />
     <Compile Include="Features\ContactProvider.cs" />
     <Compile Include="Features\Transfers\ContactTransfer.cs" />
     <Compile Include="Features\Transfers\ExistingFileTransfer.cs" />
