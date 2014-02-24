@@ -58,8 +58,6 @@ namespace SecureFileTransfer.Activities
             sendPicturesButton.Click += sendPicturesButton_Click;
             var sendContactsButton = FindViewById<Button>(Resource.Id.SendContactsButton);
             sendContactsButton.Click += sendContactsButton_Click;
-            var sendOtherButton = FindViewById<Button>(Resource.Id.SendOtherButton);
-            sendOtherButton.Click += sendOtherButton_Click;
 
             currentTransferLayout = FindViewById<LinearLayout>(Resource.Id.CurrentTransferLayout);
             currentTransferTitleLabel = FindViewById<TextView>(Resource.Id.CurrentTransferTitleLabel);
@@ -129,7 +127,7 @@ namespace SecureFileTransfer.Activities
             fileChooser.AddCategory(Intent.CategoryOpenable);
             fileChooser.SetAction(Intent.ActionGetContent);
 
-            StartActivityForResult(Intent.CreateChooser(fileChooser, GetString(Resource.String.SelectPictures)), REQUEST_FILECHOOSER);
+            StartActivityForResult(Intent.CreateChooser(fileChooser, GetString(Resource.String.ClientSendFile)), REQUEST_FILECHOOSER);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

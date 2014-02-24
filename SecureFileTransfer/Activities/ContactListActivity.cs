@@ -13,7 +13,7 @@ using SecureFileTransfer.Adapters;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "@string/SelectContacts")]
+    [Activity(Label = "@string/ClientSendContacts")]
     public class ContactListActivity : Activity
     {
         ContactsListAdapter listAdapter;
