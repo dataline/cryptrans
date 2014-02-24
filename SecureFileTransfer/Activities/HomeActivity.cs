@@ -10,7 +10,11 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "@string/ApplicationName", 
+        MainLauncher = true, 
+        Icon = "@drawable/icon",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, 
+        ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class HomeActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)

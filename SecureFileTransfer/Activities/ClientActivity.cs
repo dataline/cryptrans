@@ -16,7 +16,9 @@ using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = ""),
+    [Activity(Label = "",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
+        ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden),
     IntentFilter(new string[] { Intent.ActionSend },
         Categories = new string[] { Intent.CategoryOpenable },
         DataMimeType = "*/*",

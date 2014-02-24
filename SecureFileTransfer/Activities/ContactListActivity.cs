@@ -13,7 +13,9 @@ using SecureFileTransfer.Adapters;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "@string/ClientSendContacts")]
+    [Activity(Label = "@string/ClientSendContacts",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
+        ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class ContactListActivity : Activity
     {
         ContactsListAdapter listAdapter;

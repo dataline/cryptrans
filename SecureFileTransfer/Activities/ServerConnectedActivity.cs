@@ -15,7 +15,9 @@ using SecureFileTransfer.Features;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "")]
+    [Activity(Label = "",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
+        ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class ServerConnectedActivity : Activity
     {
         Adapters.TransfersListAdapter transfersListAdapter;

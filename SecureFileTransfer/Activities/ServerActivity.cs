@@ -14,7 +14,9 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Activities
 {
-    [Activity(Label = "@string/ApplicationName")]
+    [Activity(Label = "@string/ApplicationName",
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
+        ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class ServerActivity : Activity
     {
         ImageView qrContainerView;
