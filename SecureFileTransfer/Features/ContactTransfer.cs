@@ -9,7 +9,6 @@ namespace SecureFileTransfer.Features
     public class ContactTransfer : UnsavedBinaryTransfer
     {
         public string ContactId { get; set; }
-        public Android.Content.Context Context { get; set; }
         public AndroidContact ResultingContact { get; set; }
 
         JsonSerializerSettings JsonSettings
@@ -35,21 +34,16 @@ namespace SecureFileTransfer.Features
             base.PrepareForReading();
         }
 
-        public override void Close()
+        public override void WriteSucceeded()
         {
-            if (!IsReading)
-            {
-                if (Context == null)
-                    throw new NotSupportedException("Context must not be null.");
-                
-                var contactJson = new System.Text.UTF8Encoding().GetString(buffer);
+            if (Context == null)
+                throw new NotSupportedException("Context must not be null.");
 
-                ResultingContact = JsonConvert.DeserializeObject<AndroidContact>(contactJson, JsonSettings);
+            var contactJson = new System.Text.UTF8Encoding().GetString(buffer);
 
-                ContactProvider.ImportContact(Context, ResultingContact);
-            }
+            ResultingContact = JsonConvert.DeserializeObject<AndroidContact>(contactJson, JsonSettings);
 
-            base.Close();
+            ContactProvider.ImportContact(Context, ResultingContact);
         }
     }
 }

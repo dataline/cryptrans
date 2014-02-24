@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Android.Content;
 
 namespace SecureFileTransfer.Features
 {
@@ -70,12 +71,21 @@ namespace SecureFileTransfer.Features
             FileStream = new FileStream(AbsoluteFilePath, FileMode.Create, FileAccess.Write);
         }
 
-        public override void CleanUpAfterWriteAbort()
+        public override void WriteAborted()
         {
             if (File.Exists(AbsoluteFilePath))
             {
                 File.Delete(AbsoluteFilePath);
             }
+        }
+
+        public override void WriteSucceeded()
+        {
+            Intent mediaScanner = new Intent(Intent.ActionMediaScannerScanFile);
+            var uri = Android.Net.Uri.Parse(AbsoluteFilePath);
+
+            mediaScanner.SetData(uri);
+            Context.SendBroadcast(mediaScanner);
         }
 
         public override void Close()

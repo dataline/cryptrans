@@ -116,6 +116,7 @@ namespace SecureFileTransfer.Activities
 
         void DoTransfer(Transfer trans)
         {
+            trans.Context = this;
             transfers.Enqueue(trans);
 
             StartReloadingCurrentTransferView();

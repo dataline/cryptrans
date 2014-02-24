@@ -96,8 +96,7 @@ namespace SecureFileTransfer.Activities
 
         void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)
         {
-            if (srv.CurrentTransfer is ContactTransfer)
-                (srv.CurrentTransfer as ContactTransfer).Context = this;
+            srv.CurrentTransfer.Context = this;
 
             transfersListAdapter.CurrentTransfer = srv.CurrentTransfer;
             transfersListAdapter.CurrentProgress = 0;

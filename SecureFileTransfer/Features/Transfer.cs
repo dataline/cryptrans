@@ -11,13 +11,16 @@ namespace SecureFileTransfer.Features
         public string FileName { get; set; }
         public long FileLength { get; set; }
 
+        public Android.Content.Context Context { get; set; }
+
         public bool IsReading { get; set; }
 
         public abstract void AppendData(byte[] buf);
         public abstract byte[] GetData(int maxLen);
         protected abstract void PrepareForReading();
         protected abstract void PrepareForWriting();
-        public abstract void CleanUpAfterWriteAbort();
+        public abstract void WriteAborted();
+        public abstract void WriteSucceeded();
         public abstract void Close();
 
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)

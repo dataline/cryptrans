@@ -167,9 +167,9 @@ namespace SecureFileTransfer.Network
 
             CurrentTransfer.Close();
             if (AbortCurrentTransfer)
-            {
-                CurrentTransfer.CleanUpAfterWriteAbort();
-            }
+                CurrentTransfer.WriteAborted();
+            else
+                CurrentTransfer.WriteSucceeded();
 
             if (ConnectionSocket != null)
             {
