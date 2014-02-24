@@ -12,6 +12,8 @@ using Android.Widget;
 using Android.Provider;
 using Android.Database;
 using Newtonsoft.Json;
+using System.IO;
+using Java.IO;
 
 namespace SecureFileTransfer.Features
 {
@@ -48,6 +50,8 @@ namespace SecureFileTransfer.Features
         public string DisplayName;
         public string Nickname;
         public string Note;
+
+        public byte[] Photo;
 
         public AndroidContactDataEntry[] PhoneNumbers;
         public AndroidContactDataEntry[] EmailAddresses;
@@ -208,7 +212,10 @@ namespace SecureFileTransfer.Features
                 throw new NotSupportedException("Could not find contact or found multiple instances.");
 
             contact.DisplayName = generalCursor.GetString(1);
-            //TODO: photo
+
+            var photoUri = generalCursor.GetString(2);
+            if (photoUri != null)
+                GetPhoto(ctx, contact, Android.Net.Uri.Parse(photoUri));
 
             List<AndroidContactDataEntry> phoneNumbers = new List<AndroidContactDataEntry>();
             List<AndroidContactDataEntry> emailAddresses = new List<AndroidContactDataEntry>();
@@ -277,6 +284,21 @@ namespace SecureFileTransfer.Features
             noteCursor.Close();
 
             return contact;
+        }
+
+        static void GetPhoto(Context ctx, AndroidContact destination, Android.Net.Uri photoUri)
+        {
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+            const int bufSize = 0x100;
+            byte[] buf = new byte[bufSize];
+            int n;
+            using (Stream fileStream = ctx.ContentResolver.OpenInputStream(photoUri))
+            {
+                while ((n = fileStream.Read(buf, 0, bufSize)) > 0)
+                    byteBuffer.Write(buf, 0, n);
+            }
+
+            destination.Photo = byteBuffer.ToByteArray();
         }
     }
 }
