@@ -93,6 +93,18 @@ namespace SecureFileTransfer.Security
             Connection.WriteRaw(aes.Encrypt(Security.Padding.GetSecurelyPaddedData(buf, Security.AES.BlockSize, forceNullTermination)));
         }
 
+        public void WriteEncryptedSingleBlockFast(byte[] singleBlock, byte[] tempStorage)
+        {
+            aes.Encrypt(singleBlock, tempStorage);
+            Connection.WriteRaw(tempStorage);
+        }
+
+        public void GetEncryptedSingleBlockFast(byte[] destinationBlock, byte[] tempStorage)
+        {
+            Connection.GetRaw(tempStorage);
+            aes.Decrypt(tempStorage, destinationBlock);
+        }
+
         public void GetEncrypted(byte[] buf)
         {
             int toRead = buf.Length;

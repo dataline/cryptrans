@@ -64,19 +64,31 @@ namespace SecureFileTransfer.Security
             return TransformBlocks(buf, decryptor);
         }
 
+        public void Encrypt(byte[] bufIn, byte[] bufOut)
+        {
+            TransformBlocksFast(bufIn, bufOut, encryptor);
+        }
+
+        public void Decrypt(byte[] bufIn, byte[] bufOut)
+        {
+            TransformBlocksFast(bufIn, bufOut, decryptor);
+        }
+
         byte[] TransformBlocks(byte[] buf, ICryptoTransform transformer)
         {
             if (buf.Length % BlockSize != 0)
                 throw new Exception("Buffer is not divisible by Key Size.");
-            int blocks = buf.Length / BlockSize;
             byte[] output = new byte[buf.Length];
 
-            for (int i = 0; i < blocks; i++)
-            {
-                transformer.TransformBlock(buf, i * BlockSize, BlockSize, output, i * BlockSize);
-            }
+            TransformBlocksFast(buf, output, transformer);
 
             return output;
+        }
+
+        void TransformBlocksFast(byte[] bufIn, byte[] bufOut, ICryptoTransform transformer)
+        {
+            for (int i = 0; i < bufIn.Length / BlockSize; i++)
+                transformer.TransformBlock(bufIn, i * BlockSize, BlockSize, bufOut, i * BlockSize);
         }
     }
 }

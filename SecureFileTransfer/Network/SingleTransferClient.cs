@@ -109,6 +109,7 @@ namespace SecureFileTransfer.Network
             currentTransferDataLeft = CurrentTransfer.FileLength;
 
             byte[] buf = new byte[Security.AES.BlockSize];
+            byte[] writeTemp = new byte[Security.AES.BlockSize];
             int n;
 
             while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
@@ -119,7 +120,7 @@ namespace SecureFileTransfer.Network
 
                 try
                 {
-                    Write(buf);
+                    WriteSingleBlockFast(buf, writeTemp);
                 }
                 catch (Exception ex)
                 {

@@ -164,6 +164,26 @@ namespace SecureFileTransfer.Network
             Write(flags);
         }
 
+        /// <summary>
+        /// Schreibt einen verschlüsselten Block ohne Überprüfung und ohne Padding (wesentlich schneller als Write)
+        /// </summary>
+        /// <param name="singleBlock">Block der geschrieben werden soll</param>
+        /// <param name="tempStorage">Zwischenspeicher, der wiederverwendet werden sollte (auch Block-Größe)</param>
+        public void WriteSingleBlockFast(byte[] singleBlock, byte[] tempStorage)
+        {
+            encCtx.WriteEncryptedSingleBlockFast(singleBlock, tempStorage);
+        }
+
+        /// <summary>
+        /// Holt einen verschlüsselten Block ohne Überprüfung und ohne Padding-Entfernung (wesentlich schneller als Get)
+        /// </summary>
+        /// <param name="singleBlock">Ziel für den Datenblock</param>
+        /// <param name="tempStorage">Zwischenspeicher, der wiederverwendet werden sollte (auch Block-Größe)</param>
+        public void GetSingleBlockFast(byte[] singleBlock, byte[] tempStorage)
+        {
+            encCtx.GetEncryptedSingleBlockFast(singleBlock, tempStorage);
+        }
+
         public ServerInformation GetServerInformation()
         {
             byte[] version = new byte[2];

@@ -141,6 +141,7 @@ namespace SecureFileTransfer.Network
             Console.WriteLine("Start receiving file.");
 
             byte[] buf = new byte[Security.AES.BlockSize];
+            byte[] getTemp = new byte[Security.AES.BlockSize];
             int len;
 
             while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
@@ -149,7 +150,7 @@ namespace SecureFileTransfer.Network
 
                 try
                 {
-                    Get(buf);
+                    GetSingleBlockFast(buf, getTemp);
                 }
                 catch (Exception)
                 {
