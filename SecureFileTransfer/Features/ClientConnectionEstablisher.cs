@@ -37,6 +37,8 @@ namespace SecureFileTransfer.Features
             {
                 Indeterminate = true
             };
+            progressDialog.SetCancelable(false);
+            progressDialog.SetCanceledOnTouchOutside(false);
             progressDialog.SetMessage(ctx.GetString(Resource.String.Connecting));
             progressDialog.Show();
 
