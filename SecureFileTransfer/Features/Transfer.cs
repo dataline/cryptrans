@@ -55,12 +55,12 @@ namespace SecureFileTransfer.Features
         {
             string fileType = null;
 
-            if (this is UnsavedBinaryTransfer)
-                fileType = "data";
-            else if (this is ExistingFileTransfer)
+            if (this is ExistingFileTransfer)
                 fileType = "file";
             else if (this is ContactTransfer)
                 fileType = "cont";
+            else if (this is UnsavedBinaryTransfer)
+                fileType = "data";
 
             if (fileType == null)
                 throw new NotSupportedException("Could not find type of transfer.");
