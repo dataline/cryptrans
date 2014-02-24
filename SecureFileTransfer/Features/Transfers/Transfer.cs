@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SecureFileTransfer.Features
+namespace SecureFileTransfer.Features.Transfers
 {
     public abstract class Transfer
     {

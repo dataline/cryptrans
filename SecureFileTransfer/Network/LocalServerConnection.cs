@@ -7,6 +7,7 @@ using SecureFileTransfer.Security;
 using System.Threading.Tasks;
 using SecureFileTransfer.Network.Entities;
 using SecureFileTransfer.Features;
+using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Network
 {

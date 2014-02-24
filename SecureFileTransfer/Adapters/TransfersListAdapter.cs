@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using SecureFileTransfer.Features;
+using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Adapters
 {
@@ -21,6 +22,7 @@ namespace SecureFileTransfer.Adapters
 
         public Transfer CurrentTransfer { get; set; }
         public int CurrentProgress { get; set; }
+        public string CurrentStatusString { get; set; }
 
         public TransfersListAdapter(Activity activity)
         {
@@ -90,7 +92,7 @@ namespace SecureFileTransfer.Adapters
 
             if (isCurrentItem)
             {
-                view.FindViewById<TextView>(Resource.Id.StatusLabel).Text = "Transferring.";
+                view.FindViewById<TextView>(Resource.Id.StatusLabel).Text = CurrentStatusString;
                 view.FindViewById<ProgressBar>(Resource.Id.ProgressBar).Progress = CurrentProgress;
             }
 

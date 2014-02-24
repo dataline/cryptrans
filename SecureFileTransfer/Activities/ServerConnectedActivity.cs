@@ -22,6 +22,8 @@ namespace SecureFileTransfer.Activities
 
         YesNoDialog abortCurrentTransferDialog = null;
 
+        bool statusReloadingHandlerEnabled = false;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -103,23 +105,37 @@ namespace SecureFileTransfer.Activities
 
             transfersListAdapter.NotifyDataSetChanged();
 
-            Handler refreshHandler = new Handler();
-            refreshHandler.PostDelayed(() => ReloadList(refreshHandler), 200);
+            ReloadList();
         }
 
-        void ReloadList(Handler handler)
+        void ReloadList(Handler handler = null, int invokeCount = 1)
         {
+            if (statusReloadingHandlerEnabled && handler == null)
+                return;
             if (Network.LocalServerConnection.CurrentConnection == null)
                 return;
 
+            statusReloadingHandlerEnabled = true;
+
+            if (handler == null)
+                handler = new Handler();
+
             var dc = Network.LocalServerConnection.CurrentConnection.DataConnection;
 
-            if (dc.CurrentTransfer != null)
+            if (dc != null && dc.CurrentTransfer != null)
             {
+                if (invokeCount % 5 == 0)
+                    dc.ReloadBytesPerSecond();
+
                 transfersListAdapter.CurrentProgress = dc.Progress;
+                transfersListAdapter.CurrentStatusString = dc.BytesPerSecond.HumanReadableSizePerSecond();
                 transfersListAdapter.NotifyDataSetChanged();
 
-                handler.PostDelayed(() => ReloadList(handler), 200);
+                handler.PostDelayed(() => ReloadList(handler, invokeCount + 1), 200);
+            }
+            else
+            {
+                statusReloadingHandlerEnabled = false;
             }
         }
 

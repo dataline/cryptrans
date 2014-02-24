@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Android.Content;
 
-namespace SecureFileTransfer.Features
+namespace SecureFileTransfer.Features.Transfers
 {
     public class ExistingFileTransfer : Transfer
     {

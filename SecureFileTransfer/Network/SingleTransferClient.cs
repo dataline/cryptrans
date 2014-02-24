@@ -1,4 +1,5 @@
 ﻿using SecureFileTransfer.Features;
+using SecureFileTransfer.Features.Transfers;
 using SecureFileTransfer.Network.Entities;
 using System;
 using System.Collections.Generic;

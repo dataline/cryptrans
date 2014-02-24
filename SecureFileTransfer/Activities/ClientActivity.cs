@@ -12,6 +12,7 @@ using Android.Widget;
 using System.Threading;
 
 using SecureFileTransfer.Features;
+using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Activities
 {

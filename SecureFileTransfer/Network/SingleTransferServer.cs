@@ -1,4 +1,5 @@
 ﻿using SecureFileTransfer.Features;
+using SecureFileTransfer.Features.Transfers;
 using SecureFileTransfer.Network.Entities;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,16 @@ namespace SecureFileTransfer.Network
 
                 return (int)((1.0f - ((float)currentTransferDataLeft / (float)CurrentTransfer.FileLength)) * 100.0f);
             }
+        }
+
+        public int BytesPerSecond { get; private set; }
+
+        long previousDataRead = 0;
+        public void ReloadBytesPerSecond()
+        {
+            long dataRead = CurrentTransfer.FileLength - currentTransferDataLeft;
+            BytesPerSecond = (int)(dataRead - previousDataRead);
+            previousDataRead = dataRead;
         }
 
         public LocalServerConnection ParentConnection { get; set; }
