@@ -153,7 +153,7 @@ namespace SecureFileTransfer.Features
                                                     ContactsContract.CommonDataKinds.Website.InterfaceConsts.Type };
             var noteProjection = new string[] { ContactsContract.Data.InterfaceConsts.ContactId,
                                                     ContactsContract.Data.InterfaceConsts.Mimetype,
-                                                    ContactsContract.CommonDataKinds.Note.InterfaceConsts.Data1 };
+                                                    ContactsContract.CommonDataKinds.Note.NoteColumnId };
 
             var generalCursor =
                 (ICursor)new CursorLoader(ctx, ContactsContract.Contacts.ContentUri,
@@ -299,6 +299,98 @@ namespace SecureFileTransfer.Features
             }
 
             destination.Photo = byteBuffer.ToByteArray();
+        }
+
+        public static void ImportContact(Context ctx, AndroidContact contact)
+        {
+            List<ContentProviderOperation> ops = new List<ContentProviderOperation>();
+
+            ops.Add(ContentProviderOperation.NewInsert(ContactsContract.RawContacts.ContentUri)
+                .WithValue(ContactsContract.RawContacts.InterfaceConsts.AccountType, null)
+                .WithValue(ContactsContract.RawContacts.InterfaceConsts.AccountName, null)
+                .Build());
+
+            if (contact.DisplayName != null)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.StructuredName.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.StructuredName.DisplayName, contact.DisplayName)
+                    .Build());
+            }
+            if (contact.Photo != null)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Photo.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Photo.PhotoColumnId, contact.Photo)
+                    .Build());
+            }
+            foreach (var phone in contact.PhoneNumbers)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Phone.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Phone.Number, phone.Data)
+                    .WithValue(ContactsContract.CommonDataKinds.Phone.InterfaceConsts.Type, phone.Type)
+                    .Build());
+            }
+            foreach (var email in contact.EmailAddresses)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Email.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Email.Address, email.Data)
+                    .WithValue(ContactsContract.CommonDataKinds.Email.InterfaceConsts.Type, email.Type)
+                    .Build());
+            }
+            foreach (var postal in contact.PostalAddresses)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.StructuredPostal.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.FormattedAddress, postal.Data)
+                    .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Type, postal.Type)
+                    .Build());
+            }
+            if (contact.Nickname != null)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Nickname.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Nickname.Name, contact.Nickname)
+                    .Build());
+            }
+            foreach (var im in contact.Ims)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Im.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Data, im.Data)
+                    .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Type, im.Type)
+                    .WithValue(ContactsContract.CommonDataKinds.Im.Protocol, im.Protocol)
+                    .WithValue(ContactsContract.CommonDataKinds.Im.CustomProtocol, im.CustomProtocol)
+                    .Build());
+            }
+            foreach (var website in contact.Websites)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Website.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Website.Url, website.Data)
+                    .WithValue(ContactsContract.CommonDataKinds.Website.InterfaceConsts.Type, website.Type)
+                    .Build());
+            }
+            if (contact.Note != null)
+            {
+                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Note.ContentItemType)
+                    .WithValue(ContactsContract.CommonDataKinds.Note.NoteColumnId, contact.Note)
+                    .Build());
+            }
+
+            ctx.ContentResolver.ApplyBatch(ContactsContract.Authority, ops);
         }
     }
 }

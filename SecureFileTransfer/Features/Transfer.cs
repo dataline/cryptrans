@@ -11,6 +11,8 @@ namespace SecureFileTransfer.Features
         public string FileName { get; set; }
         public long FileLength { get; set; }
 
+        public bool IsReading { get; set; }
+
         public abstract void AppendData(byte[] buf);
         public abstract byte[] GetData(int maxLen);
         protected abstract void PrepareForReading();
@@ -43,6 +45,7 @@ namespace SecureFileTransfer.Features
                 t.FileLength = req.FileLength;
             }
 
+            t.IsReading = false;
             t.PrepareForWriting();
 
             return t;
@@ -62,6 +65,7 @@ namespace SecureFileTransfer.Features
             if (fileType == null)
                 throw new NotSupportedException("Could not find type of transfer.");
 
+            this.IsReading = true;
             PrepareForReading();
 
             return new Network.Entities.FileTransferRequest()
