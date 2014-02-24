@@ -43,7 +43,7 @@ namespace SecureFileTransfer.Features
     public struct AndroidContact
     {
         [JsonIgnore]
-        public long Id;
+        public string Id;
         [JsonIgnore]
         public Android.Net.Uri PhotoThumbnailUri;
 
@@ -77,7 +77,7 @@ namespace SecureFileTransfer.Features
                 do
                 {
                     var c = new AndroidContact();
-                    c.Id = cursor.GetLong(0);
+                    c.Id = cursor.GetString(0);
                     c.DisplayName = cursor.GetString(1);
 
                     var uri = cursor.GetString(2);
@@ -85,31 +85,6 @@ namespace SecureFileTransfer.Features
                         c.PhotoThumbnailUri = Android.Net.Uri.Parse(uri);
 
                     yield return c;
-                } while (cursor.MoveToNext());
-            }
-
-            cursor.Close();
-        }
-
-        public static IEnumerable<Tuple<Android.Net.Uri, string>> GetVcardUrisFromContactIds(Activity context, long[] ids)
-        {
-            string[] projection = { ContactsContract.Contacts.InterfaceConsts.Id,
-                                      ContactsContract.Contacts.InterfaceConsts.LookupKey, 
-                                      ContactsContract.Contacts.InterfaceConsts.DisplayName };
-
-            var loader = new CursorLoader(context, ContactsContract.Contacts.ContentUri, projection, null, null, null);
-            var cursor = (ICursor)loader.LoadInBackground();
-
-            if (cursor.MoveToFirst())
-            {
-                do
-                {
-                    if (ids.Contains(cursor.GetLong(0)))
-                    {
-                        yield return new Tuple<Android.Net.Uri, string>(
-                            Android.Net.Uri.WithAppendedPath(ContactsContract.Contacts.ContentVcardUri, cursor.GetString(1)),
-                            cursor.GetString(2));
-                    }
                 } while (cursor.MoveToNext());
             }
 

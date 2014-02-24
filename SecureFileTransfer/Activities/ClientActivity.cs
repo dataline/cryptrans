@@ -20,11 +20,11 @@ namespace SecureFileTransfer.Activities
     IntentFilter(new string[] { Intent.ActionSend },
         Categories = new string[] { Intent.CategoryOpenable },
         DataMimeType = "*/*",
-        Label = "Share with SecureFileTransfer"),
+        Label = "@string/ApplicationName"),
     IntentFilter(new string[] { Intent.ActionSend },
         Categories = new string[] { Intent.CategoryDefault },
         DataMimeType = Android.Provider.ContactsContract.Contacts.ContentVcardType,
-        Label = "Share with SecureFileTransfer")]
+        Label = "@string/ApplicationName")]
     public class ClientActivity : Activity
     {
 
@@ -199,47 +199,14 @@ namespace SecureFileTransfer.Activities
 
             if (requestCode == REQUEST_FILECHOOSER)
             {
-                long fileSize;
-                string fileName;
-
-                data.Data.GetMetadataFromContentURI(ContentResolver, out fileSize, out fileName);
-
-                DoTransfer(new ExistingFileTransfer()
-                {
-                    FileStream = data.Data.GetInputStreamFromContentURI(ContentResolver),
-                    FileLength = fileSize,
-                    FileName = fileName
-                });
+                HandleShareFile(data.Data);
             }
             else if (requestCode == REQUEST_CONTACTCHOOSER)
             {
-                long[] contactIds = data.GetLongArrayExtra(ContactListActivity.IE_RESULT_SELECTED_CONTACT_IDS);
+                var contactIds = data.GetStringArrayExtra(ContactListActivity.IE_RESULT_SELECTED_CONTACT_IDS);
 
-                foreach (var contactId in contactIds)
-                {
-                    DoTransfer(new ContactTransfer()
-                    {
-                        Context = this,
-                        ContactId = contactId.ToString()
-                    });
-                }
-
-                //List<Tuple<Android.Net.Uri, string>> vcfUris = ContactProvider.GetVcardUrisFromContactIds(this, contactIds).ToList();
-                //
-                //foreach (var vcf in vcfUris)
-                //{
-                //    DoTransfer(new VCardTransfer()
-                //    {
-                //        VcardStream = vcf.Item1.GetInputStreamFromContentURI(ContentResolver),
-                //        FileName = vcf.Item2
-                //    });
-                //}
+                HandleShareContacts(contactIds);
             }
-        }
-
-        void sendOtherButton_Click(object sender, EventArgs e)
-        {
-            //Network.ClientConnection.CurrentConnection.FileTransferTest();
         }
 
         void sendContactsButton_Click(object sender, EventArgs e)
