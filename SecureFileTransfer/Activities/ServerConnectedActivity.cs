@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using System.Threading;
 using SecureFileTransfer.Dialogs;
+using SecureFileTransfer.Features;
 
 namespace SecureFileTransfer.Activities
 {
@@ -95,6 +96,9 @@ namespace SecureFileTransfer.Activities
 
         void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)
         {
+            if (srv.CurrentTransfer is ContactTransfer)
+                (srv.CurrentTransfer as ContactTransfer).Context = this;
+
             transfersListAdapter.CurrentTransfer = srv.CurrentTransfer;
             transfersListAdapter.CurrentProgress = 0;
 

@@ -39,9 +39,14 @@ namespace SecureFileTransfer.Features
         {
             if (!IsReading)
             {
+                if (Context == null)
+                    throw new NotSupportedException("Context must not be null.");
+                
                 var contactJson = new System.Text.UTF8Encoding().GetString(buffer);
 
                 ResultingContact = JsonConvert.DeserializeObject<AndroidContact>(contactJson, JsonSettings);
+
+                ContactProvider.ImportContact(Context, ResultingContact);
             }
 
             base.Close();
