@@ -30,7 +30,7 @@ namespace SecureFileTransfer.Activities
 
         bool statusReloadingHandlerEnabled = false;
 
-        const int REQUEST_IMAGECHOOSER = 1;
+        const int REQUEST_FILECHOOSER = 1;
         const int REQUEST_CONTACTCHOOSER = 2;
 
         protected override void OnCreate(Bundle bundle)
@@ -124,11 +124,12 @@ namespace SecureFileTransfer.Activities
 
         void sendPicturesButton_Click(object sender, EventArgs e)
         {
-            var imageChooser = new Intent();
-            imageChooser.SetType("image/*");
-            imageChooser.SetAction(Intent.ActionGetContent);
+            var fileChooser = new Intent();
+            fileChooser.SetType("*/*");
+            fileChooser.AddCategory(Intent.CategoryOpenable);
+            fileChooser.SetAction(Intent.ActionGetContent);
 
-            StartActivityForResult(Intent.CreateChooser(imageChooser, GetString(Resource.String.SelectPictures)), REQUEST_IMAGECHOOSER);
+            StartActivityForResult(Intent.CreateChooser(fileChooser, GetString(Resource.String.SelectPictures)), REQUEST_FILECHOOSER);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -138,7 +139,7 @@ namespace SecureFileTransfer.Activities
             if (resultCode != Result.Ok)
                 return;
 
-            if (requestCode == REQUEST_IMAGECHOOSER)
+            if (requestCode == REQUEST_FILECHOOSER)
             {
                 long fileSize;
                 string fileName;
@@ -190,7 +191,8 @@ namespace SecureFileTransfer.Activities
 
         void CurrentConnection_Disconnected()
         {
-            PushedDisconnect();
+            transfers.Abort(false);
+            Disconnect();
 
             Finish();
         }

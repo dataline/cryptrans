@@ -76,13 +76,13 @@ namespace SecureFileTransfer.Features
             }
         }
 
-        public void Abort()
+        public void Abort(bool sendAbort = true)
         {
             Queue.Clear();
 
             if (CurrentTransfer != null)
             {
-                Connection.AbortFileTransfer();
+                Connection.AbortFileTransfer(sendAbort);
             }
 
             CurrentTransfer = null;
