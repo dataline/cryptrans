@@ -249,6 +249,9 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f040009
 			public const int Connecting = 2130968585;
 			
+			// aapt resource value: 0x7f040018
+			public const int ContactFormatStr = 2130968600;
+			
 			// aapt resource value: 0x7f04000f
 			public const int CurrentFileTransferRemainingFormatStr = 2130968591;
 			

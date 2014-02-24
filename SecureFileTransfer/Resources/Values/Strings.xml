@@ -24,4 +24,5 @@
   <string name="No">No</string>
   <string name="SelectContacts">Select Contacts to send</string>
   <string name="Send">Send</string>
+  <string name="ContactFormatStr">{0} (Contact)</string>
 </resources>

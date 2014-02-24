@@ -155,9 +155,14 @@ namespace SecureFileTransfer.Activities
             {
                 long[] contactIds = data.GetLongArrayExtra(ContactListActivity.IE_RESULT_SELECTED_CONTACT_IDS);
 
-                var stuff = ContactProvider.GetContactInformation(this, contactIds[0].ToString());
-
-                Console.WriteLine("Done.");
+                foreach (var contactId in contactIds)
+                {
+                    DoTransfer(new ContactTransfer()
+                    {
+                        Context = this,
+                        ContactId = contactId.ToString()
+                    });
+                }
 
                 //List<Tuple<Android.Net.Uri, string>> vcfUris = ContactProvider.GetVcardUrisFromContactIds(this, contactIds).ToList();
                 //

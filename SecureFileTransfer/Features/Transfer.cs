@@ -30,8 +30,8 @@ namespace SecureFileTransfer.Features
                 case "file":
                     t = new ExistingFileTransfer();
                     break;
-                case "vcard":
-                    t = new VCardTransfer();
+                case "cont":
+                    t = new ContactTransfer();
                     break;
                 default:
                     break;
@@ -56,8 +56,8 @@ namespace SecureFileTransfer.Features
                 fileType = "data";
             else if (this is ExistingFileTransfer)
                 fileType = "file";
-            else if (this is VCardTransfer)
-                fileType = "vcard";
+            else if (this is ContactTransfer)
+                fileType = "cont";
 
             if (fileType == null)
                 throw new NotSupportedException("Could not find type of transfer.");

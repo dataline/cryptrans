@@ -71,6 +71,7 @@
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
     <Compile Include="Features\ContactProvider.cs" />
+    <Compile Include="Features\ContactTransfer.cs" />
     <Compile Include="Features\ExistingFileTransfer.cs" />
     <Compile Include="Features\FullNameComparer.cs" />
     <Compile Include="Features\QR.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Features\Transfer.cs" />
     <Compile Include="Features\TransferQueue.cs" />
     <Compile Include="Features\UnsavedBinaryTransfer.cs" />
-    <Compile Include="Features\VCardTransfer.cs" />
     <Compile Include="Network\ClientConnection.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\ConnectionException.cs" />
