@@ -93,7 +93,7 @@ namespace SecureFileTransfer.Features
 
         public static string GetContactIDFromLookupKey(Context ctx, string lookupKey)
         {
-            var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentLookupUri,
+            var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentUri,
                 new string[] { ContactsContract.Contacts.InterfaceConsts.Id },
                 ContactsContract.Contacts.InterfaceConsts.LookupKey + " = ?",
                 new string[] { lookupKey },
