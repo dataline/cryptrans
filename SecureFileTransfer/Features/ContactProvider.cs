@@ -215,7 +215,7 @@ namespace SecureFileTransfer.Features
 
             var photoUri = generalCursor.GetString(2);
             if (photoUri != null)
-                GetPhoto(ctx, contact, Android.Net.Uri.Parse(photoUri));
+                GetPhoto(ctx, ref contact, Android.Net.Uri.Parse(photoUri));
 
             List<AndroidContactDataEntry> phoneNumbers = new List<AndroidContactDataEntry>();
             List<AndroidContactDataEntry> emailAddresses = new List<AndroidContactDataEntry>();
@@ -286,7 +286,7 @@ namespace SecureFileTransfer.Features
             return contact;
         }
 
-        static void GetPhoto(Context ctx, AndroidContact destination, Android.Net.Uri photoUri)
+        static void GetPhoto(Context ctx, ref AndroidContact destination, Android.Net.Uri photoUri)
         {
             ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
             const int bufSize = 0x100;
