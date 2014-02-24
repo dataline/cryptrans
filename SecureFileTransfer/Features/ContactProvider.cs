@@ -116,6 +116,25 @@ namespace SecureFileTransfer.Features
             cursor.Close();
         }
 
+        public static string GetContactIDFromLookupKey(Context ctx, string lookupKey)
+        {
+            var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentLookupUri,
+                new string[] { ContactsContract.Contacts.InterfaceConsts.Id },
+                ContactsContract.Contacts.InterfaceConsts.LookupKey + " = ?",
+                new string[] { lookupKey },
+                null);
+            var cursor = (ICursor)loader.LoadInBackground();
+
+            string id = null;
+            if (cursor.MoveToFirst())
+            {
+                id = cursor.GetString(0);
+            }
+            cursor.Close();
+
+            return id;
+        }
+
         /// <summary>
         /// Holt unglaublich umständlich Kontaktdaten aus dem Tabellen-Wirrwarr Androids
         /// </summary>

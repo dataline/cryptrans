@@ -23,7 +23,7 @@ namespace SecureFileTransfer.Activities
         Label = "Share with SecureFileTransfer"),
     IntentFilter(new string[] { Intent.ActionSend },
         Categories = new string[] { Intent.CategoryDefault },
-        DataMimeType = "text/x-vcard",
+        DataMimeType = Android.Provider.ContactsContract.Contacts.ContentVcardType,
         Label = "Share with SecureFileTransfer")]
     public class ClientActivity : Activity
     {
@@ -83,6 +83,10 @@ namespace SecureFileTransfer.Activities
             Network.ClientConnection.CurrentConnection.BeginReceiving();
 
             transfers.Connection = Network.ClientConnection.CurrentConnection;
+
+            var uri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
+            if (uri != null)
+                HandleIntentUri(uri, Intent.Type);
         }
 
         void abortButton_Click(object sender, EventArgs e)
@@ -142,6 +146,48 @@ namespace SecureFileTransfer.Activities
             fileChooser.SetAction(Intent.ActionGetContent);
 
             StartActivityForResult(Intent.CreateChooser(fileChooser, GetString(Resource.String.ClientSendFile)), REQUEST_FILECHOOSER);
+        }
+
+        void HandleIntentUri(Android.Net.Uri uri, string type)
+        {
+            if (type == Android.Provider.ContactsContract.Contacts.ContentVcardType)
+            {
+                var lookupKey = uri.LastPathSegment;
+                var contactID = ContactProvider.GetContactIDFromLookupKey(this, lookupKey);
+
+                HandleShareContacts(new string[] { contactID });
+            }
+            else
+            {
+                HandleShareFile(uri);
+            }
+        }
+
+        void HandleShareContacts(string[] ids)
+        {
+            foreach (var id in ids)
+            {
+                DoTransfer(new ContactTransfer()
+                {
+                    Context = this,
+                    ContactId = id
+                });
+            }
+        }
+
+        void HandleShareFile(Android.Net.Uri uri)
+        {
+            long fileSize;
+            string fileName;
+
+            uri.GetMetadataFromContentURI(ContentResolver, out fileSize, out fileName);
+
+            DoTransfer(new ExistingFileTransfer()
+            {
+                FileStream = uri.GetInputStreamFromContentURI(ContentResolver),
+                FileLength = fileSize,
+                FileName = fileName
+            });
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
