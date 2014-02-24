@@ -73,6 +73,7 @@
     <Compile Include="Features\ContactProvider.cs" />
     <Compile Include="Features\ContactTransfer.cs" />
     <Compile Include="Features\ExistingFileTransfer.cs" />
+    <Compile Include="Features\FileSizeExtensions.cs" />
     <Compile Include="Features\FullNameComparer.cs" />
     <Compile Include="Features\QR.cs" />
     <Compile Include="Features\StringExtensions.cs" />

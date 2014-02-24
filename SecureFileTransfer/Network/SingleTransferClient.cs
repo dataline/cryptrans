@@ -31,6 +31,20 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        public int BytesPerSecond { get; private set; }
+
+        long previousDataWritten = 0;
+        /// <summary>
+        /// Diese Methode muss gewissenhaft jede Sekunde ausgeführt werden, sonst gibt es falsche Ergebnisse.
+        /// </summary>
+        /// <returns></returns>
+        public void ReloadBytesPerSecond()
+        {
+            long dataWritten = CurrentTransfer.FileLength - currentTransferDataLeft;
+            BytesPerSecond = (int)(dataWritten - previousDataWritten);
+            previousDataWritten = dataWritten;
+        }
+
         public bool AbortCurrentTransfer { get; set; }
 
 

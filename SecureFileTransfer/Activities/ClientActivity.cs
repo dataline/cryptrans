@@ -80,7 +80,7 @@ namespace SecureFileTransfer.Activities
             transfers.Abort();
         }
 
-        void StartReloadingCurrentTransferView(Handler handler = null)
+        void StartReloadingCurrentTransferView(Handler handler = null, int invokeCount = 1)
         {
             if (statusReloadingHandlerEnabled && handler == null)
                 return;
@@ -98,17 +98,21 @@ namespace SecureFileTransfer.Activities
             }
             else
             {
+                var dataConnection = Network.ClientConnection.CurrentConnection.DataConnection;
+
+                if (invokeCount % 5 == 0 && dataConnection != null)
+                    dataConnection.ReloadBytesPerSecond();
+
                 currentTransferTitleLabel.Text = string.Format(GetString(Resource.String.CurrentFileTransferRemainingFormatStr), transfers.Remaining);
                 currentTransferFileNameField.Text = transfers.CurrentTransfer.FileName;
-                currentTransferStatusField.Text = "Transferring...";
-                currentTransferProgressBar.Progress = Network.ClientConnection.CurrentConnection.DataConnection == null
-                    ? 0 : Network.ClientConnection.CurrentConnection.DataConnection.Progress;
+                currentTransferStatusField.Text = dataConnection == null ? "Preparing..." : dataConnection.BytesPerSecond.HumanReadableSizePerSecond();
+                currentTransferProgressBar.Progress = dataConnection == null ? 0 : dataConnection.Progress;
 
                 abortButton.SetText(transfers.HasQueuedTransfers ? Resource.String.AbortAll : Resource.String.Abort);
 
                 currentTransferLayout.Visibility = ViewStates.Visible;
 
-                handler.PostDelayed(() => StartReloadingCurrentTransferView(handler), 200);
+                handler.PostDelayed(() => StartReloadingCurrentTransferView(handler, invokeCount + 1), 200);
             }
         }
 

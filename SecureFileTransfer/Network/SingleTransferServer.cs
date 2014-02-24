@@ -134,9 +134,10 @@ namespace SecureFileTransfer.Network
                 return;
             }
             SendAccept();
-            ParentConnection.RaiseFileTransferStarted(this);
 
             currentTransferDataLeft = CurrentTransfer.FileLength;
+
+            ParentConnection.RaiseFileTransferStarted(this);
 
             Console.WriteLine("Start receiving file.");
 
