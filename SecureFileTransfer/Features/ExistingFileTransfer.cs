@@ -13,30 +13,23 @@ namespace SecureFileTransfer.Features
 
         public Stream FileStream { get; set; }
 
-        public override void AppendData(byte[] buf)
+        public override void AppendData(byte[] buf, int length)
         {
-            FileStream.Write(buf, 0, buf.Length);
+            FileStream.Write(buf, 0, length);
         }
 
         long readBytes;
 
-        public override byte[] GetData(int maxLen)
+        public override int GetData(byte[] buf)
         {
-            byte[] buf = new byte[maxLen];
-            int n = FileStream.Read(buf, 0, maxLen);
+            int n = FileStream.Read(buf, 0, buf.Length);
 
             if (n == 0)
                 throw new ReadPastEndException();
 
             readBytes += n;
 
-            if (n == maxLen)
-                return buf;
-
-            byte[] fittingBuf = new byte[n];
-            Array.Copy(buf, fittingBuf, n);
-
-            return fittingBuf;
+            return n;
         }
 
         protected override void PrepareForReading()

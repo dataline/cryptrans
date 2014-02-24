@@ -15,8 +15,8 @@ namespace SecureFileTransfer.Features
 
         public bool IsReading { get; set; }
 
-        public abstract void AppendData(byte[] buf);
-        public abstract byte[] GetData(int maxLen);
+        public abstract void AppendData(byte[] buf, int length);
+        public abstract int GetData(byte[] buf);
         protected abstract void PrepareForReading();
         protected abstract void PrepareForWriting();
         public abstract void WriteAborted();

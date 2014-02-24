@@ -33,6 +33,16 @@ namespace SecureFileTransfer.Security
             return result;
         }
 
+        public static void SecurelyPadBufferFromPosition(byte[] buf, int startPosition)
+        {
+            int padLen = buf.Length - startPosition;
+            byte[] randomFilling = new byte[padLen];
+
+            RNG.GetBytes(randomFilling);
+
+            Array.Copy(randomFilling, 0, buf, startPosition, padLen);
+        }
+
         public static byte[] RemovePaddingFromData(byte[] buf)
         {
             int validDataLen = 0;

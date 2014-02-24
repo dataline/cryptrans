@@ -11,33 +11,32 @@ namespace SecureFileTransfer.Features
         long curPtr = 0;
 
 
-        public override void AppendData(byte[] buf)
+        public override void AppendData(byte[] buf, int length)
         {
             if (buffer == null)
                 buffer = new byte[FileLength];
-            if (curPtr + buf.Length > buffer.Length)
+            if (curPtr + length > buffer.Length)
                 throw new NotSupportedException("Tried to write past end of UnsavedBinaryTransfer buffer.");
 
-            Array.Copy(buf, 0, buffer, curPtr, buf.Length);
-            curPtr += buf.Length;
+            Array.Copy(buf, 0, buffer, curPtr, length);
+            curPtr += length;
         }
 
-        public override byte[] GetData(int maxLen)
+        public override int GetData(byte[] buf)
         {
             if (buffer == null)
                 throw new NotSupportedException("Tried to read transfer without preparing it.");
             if (curPtr >= buffer.Length)
                 throw new NotSupportedException("Tried to read past end of UnsavedBinaryTransfer buffer.");
-            int len = maxLen;
+
+            int len = buf.Length;
             if (curPtr + len > buffer.Length)
                 len = buffer.Length - (int)curPtr;
-
-            byte[] buf = new byte[len];
 
             Array.Copy(buffer, curPtr, buf, 0, len);
             curPtr += len;
 
-            return buf;
+            return len;
         }
 
         protected override void PrepareForReading()

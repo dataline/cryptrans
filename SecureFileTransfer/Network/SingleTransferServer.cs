@@ -140,9 +140,13 @@ namespace SecureFileTransfer.Network
 
             Console.WriteLine("Start receiving file.");
 
+            byte[] buf = new byte[Security.AES.BlockSize];
+            int len;
+
             while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
-                byte[] buf = new byte[currentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : currentTransferDataLeft];
+                len = currentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : (int)currentTransferDataLeft;
+
                 try
                 {
                     Get(buf);
@@ -158,9 +162,10 @@ namespace SecureFileTransfer.Network
                     }
                     throw;
                 }
-                CurrentTransfer.AppendData(buf);
 
-                currentTransferDataLeft -= buf.Length;
+                CurrentTransfer.AppendData(buf, len);
+
+                currentTransferDataLeft -= len;
             }
 
             Console.WriteLine("End receiving file.");

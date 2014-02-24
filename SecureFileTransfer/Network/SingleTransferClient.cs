@@ -108,9 +108,14 @@ namespace SecureFileTransfer.Network
 
             currentTransferDataLeft = CurrentTransfer.FileLength;
 
+            byte[] buf = new byte[Security.AES.BlockSize];
+            int n;
+
             while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
-                byte[] buf = CurrentTransfer.GetData(Security.AES.BlockSize);
+                n = CurrentTransfer.GetData(buf);
+                if (n < Security.AES.BlockSize)
+                    Security.Padding.SecurelyPadBufferFromPosition(buf, n);
 
                 try
                 {
