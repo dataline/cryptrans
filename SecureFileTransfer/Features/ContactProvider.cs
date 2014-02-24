@@ -326,32 +326,41 @@ namespace SecureFileTransfer.Features
                     .WithValue(ContactsContract.CommonDataKinds.Photo.PhotoColumnId, contact.Photo)
                     .Build());
             }
-            foreach (var phone in contact.PhoneNumbers)
+            if (contact.PhoneNumbers != null)
             {
-                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
-                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
-                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Phone.ContentItemType)
-                    .WithValue(ContactsContract.CommonDataKinds.Phone.Number, phone.Data)
-                    .WithValue(ContactsContract.CommonDataKinds.Phone.InterfaceConsts.Type, phone.Type)
-                    .Build());
+                foreach (var phone in contact.PhoneNumbers)
+                {
+                    ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                        .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                        .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Phone.ContentItemType)
+                        .WithValue(ContactsContract.CommonDataKinds.Phone.Number, phone.Data)
+                        .WithValue(ContactsContract.CommonDataKinds.Phone.InterfaceConsts.Type, phone.Type)
+                        .Build());
+                }
             }
-            foreach (var email in contact.EmailAddresses)
+            if (contact.EmailAddresses != null)
             {
-                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
-                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
-                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Email.ContentItemType)
-                    .WithValue(ContactsContract.CommonDataKinds.Email.Address, email.Data)
-                    .WithValue(ContactsContract.CommonDataKinds.Email.InterfaceConsts.Type, email.Type)
-                    .Build());
+                foreach (var email in contact.EmailAddresses)
+                {
+                    ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                        .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                        .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Email.ContentItemType)
+                        .WithValue(ContactsContract.CommonDataKinds.Email.Address, email.Data)
+                        .WithValue(ContactsContract.CommonDataKinds.Email.InterfaceConsts.Type, email.Type)
+                        .Build());
+                }
             }
-            foreach (var postal in contact.PostalAddresses)
+            if (contact.PostalAddresses != null)
             {
-                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
-                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
-                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.StructuredPostal.ContentItemType)
-                    .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.FormattedAddress, postal.Data)
-                    .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Type, postal.Type)
-                    .Build());
+                foreach (var postal in contact.PostalAddresses)
+                {
+                    ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                        .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                        .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.StructuredPostal.ContentItemType)
+                        .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.FormattedAddress, postal.Data)
+                        .WithValue(ContactsContract.CommonDataKinds.StructuredPostal.InterfaceConsts.Type, postal.Type)
+                        .Build());
+                }
             }
             if (contact.Nickname != null)
             {
@@ -361,25 +370,31 @@ namespace SecureFileTransfer.Features
                     .WithValue(ContactsContract.CommonDataKinds.Nickname.Name, contact.Nickname)
                     .Build());
             }
-            foreach (var im in contact.Ims)
+            if (contact.Websites != null)
             {
-                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
-                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
-                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Im.ContentItemType)
-                    .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Data, im.Data)
-                    .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Type, im.Type)
-                    .WithValue(ContactsContract.CommonDataKinds.Im.Protocol, im.Protocol)
-                    .WithValue(ContactsContract.CommonDataKinds.Im.CustomProtocol, im.CustomProtocol)
-                    .Build());
+                foreach (var im in contact.Ims)
+                {
+                    ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                        .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                        .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Im.ContentItemType)
+                        .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Data, im.Data)
+                        .WithValue(ContactsContract.CommonDataKinds.Im.InterfaceConsts.Type, im.Type)
+                        .WithValue(ContactsContract.CommonDataKinds.Im.Protocol, im.Protocol)
+                        .WithValue(ContactsContract.CommonDataKinds.Im.CustomProtocol, im.CustomProtocol)
+                        .Build());
+                }
             }
-            foreach (var website in contact.Websites)
+            if (contact.Ims != null)
             {
-                ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
-                    .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
-                    .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Website.ContentItemType)
-                    .WithValue(ContactsContract.CommonDataKinds.Website.Url, website.Data)
-                    .WithValue(ContactsContract.CommonDataKinds.Website.InterfaceConsts.Type, website.Type)
-                    .Build());
+                foreach (var website in contact.Websites)
+                {
+                    ops.Add(ContentProviderOperation.NewInsert(ContactsContract.Data.ContentUri)
+                        .WithValueBackReference(ContactsContract.Data.InterfaceConsts.RawContactId, 0)
+                        .WithValue(ContactsContract.Data.InterfaceConsts.Mimetype, ContactsContract.CommonDataKinds.Website.ContentItemType)
+                        .WithValue(ContactsContract.CommonDataKinds.Website.Url, website.Data)
+                        .WithValue(ContactsContract.CommonDataKinds.Website.InterfaceConsts.Type, website.Type)
+                        .Build());
+                }
             }
             if (contact.Note != null)
             {
