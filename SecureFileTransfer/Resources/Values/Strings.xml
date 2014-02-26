@@ -22,4 +22,9 @@
   <string name="No">No</string>
   <string name="Send">Send</string>
   <string name="ContactFormatStr">{0} (Contact)</string>
+  <string name="SendingCapitals">SENDING</string>
+  <string name="ReceivingCapitals">RECEIVING</string>
+  <string name="ReceivingInfo">To receive contacts and other files, scan this code with the \"Scan Code\" feature on your other device:</string>
+  <string name="ScanCode">Scan Code</string>
+  <string name="PleaseWaitForServerToInitialize">Please wait for the server to initialize.</string>
 </resources>

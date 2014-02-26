@@ -19,21 +19,27 @@ namespace SecureFileTransfer.Network
 
         public event GotConnectionEventHandler GotConnection;
 
-        public static async Task<LocalServer> GetServerAsync()
+        public static async Task<LocalServer> GetServerAsync(CancellationToken ct)
         {
             if (CurrentServer != null)
                 return CurrentServer;
 
-            return await CreateServerAsync();
+            return await CreateServerAsync(ct);
         }
 
-        public static async Task<LocalServer> CreateServerAsync()
+        public static async Task<LocalServer> CreateServerAsync(CancellationToken ct)
         {
             if (LocalServerConnection.CurrentConnection != null)
                 throw new NotSupportedException("There is already a server connection available.");
 
             var srv = new LocalServer();
             await Task.Run(() => srv.EstablishSocket());
+
+            if (ct.IsCancellationRequested)
+            {
+                srv.Dispose();
+                return null;
+            }
 
             CurrentServer = srv;
 

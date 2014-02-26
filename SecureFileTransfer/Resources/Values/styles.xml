@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="menu_text" parent="android:Theme">
+    <item name="android:textColor">@color/text_color</item>
+    <item name="android:shadowColor">@color/text_shadow_color</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">4</item>
+    <item name="android:shadowRadius">2</item>
+  </style>
+  <style name="plain_button" parent="@style/menu_text">
+    <item name="android:background">@color/plain_button_background</item>
+  </style>
+</resources>

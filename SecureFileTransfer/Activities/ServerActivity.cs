@@ -73,11 +73,11 @@ namespace SecureFileTransfer.Activities
 
         public async Task Server()
         {
-            srv = await Network.LocalServer.GetServerAsync();
-
-            qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
-
-            srv.GotConnection += srv_GotConnection;
+            //srv = await Network.LocalServer.GetServerAsync();
+            //
+            //qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
+            //
+            //srv.GotConnection += srv_GotConnection;
         }
 
         void srv_GotConnection(Network.LocalServerConnection connection)

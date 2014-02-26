@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <item name="plain_button_background_normal" type="color">#BB000000</item>
+  <item name="plain_button_background_pressed" type="color">#EE000000</item>
+
+  <item name="text_color" type="color">#DDD</item>
+  <item name="text_shadow_color" type="color">#BB000000</item>
+</resources>

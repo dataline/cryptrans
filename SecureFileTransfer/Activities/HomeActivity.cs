@@ -17,55 +17,96 @@ namespace SecureFileTransfer.Activities
         ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class HomeActivity : Activity
     {
+        ImageView qrContainerView;
+
+        System.Threading.CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
+        Task<Network.LocalServer> getServerTask;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            SetContentView(Resource.Layout.Main);
+            try
+            {
+                SetContentView(Resource.Layout.Main);
+            }
+            catch (InflateException ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                throw;
+            }
 
-            Button receiveFilesButton = FindViewById<Button>(Resource.Id.ReceiveFilesButton);
-            Button sendFilesButton = FindViewById<Button>(Resource.Id.SendFilesButton);
+            qrContainerView = FindViewById<ImageView>(Resource.Id.QRContainerView);
 
-            receiveFilesButton.Click += (s, e) => StartActivity(typeof(ServerActivity));
-            sendFilesButton.Click += (s, e) => StartActivity(typeof(ClientActivity));
+            FindViewById<Button>(Resource.Id.ScanCodeButton).Click += (s, e) => StartActivity(typeof(ClientActivity));
+            FindViewById<Button>(Resource.Id.ConnectManuallyButton).Click += (s, e) =>
+            {
+                var srv = Network.LocalServer.CurrentServer;
 
-            //testServer.Click += async (s, e) =>
-            //{
-            //    Network.LocalServerConnection connection = await Network.LocalServer.WaitForConnectionAsync();
-            //
-            //    AlertDialog.Builder b = new AlertDialog.Builder(this);
-            //    AlertDialog a = b.Create();
-            //    a.SetTitle("Info");
-            //    a.SetMessage("Established connection to client.");
-            //    a.Show();
-            //
-            //};
-            //testClient.Click += async (s, e) =>
-            //{
-            //    Network.ClientConnection connection = await Network.ClientConnection.ConnectToAsync(ipField.Text, Network.LocalServer.Port, connPass.Text);
-            //
-            //    AlertDialog.Builder b = new AlertDialog.Builder(this);
-            //    AlertDialog a = b.Create();
-            //    a.SetTitle("Info");
-            //    a.SetMessage("Established connection to server.");
-            //    a.Show();
-            //};
+                if (srv == null)
+                {
+                    Toast.MakeText(this, Resource.String.PleaseWaitForServerToInitialize, ToastLength.Long)
+                        .Show();
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    AlertDialog info = builder.Create();
 
+                    info.SetTitle(Resource.String.ServerConnectManually);
+                    info.SetMessage(string.Format(GetString(Resource.String.ServerConnectManuallyInfoFormatStr), srv.Address, Network.LocalServer.PublicConnectionPassword));
+                    info.Show();
+                }
+            };
+
+            // Start generation of RSA keys in background (could take up to 10 seconds, we do not want the user to wait too long)
             Security.KeyProvider.StartKeyGeneration();
-
-            //var prov = new Network.TrivialEntityBasedProtocol.TEBPProvider(null);
-            //var disco = new Network.TrivialEntityBasedProtocol.DefaultEntities.DisconnectNotice();
-            //prov.Send(disco);
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             base.OnStart();
 
-            if (Intent.Data != null)
-            {
-                Toast.MakeText(this, "Data received", ToastLength.Long).Show();
-            }
+            await EstablishServer();
+        }
+
+        protected override void OnStop()
+        {
+            DestroyServer();
+
+            base.OnStop();
+        }
+
+        public async Task EstablishServer()
+        {
+            getServerTask = Network.LocalServer.GetServerAsync(cts.Token);
+            var srv = await getServerTask;
+            getServerTask = null;
+
+            if (srv == null)
+                return;
+
+            srv.GotConnection += srv_GotConnection;
+
+            qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
+        }
+
+        public void DestroyServer()
+        {
+            if (getServerTask != null)
+                cts.Cancel();
+
+            if (Network.LocalServer.CurrentServer != null)
+                Network.LocalServer.CurrentServer.Dispose();
+
+            qrContainerView.SetImageBitmap(null);
+        }
+
+        void srv_GotConnection(Network.LocalServerConnection connection)
+        {
+            DestroyServer();
+
+            StartActivity(typeof(ServerConnectedActivity));
         }
     }
 }
