@@ -63,7 +63,6 @@
     <Compile Include="Activities\ClientActivity.cs" />
     <Compile Include="Activities\ContactListActivity.cs" />
     <Compile Include="Activities\HomeActivity.cs" />
-    <Compile Include="Activities\ServerActivity.cs" />
     <Compile Include="Activities\ServerConnectedActivity.cs" />
     <Compile Include="Adapters\CellClickManagingAdapter.cs" />
     <Compile Include="Adapters\ContactsListAdapter.cs" />
@@ -116,9 +115,6 @@
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\ServerActivity.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\ClientActivity.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
