@@ -68,6 +68,7 @@
     <Compile Include="Adapters\ContactsListAdapter.cs" />
     <Compile Include="Adapters\TransfersListAdapter.cs" />
     <Compile Include="Dialogs\AndroidDialog.cs" />
+    <Compile Include="Dialogs\ConnectingDialog.cs" />
     <Compile Include="Dialogs\ConnectManuallyDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Network\Entities\FileTransferResponse.cs" />
     <Compile Include="Network\LocalServer.cs" />
     <Compile Include="Network\LocalServerConnection.cs" />
+    <Compile Include="Network\SingleTransfer.cs" />
     <Compile Include="Network\SingleTransferClient.cs" />
     <Compile Include="Network\SingleTransferServer.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\DeclineResponse.cs" />
@@ -139,6 +141,9 @@
     <AndroidResource Include="Resources\layout\ConnectManuallyDialog.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ConnectingDialog.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -159,6 +164,12 @@
     <AndroidResource Include="Resources\drawable\plain_button_background_normal.xml" />
     <AndroidResource Include="Resources\values\dimens.xml" />
     <AndroidResource Include="Resources\drawable\plain_button_background_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\wlan_anim_1.png" />
+    <AndroidResource Include="Resources\drawable\wlan_anim_2.png" />
+    <AndroidResource Include="Resources\drawable\wlan_anim_3.png" />
+    <AndroidResource Include="Resources\drawable\wlan_anim_4.png" />
+    <AndroidResource Include="Resources\drawable\wlan_anim_5.png" />
+    <AndroidResource Include="Resources\drawable\wlan_anim.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

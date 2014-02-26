@@ -19,20 +19,14 @@ namespace SecureFileTransfer.Features
         /// <param name="port"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Context ctx, string host, int port, string password)
+        public static async Task<bool> EstablishClientConnection(Activity ctx, string host, int port, string password)
         {
-            var progressDialog = new ProgressDialog(ctx)
-            {
-                Indeterminate = true
-            };
-            progressDialog.SetCancelable(false);
-            progressDialog.SetCanceledOnTouchOutside(false);
-            progressDialog.SetMessage(ctx.GetString(Resource.String.Connecting));
-            progressDialog.Show();
+            var connectingDialog = new Dialogs.ConnectingDialog(ctx);
+            connectingDialog.Show("connecting");
 
             var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
 
-            progressDialog.Dismiss();
+            connectingDialog.Dismiss();
 
             return true;
         }
@@ -80,7 +74,7 @@ namespace SecureFileTransfer.Features
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Context ctx, Android.Net.Uri uri)
+        public static async Task<bool> EstablishClientConnection(Activity ctx, Android.Net.Uri uri)
         {
             string host, password;
             int port;

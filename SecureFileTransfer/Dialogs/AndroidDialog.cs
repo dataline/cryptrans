@@ -17,6 +17,8 @@ namespace SecureFileTransfer.Dialogs
         protected Activity context;
         protected int dlgYesResID, dlgNoResID;
 
+        protected const int NoValue = -1;
+
         public enum AndroidDialogResult
         {
             Yes, No
@@ -33,13 +35,15 @@ namespace SecureFileTransfer.Dialogs
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            builder.SetPositiveButton(dlgYesResID, (s, e) => positiveAction());
-            builder.SetNegativeButton(dlgNoResID, (s, e) => negativeAction());
+            if (dlgYesResID != NoValue)
+                builder.SetPositiveButton(dlgYesResID, (s, e) => positiveAction());
+            if (dlgNoResID != NoValue)
+                builder.SetNegativeButton(dlgNoResID, (s, e) => negativeAction());
 
             return builder;
         }
 
-        public void Show(string tag)
+        public virtual void Show(string tag)
         {
             Show(context.FragmentManager, tag);
         }

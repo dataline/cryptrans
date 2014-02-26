@@ -43,7 +43,7 @@ namespace SecureFileTransfer.Activities
 
             scanCodeButton.Click += (s, e) => StartActivity(typeof(ClientActivity));
 
-            // Connect manually dialog:
+            // Connect manually dialog (client side):
             scanCodeButton.LongClick += (s, e) => 
                 new Dialogs.ConnectManuallyDialog(
                     this,
@@ -65,7 +65,7 @@ namespace SecureFileTransfer.Activities
                     }
                 }).Show("connectmanually");
 
-
+            // Connect manually information (server side):
             FindViewById<Button>(Resource.Id.ConnectManuallyButton).Click += (s, e) =>
             {
                 var srv = Network.LocalServer.CurrentServer;

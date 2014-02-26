@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
 {
-    public class SingleTransferServer : Connection
+    public class SingleTransferServer : SingleTransfer<LocalServerConnection>
     {
         public static SingleTransferServer GetServer()
         {
@@ -29,43 +29,10 @@ namespace SecureFileTransfer.Network
             return DoInitialHandshake();
         }
 
-        private SingleTransferServer() { }
-
         public string Address { get; set; }
         public const int Port = LocalServer.Port + 1;
 
-        long currentTransferDataLeft;
-
-        public int Progress
-        {
-            get
-            {
-                if (CurrentTransfer == null)
-                    return 0;
-
-                return (int)((1.0f - ((float)currentTransferDataLeft / (float)CurrentTransfer.FileLength)) * 100.0f);
-            }
-        }
-
-        public int BytesPerSecond { get; private set; }
-
-        long previousDataRead = 0;
-        public void ReloadBytesPerSecond()
-        {
-            long dataRead = CurrentTransfer.FileLength - currentTransferDataLeft;
-            BytesPerSecond = (int)(dataRead - previousDataRead);
-            previousDataRead = dataRead;
-        }
-
-        public LocalServerConnection ParentConnection { get; set; }
-
-        public Transfer CurrentTransfer { get; private set; }
-
-        public bool AbortCurrentTransfer { get; set; }
-
         Socket listenerSocket;
-
-        Thread receiveThread;
 
         void EstablishSocket()
         {
@@ -113,17 +80,6 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
-        public void Abort()
-        {
-            AbortCurrentTransfer = true;
-            if (ConnectionSocket != null)
-            {
-                // Eventuell im Get festhängenden Receive-Thread befreien:
-                ConnectionSocket.Close();
-                ConnectionSocket = null;
-            }
-        }
-
         public void BeginReceiving(Transfer transfer, SecureFileTransfer.Security.AES aes)
         {
             CurrentTransfer = transfer;
@@ -131,8 +87,8 @@ namespace SecureFileTransfer.Network
 
             encCtx = new Security.EncryptionContext(this, aes);
 
-            receiveThread = new Thread(obj => Receive(obj as Security.AES));
-            receiveThread.Start(aes);
+            TransferThread = new Thread(obj => Receive(obj as Security.AES));
+            TransferThread.Start(aes);
         }
 
         private void Receive(Security.AES aes)
@@ -146,7 +102,7 @@ namespace SecureFileTransfer.Network
             }
             SendAccept();
 
-            currentTransferDataLeft = CurrentTransfer.FileLength;
+            CurrentTransferDataLeft = CurrentTransfer.FileLength;
 
             ParentConnection.RaiseFileTransferStarted(this);
 
@@ -156,9 +112,9 @@ namespace SecureFileTransfer.Network
             byte[] getTemp = new byte[Security.AES.BlockSize];
             int len;
 
-            while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
+            while (CurrentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
-                len = currentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : (int)currentTransferDataLeft;
+                len = CurrentTransferDataLeft > Security.AES.BlockSize ? Security.AES.BlockSize : (int)CurrentTransferDataLeft;
 
                 try
                 {
@@ -178,7 +134,7 @@ namespace SecureFileTransfer.Network
 
                 CurrentTransfer.AppendData(buf, len);
 
-                currentTransferDataLeft -= len;
+                CurrentTransferDataLeft -= len;
             }
 
             Console.WriteLine("End receiving file.");
@@ -208,14 +164,12 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            Abort();
-
             if (listenerSocket != null)
                 listenerSocket.Close();
 
-            Console.WriteLine("SingleTransferServer terminated.");
-
             base.Dispose();
+
+            Console.WriteLine("SingleTransferServer terminated.");
         }
     }
 }

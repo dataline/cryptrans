@@ -11,44 +11,8 @@ using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
-    public class SingleTransferClient : Connection
+    public class SingleTransferClient : SingleTransfer<ClientConnection>
     {
-        public Transfer CurrentTransfer { get; private set; }
-
-        public ClientConnection ParentConnection { get; set; }
-
-        long currentTransferDataLeft;
-
-        Thread sendThread;
-
-        public int Progress
-        {
-            get
-            {
-                if (CurrentTransfer == null)
-                    return 0;
-
-                return (int)((1.0f - ((float)currentTransferDataLeft / (float)CurrentTransfer.FileLength)) * 100.0f);
-            }
-        }
-
-        public int BytesPerSecond { get; private set; }
-
-        long previousDataWritten = 0;
-        /// <summary>
-        /// Diese Methode muss gewissenhaft jede Sekunde ausgeführt werden, sonst gibt es falsche Ergebnisse.
-        /// </summary>
-        /// <returns></returns>
-        public void ReloadBytesPerSecond()
-        {
-            long dataWritten = CurrentTransfer.FileLength - currentTransferDataLeft;
-            BytesPerSecond = (int)(dataWritten - previousDataWritten);
-            previousDataWritten = dataWritten;
-        }
-
-        public bool AbortCurrentTransfer { get; set; }
-
-
         public static SingleTransferClient ConnectTo(string hostName, int port)
         {
             var client = new SingleTransferClient();
@@ -61,8 +25,6 @@ namespace SecureFileTransfer.Network
 
             return client;
         }
-
-        protected SingleTransferClient() { }
 
         private void Connect(string host, int port)
         {
@@ -98,19 +60,8 @@ namespace SecureFileTransfer.Network
 
             encCtx = new Security.EncryptionContext(this, aesKey, aesIv);
 
-            sendThread = new Thread(() => TransferSend());
-            sendThread.Start();
-        }
-
-        public void Abort()
-        {
-            AbortCurrentTransfer = true;
-            if (ConnectionSocket != null)
-            {
-                // Eventuell im Send festhängenden Send-Thread befreien:
-                ConnectionSocket.Close();
-                ConnectionSocket = null;
-            }
+            TransferThread = new Thread(() => TransferSend());
+            TransferThread.Start();
         }
 
         private void TransferSend()
@@ -121,13 +72,13 @@ namespace SecureFileTransfer.Network
             if (ASCII.GetString(ok) != CMD_OK)
                 return;
 
-            currentTransferDataLeft = CurrentTransfer.FileLength;
+            CurrentTransferDataLeft = CurrentTransfer.FileLength;
 
             byte[] buf = new byte[Security.AES.BlockSize];
             byte[] writeTemp = new byte[Security.AES.BlockSize];
             int n;
 
-            while (currentTransferDataLeft > 0 && !AbortCurrentTransfer)
+            while (CurrentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
                 n = CurrentTransfer.GetData(buf);
                 if (n < Security.AES.BlockSize)
@@ -150,7 +101,7 @@ namespace SecureFileTransfer.Network
                     throw;
                 }
 
-                currentTransferDataLeft -= buf.Length;
+                CurrentTransferDataLeft -= buf.Length;
             }
 
             CurrentTransfer.Close();
@@ -176,8 +127,6 @@ namespace SecureFileTransfer.Network
 
         public override void Dispose()
         {
-            Abort();
-
             base.Dispose();
 
             Console.WriteLine("SingleTransferClient terminated.");
