@@ -18,10 +18,12 @@ namespace SecureFileTransfer.Features
 {
     public static class QR
     {
-        const string QRStringPrefix = "`?SecureFileTransfer::/";
+        public const string DataScheme = "dltsec";
+        public const string DataSchemeWithSuffix = DataScheme + "://";
+
         public static Android.Graphics.Bitmap Create(string hostName, int port, string connectionPassword)
         {
-            StringBuilder qrString = new StringBuilder(QRStringPrefix);
+            StringBuilder qrString = new StringBuilder(DataSchemeWithSuffix);
             qrString.Append(hostName);
             qrString.Append("/");
             qrString.Append(port);
@@ -35,7 +37,7 @@ namespace SecureFileTransfer.Features
 
         public static bool IsValid(string qrString)
         {
-            if (!qrString.StartsWith(QRStringPrefix))
+            if (!qrString.StartsWith(DataSchemeWithSuffix))
                 return false;
 
             int count = 0;
@@ -45,16 +47,33 @@ namespace SecureFileTransfer.Features
                     count++;
             }
 
-            return count == 3;
+            return count == 4;
         }
 
         public static void GetComponents(string qrString, out string host, out int port, out string password)
         {
             string[] components = qrString.Split('/');
 
-            host = components[1];
-            port = Convert.ToInt32(components[2]);
-            password = components[3];
+            host = components[2];
+            port = Convert.ToInt32(components[3]);
+            password = components[4];
+        }
+
+        public static bool GetComponents(Android.Net.Uri uri, out string host, out int port, out string password)
+        {
+            host = "";
+            port = 0;
+            password = "";
+
+            var pars = uri.PathSegments;
+            if (pars.Count != 2)
+                return false;
+
+            host = uri.Host;
+            port = Convert.ToInt32(pars[0]);
+            password = pars[1];
+
+            return true;
         }
     }
 }

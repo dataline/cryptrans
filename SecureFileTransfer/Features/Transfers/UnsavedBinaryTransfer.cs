@@ -17,7 +17,6 @@ namespace SecureFileTransfer.Features.Transfers
                 buffer = new byte[FileLength];
             if (curPtr + length > buffer.Length)
                 throw new NotSupportedException("Tried to write past end of UnsavedBinaryTransfer buffer.");
-
             Array.Copy(buf, 0, buffer, curPtr, length);
             curPtr += length;
         }

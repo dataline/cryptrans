@@ -10,6 +10,37 @@ namespace SecureFileTransfer.Features
 {
     public static class ClientConnectionEstablisher
     {
+        /// <summary>
+        /// Create connection from host, port and password.
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="host"></param>
+        /// <param name="port"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static async Task<bool> EstablishClientConnection(Context ctx, string host, int port, string password)
+        {
+            var progressDialog = new ProgressDialog(ctx)
+            {
+                Indeterminate = true
+            };
+            progressDialog.SetCancelable(false);
+            progressDialog.SetCanceledOnTouchOutside(false);
+            progressDialog.SetMessage(ctx.GetString(Resource.String.Connecting));
+            progressDialog.Show();
+
+            var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
+
+            progressDialog.Dismiss();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Create connection by presenting in-app QR code scanner.
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
         public static async Task<bool> EstablishClientConnection(Context ctx)
         {
             var options = new ZXing.Mobile.MobileBarcodeScanningOptions()
@@ -33,22 +64,23 @@ namespace SecureFileTransfer.Features
             int port;
             Features.QR.GetComponents(resString, out host, out port, out password);
 
-            var progressDialog = new ProgressDialog(ctx)
-            {
-                Indeterminate = true
-            };
-            progressDialog.SetCancelable(false);
-            progressDialog.SetCanceledOnTouchOutside(false);
-            progressDialog.SetMessage(ctx.GetString(Resource.String.Connecting));
-            progressDialog.Show();
+            return await EstablishClientConnection(ctx, host, port, password);
+        }
 
-            var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
+        /// <summary>
+        /// Create connection from external app (like a QR code scanner)
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static async Task<bool> EstablishClientConnection(Context ctx, Android.Net.Uri uri)
+        {
+            string host, password;
+            int port;
+            if (!Features.QR.GetComponents(uri, out host, out port, out password))
+                return false;
 
-            progressDialog.Dismiss();
-
-            Console.WriteLine("Starting new client for " + resString);
-
-            return true;
+            return await EstablishClientConnection(ctx, host, port, password);
         }
 
         static void ShowInvalidCodeAlert(Context ctx)

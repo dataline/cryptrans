@@ -26,7 +26,10 @@ namespace SecureFileTransfer.Activities
     IntentFilter(new string[] { Intent.ActionSend },
         Categories = new string[] { Intent.CategoryDefault },
         DataMimeType = Android.Provider.ContactsContract.Contacts.ContentVcardType,
-        Label = "@string/ApplicationName")]
+        Label = "@string/ApplicationName"),
+    IntentFilter(new string[] { Intent.ActionView },
+        Categories = new string[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+        DataScheme = Features.QR.DataScheme)]
     public class ClientActivity : Activity
     {
 
@@ -49,6 +52,12 @@ namespace SecureFileTransfer.Activities
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.ClientActivity);
+
+            if (Intent.Scheme == Features.QR.DataScheme)
+            {
+                // Intent from a barcode scanner or something similar
+                await ClientConnectionEstablisher.EstablishClientConnection(this, Intent.Data);
+            }
 
             if (Network.ClientConnection.CurrentConnection == null && !(await ClientConnectionEstablisher.EstablishClientConnection(this)))
             {
@@ -86,6 +95,7 @@ namespace SecureFileTransfer.Activities
 
             transfers.Connection = Network.ClientConnection.CurrentConnection;
 
+            // Handle file transfer intent:
             var uri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
             if (uri != null)
                 HandleIntentUri(uri, Intent.Type);
