@@ -29,7 +29,7 @@ namespace SecureFileTransfer.Adapters
             parentActivity = activity;
         }
 
-        private Transfer GetCompletedTransferForIndex(int index)
+        public Transfer GetCompletedTransferForIndex(int index)
         {
             if (CurrentTransfer != null)
                 index--;

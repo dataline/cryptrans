@@ -65,5 +65,10 @@ namespace SecureFileTransfer.Features.Transfers
         public override void Close()
         {
         }
+
+        public override void OpenPreview(Android.App.Activity androidActivity)
+        {
+            throw new NotImplementedException("This transfer can not be previewed.");
+        }
     }
 }

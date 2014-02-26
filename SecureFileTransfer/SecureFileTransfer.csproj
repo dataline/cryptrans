@@ -157,9 +157,12 @@
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\menu\ContactListMenu.xml" />
     <AndroidResource Include="Resources\drawable\bkg.png" />
-    <AndroidResource Include="Resources\color\plain_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\plain_button_background.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\drawable\plain_button_background_normal.xml" />
+    <AndroidResource Include="Resources\values\dimens.xml" />
+    <AndroidResource Include="Resources\drawable\plain_button_background_pressed.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

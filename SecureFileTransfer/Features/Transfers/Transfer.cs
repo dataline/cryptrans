@@ -23,6 +23,8 @@ namespace SecureFileTransfer.Features.Transfers
         public abstract void WriteSucceeded();
         public abstract void Close();
 
+        public abstract void OpenPreview(Android.App.Activity androidActivity);
+
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)
         {
             Transfer t = null;

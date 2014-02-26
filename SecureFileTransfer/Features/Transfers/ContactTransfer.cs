@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Android.Content;
+using Android.Provider;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,20 @@ namespace SecureFileTransfer.Features.Transfers
 
             ResultingContact = JsonConvert.DeserializeObject<AndroidContact>(contactJson, JsonSettings);
 
-            ContactProvider.ImportContact(Context, ResultingContact);
+            ContactId = ContactProvider.ImportContact(Context, ResultingContact);
+        }
+
+        public override void OpenPreview(Android.App.Activity androidActivity)
+        {
+            if (ContactId != null)
+            {
+                var intent = new Intent(Intent.ActionView);
+                intent.SetDataAndType(
+                    Android.Net.Uri.WithAppendedPath(ContactsContract.Contacts.ContentUri, ContactId),
+                    ContactsContract.Contacts.ContentType);
+
+                androidActivity.StartActivity(intent);
+            }
         }
     }
 }

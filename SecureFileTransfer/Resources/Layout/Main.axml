@@ -20,7 +20,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/ScanCodeButton"
         android:layout_marginTop="16.0dp"
-        android:layout_marginBottom="0.0dp" />
+        android:layout_marginBottom="0.0dp"
+        android:layout_marginLeft="26.0dp"
+        android:layout_marginRight="26.0dp" />
     <TextView
         style="@style/menu_text"
         android:text="@string/ReceivingCapitals"
@@ -57,5 +59,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ServerConnectManually"
         android:layout_marginTop="8.0dp"
-        android:layout_marginBottom="6.0dp" />
+        android:layout_marginBottom="6.0dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp" />
 </LinearLayout>

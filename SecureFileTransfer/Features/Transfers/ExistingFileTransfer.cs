@@ -108,6 +108,13 @@ namespace SecureFileTransfer.Features.Transfers
             if (readBuffer != null)
                 readBuffer = null;
         }
+
+        public override void OpenPreview(Android.App.Activity androidActivity)
+        {
+            var intent = new Intent(Intent.ActionView);
+            intent.SetDataAndType(Android.Net.Uri.Parse("file://" + AbsoluteFilePath), Java.Net.URLConnection.GuessContentTypeFromName(AbsoluteFilePath));
+            androidActivity.StartActivity(intent);
+        }
     }
 
     public class ReadPastEndException : Exception

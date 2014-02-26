@@ -295,7 +295,7 @@ namespace SecureFileTransfer.Features
             destination.Photo = byteBuffer.ToByteArray();
         }
 
-        public static void ImportContact(Context ctx, AndroidContact contact)
+        public static string ImportContact(Context ctx, AndroidContact contact)
         {
             List<ContentProviderOperation> ops = new List<ContentProviderOperation>();
 
@@ -399,7 +399,8 @@ namespace SecureFileTransfer.Features
                     .Build());
             }
 
-            ctx.ContentResolver.ApplyBatch(ContactsContract.Authority, ops);
+            var res = ctx.ContentResolver.ApplyBatch(ContactsContract.Authority, ops);
+            return res[0].Uri.LastPathSegment;
         }
     }
 }

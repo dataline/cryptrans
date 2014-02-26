@@ -30,7 +30,7 @@
   <string name="ScanCode">Scan Code</string>
   <string name="PleaseWaitForServerToInitialize">Please wait for the server to initialize.</string>
   <string name="ScannerOverlayPleaseScan">Point your camera to the code that is shown on the receiving device.</string>
-  <string name="ConnectManuallyInfo">Enter the data from the other device here:</string>
+  <string name="ConnectManuallyInfo">Connect manually:</string>
   <string name="IPAddress">IP Address:</string>
   <string name="Password">Password:</string>
 </resources>

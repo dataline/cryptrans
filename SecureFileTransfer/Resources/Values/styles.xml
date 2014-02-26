@@ -8,7 +8,7 @@
     <item name="android:shadowRadius">2</item>
   </style>
   <style name="plain_button" parent="@style/menu_text">
-    <item name="android:background">@color/plain_button_background</item>
+    <item name="android:background">@drawable/plain_button_background</item>
   </style>
   <style name="main_layout" parent="android:Theme">
     <item name="android:background">@drawable/bkg</item>

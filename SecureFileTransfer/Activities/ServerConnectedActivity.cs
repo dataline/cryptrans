@@ -81,6 +81,11 @@ namespace SecureFileTransfer.Activities
                     });
                 abortCurrentTransferDialog.Show("act");
             }
+            else
+            {
+                var transfer = transfersListAdapter.GetCompletedTransferForIndex(e.Position);
+                transfer.OpenPreview(this);
+            }
         }
 
         void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
