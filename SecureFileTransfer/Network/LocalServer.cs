@@ -13,6 +13,8 @@ namespace SecureFileTransfer.Network
     {
         public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
 
+        public SynchronizationContext UIThreadSyncContext { get; set; }
+
         public static LocalServer CurrentServer { get; private set; }
 
         public delegate void GotConnectionEventHandler(LocalServerConnection connection);
@@ -79,7 +81,9 @@ namespace SecureFileTransfer.Network
                 var conn = new LocalServerConnection(accepted);
 
                 if (conn.DoInitialHandshake() && GotConnection != null)
-                    GotConnection(conn);
+                {
+                    RaiseGotConnection(conn);
+                }
                 else
                 {
                     conn.Dispose();
@@ -89,6 +93,14 @@ namespace SecureFileTransfer.Network
             catch (ObjectDisposedException)
             {
             }
+        }
+
+        void RaiseGotConnection(LocalServerConnection conn)
+        {
+            UIThreadSyncContext.Send(new SendOrPostCallback(state =>
+            {
+                GotConnection(conn);
+            }), null);
         }
 
         public void Dispose()

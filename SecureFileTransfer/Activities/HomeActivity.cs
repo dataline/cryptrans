@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SecureFileTransfer.Activities
 {
@@ -86,6 +87,7 @@ namespace SecureFileTransfer.Activities
             if (srv == null)
                 return;
 
+            srv.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             srv.GotConnection += srv_GotConnection;
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
