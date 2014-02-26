@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/main_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
+        style="@style/menu_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +16,7 @@
         android:layout_marginBottom="7.3dp"
         android:gravity="center_horizontal" />
     <TextView
+        style="@style/menu_text"
         android:text="@string/IncomingFileTransfers"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
@@ -31,6 +34,7 @@
         android:layout_weight="1"
         android:layout_marginTop="6.7dp" />
     <Button
+        style="@style/plain_button"
         android:text="@string/Disconnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

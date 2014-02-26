@@ -29,6 +29,7 @@
         android:layout_marginBottom="4.0dp"
         android:layout_marginRight="4.0dp">
         <TextView
+            style="@style/menu_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

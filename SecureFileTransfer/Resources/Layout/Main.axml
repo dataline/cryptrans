@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/main_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/bkg">
+    android:layout_height="fill_parent">
     <TextView
         style="@style/menu_text"
         android:text="@string/SendingCapitals"
@@ -42,7 +42,6 @@
         android:layout_marginRight="6.0dp"
         android:layout_marginLeft="6.0dp" />
     <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/QRContainerView"

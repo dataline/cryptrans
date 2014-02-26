@@ -33,6 +33,7 @@
             android:layout_marginTop="6.0dp"
             android:layout_marginRight="10.0dp" />
         <TextView
+            style="@style/menu_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

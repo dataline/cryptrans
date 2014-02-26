@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/main_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
+        style="@style/menu_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +16,7 @@
         android:layout_marginBottom="40.0dp"
         android:gravity="center_horizontal" />
     <Button
+        style="@style/plain_button"
         android:text="@string/ClientSendFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +25,7 @@
         android:layout_marginLeft="26.0dp"
         android:layout_marginBottom="12.0dp" />
     <Button
+        style="@style/plain_button"
         android:text="@string/ClientSendContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,12 +62,14 @@
             android:layout_marginBottom="8.0dp"
             android:visibility="invisible">
             <TextView
+                style="@style/menu_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/CurrentTransferTitleLabel"
                 android:gravity="center_horizontal" />
             <TextView
+                style="@style/menu_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,11 +84,13 @@
                 android:progress="0"
                 android:layout_marginRight="0.0dp" />
             <TextView
+                style="@style/menu_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/CurrentTransferStatus" />
             <Button
+                style="@style/plain_button"
                 android:text="@string/Abort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +100,7 @@
                 android:layout_marginRight="16.0dp" />
         </LinearLayout>
         <Button
+            style="@style/plain_button"
             android:text="@string/Disconnect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

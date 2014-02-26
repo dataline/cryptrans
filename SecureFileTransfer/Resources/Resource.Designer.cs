@@ -353,6 +353,9 @@ namespace SecureFileTransfer
 		public partial class Style
 		{
 			
+			// aapt resource value: 0x7f060002
+			public const int main_layout = 2131099650;
+			
 			// aapt resource value: 0x7f060000
 			public const int menu_text = 2131099648;
 			
