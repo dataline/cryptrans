@@ -13,4 +13,7 @@
   <style name="main_layout" parent="android:Theme">
     <item name="android:background">@drawable/bkg</item>
   </style>
+  <style name="scanner_overlay_text" parent="@style/menu_text">
+    <item name="android:background">@color/scanner_overlay_text_background</item>
+  </style>
 </resources>

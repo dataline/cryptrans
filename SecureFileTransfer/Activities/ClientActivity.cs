@@ -47,20 +47,43 @@ namespace SecureFileTransfer.Activities
         const int REQUEST_FILECHOOSER = 1;
         const int REQUEST_CONTACTCHOOSER = 2;
 
+        public const string IE_HOST = "chost";
+        public const string IE_PORT = "cport";
+        public const string IE_PASSWORD = "cpass";
+
         protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.ClientActivity);
 
-            if (Intent.Scheme == Features.QR.DataScheme)
+            // Establish a connection from various sources:
+
+            if (Network.ClientConnection.CurrentConnection == null && 
+                Intent.Scheme == Features.QR.DataScheme && Intent.Data != null)
             {
                 // Intent from a barcode scanner or something similar
                 await ClientConnectionEstablisher.EstablishClientConnection(this, Intent.Data);
             }
 
+            if (Network.ClientConnection.CurrentConnection == null)
+            {
+                var host = Intent.GetStringExtra(IE_HOST);
+                if (host != null)
+                {
+                    // Intent from a source that specifically defines host, port and password
+                    var port = Intent.GetIntExtra(IE_PORT, 0);
+                    var password = Intent.GetStringExtra(IE_PASSWORD);
+                    if (port != 0 && password != null)
+                    {
+                        await ClientConnectionEstablisher.EstablishClientConnection(this, host, port, password);
+                    }
+                }
+            }
+
             if (Network.ClientConnection.CurrentConnection == null && !(await ClientConnectionEstablisher.EstablishClientConnection(this)))
             {
+                // No connection data and could not read a QR code
                 Finish();
                 return;
             }

@@ -3,7 +3,7 @@
   <string name="ApplicationName">SecureFileTransfer</string>
   <string name="ServerQRCodeInformation">Scan this code using SecureFileTransfer on another device to start receiving files:</string>
   <string name="ServerConnectManually">Connect manually</string>
-  <string name="ServerConnectManuallyInfoFormatStr">Enter this data to establish a connection:\n\nIP Address\n{0}\n\nPassword\n{1}</string>
+  <string name="ServerConnectManuallyInfoFormatStr">On the other device, tap and hold the \"Scan Code\" button, then enter this data to establish a connection:\n\nIP Address\n{0}\n\nPassword\n{1}</string>
   <string name="QRCodeInvalidTitle">Invalid Code</string>
   <string name="QRCodeInvalid">The code you scanned was invalid.</string>
   <string name="ReceiveFiles">Receive Files</string>
@@ -20,6 +20,8 @@
   <string name="AbortAreYouSure">Are you sure you want to abort this transfer?</string>
   <string name="Yes">Yes</string>
   <string name="No">No</string>
+  <string name="OK">OK</string>
+  <string name="Cancel">Cancel</string>
   <string name="Send">Send</string>
   <string name="ContactFormatStr">{0} (Contact)</string>
   <string name="SendingCapitals">SENDING</string>
@@ -27,4 +29,8 @@
   <string name="ReceivingInfo">To receive contacts and other files, scan this code with the \"Scan Code\" feature on your other device:</string>
   <string name="ScanCode">Scan Code</string>
   <string name="PleaseWaitForServerToInitialize">Please wait for the server to initialize.</string>
+  <string name="ScannerOverlayPleaseScan">Point your camera to the code that is shown on the receiving device.</string>
+  <string name="ConnectManuallyInfo">Enter the data from the other device here:</string>
+  <string name="IPAddress">IP Address:</string>
+  <string name="Password">Password:</string>
 </resources>

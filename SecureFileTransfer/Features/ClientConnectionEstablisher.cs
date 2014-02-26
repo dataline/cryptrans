@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Widget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,13 +42,19 @@ namespace SecureFileTransfer.Features
         /// </summary>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Context ctx)
+        public static async Task<bool> EstablishClientConnection(Activity ctx)
         {
+            var overlay = ctx.LayoutInflater.Inflate(Resource.Layout.ScannerOverlay, null);
+
             var options = new ZXing.Mobile.MobileBarcodeScanningOptions()
             {
                 PossibleFormats = new System.Collections.Generic.List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE }
             };
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner(ctx);
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner(ctx)
+            {
+                UseCustomOverlay = true,
+                CustomOverlay = overlay
+            };
             var result = await scanner.Scan(options);
 
             if (result == null)

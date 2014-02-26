@@ -39,7 +39,33 @@ namespace SecureFileTransfer.Activities
 
             qrContainerView = FindViewById<ImageView>(Resource.Id.QRContainerView);
 
-            FindViewById<Button>(Resource.Id.ScanCodeButton).Click += (s, e) => StartActivity(typeof(ClientActivity));
+            var scanCodeButton = FindViewById<Button>(Resource.Id.ScanCodeButton);
+
+            scanCodeButton.Click += (s, e) => StartActivity(typeof(ClientActivity));
+
+            // Connect manually dialog:
+            scanCodeButton.LongClick += (s, e) => 
+                new Dialogs.ConnectManuallyDialog(
+                    this,
+                    Resource.String.OK,
+                    Resource.String.Cancel, 
+                    (res, ip, pass) =>
+                {
+                    if (res == Dialogs.AndroidDialog.AndroidDialogResult.Yes)
+                    {
+                        if (ip.Length == 0 || pass.Length == 0)
+                            return;
+
+                        Intent clientIntent = new Intent(this, typeof(ClientActivity));
+                        clientIntent.PutExtra(ClientActivity.IE_HOST, ip)
+                            .PutExtra(ClientActivity.IE_PORT, Network.LocalServer.Port)
+                            .PutExtra(ClientActivity.IE_PASSWORD, pass);
+
+                        StartActivity(clientIntent);
+                    }
+                }).Show("connectmanually");
+
+
             FindViewById<Button>(Resource.Id.ConnectManuallyButton).Click += (s, e) =>
             {
                 var srv = Network.LocalServer.CurrentServer;

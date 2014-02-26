@@ -68,6 +68,8 @@
     <Compile Include="Adapters\CellClickManagingAdapter.cs" />
     <Compile Include="Adapters\ContactsListAdapter.cs" />
     <Compile Include="Adapters\TransfersListAdapter.cs" />
+    <Compile Include="Dialogs\AndroidDialog.cs" />
+    <Compile Include="Dialogs\ConnectManuallyDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
     <Compile Include="Features\ClientConnectionEstablisher.cs" />
@@ -133,6 +135,12 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ContactItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ScannerOverlay.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ConnectManuallyDialog.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

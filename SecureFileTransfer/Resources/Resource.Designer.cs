@@ -47,14 +47,17 @@ namespace SecureFileTransfer
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040004
-			public const int plain_button_background = 2130968580;
+			// aapt resource value: 0x7f040005
+			public const int plain_button_background = 2130968581;
 			
 			// aapt resource value: 0x7f040000
 			public const int plain_button_background_normal = 2130968576;
 			
 			// aapt resource value: 0x7f040001
 			public const int plain_button_background_pressed = 2130968577;
+			
+			// aapt resource value: 0x7f040004
+			public const int scanner_overlay_text_background = 2130968580;
 			
 			// aapt resource value: 0x7f040002
 			public const int text_color = 2130968578;
@@ -97,20 +100,20 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f08000a
 			public const int AbortButton = 2131230730;
 			
-			// aapt resource value: 0x7f08000c
-			public const int CheckBox = 2131230732;
+			// aapt resource value: 0x7f080011
+			public const int CheckBox = 2131230737;
 			
-			// aapt resource value: 0x7f080015
-			public const int ConnectManuallyButton = 2131230741;
+			// aapt resource value: 0x7f080018
+			public const int ConnectManuallyButton = 2131230744;
 			
 			// aapt resource value: 0x7f080000
 			public const int ConnectedToField = 2131230720;
 			
-			// aapt resource value: 0x7f08000e
-			public const int ContactName = 2131230734;
+			// aapt resource value: 0x7f080013
+			public const int ContactName = 2131230739;
 			
-			// aapt resource value: 0x7f08000d
-			public const int ContactPhoto = 2131230733;
+			// aapt resource value: 0x7f080012
+			public const int ContactPhoto = 2131230738;
 			
 			// aapt resource value: 0x7f080007
 			public const int CurrentTransferFileNameField = 2131230727;
@@ -130,26 +133,32 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f08000b
 			public const int DisconnectButton = 2131230731;
 			
-			// aapt resource value: 0x7f08001a
-			public const int FileNameLabel = 2131230746;
+			// aapt resource value: 0x7f08001c
+			public const int FileNameLabel = 2131230748;
 			
-			// aapt resource value: 0x7f08000f
-			public const int ListView = 2131230735;
-			
-			// aapt resource value: 0x7f08001b
-			public const int ProgressBar = 2131230747;
-			
-			// aapt resource value: 0x7f080017
-			public const int QRContainer = 2131230743;
+			// aapt resource value: 0x7f08000e
+			public const int IPAddressField = 2131230734;
 			
 			// aapt resource value: 0x7f080014
-			public const int QRContainerView = 2131230740;
+			public const int ListView = 2131230740;
 			
-			// aapt resource value: 0x7f080011
-			public const int ScanCodeButton = 2131230737;
+			// aapt resource value: 0x7f080010
+			public const int PasswordField = 2131230736;
 			
-			// aapt resource value: 0x7f08001e
-			public const int Send = 2131230750;
+			// aapt resource value: 0x7f08001d
+			public const int ProgressBar = 2131230749;
+			
+			// aapt resource value: 0x7f080019
+			public const int QRContainer = 2131230745;
+			
+			// aapt resource value: 0x7f080017
+			public const int QRContainerView = 2131230743;
+			
+			// aapt resource value: 0x7f080015
+			public const int ScanCodeButton = 2131230741;
+			
+			// aapt resource value: 0x7f080020
+			public const int Send = 2131230752;
 			
 			// aapt resource value: 0x7f080002
 			public const int SendContactsButton = 2131230722;
@@ -157,17 +166,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f080001
 			public const int SendPicturesButton = 2131230721;
 			
-			// aapt resource value: 0x7f08001c
-			public const int StatusLabel = 2131230748;
+			// aapt resource value: 0x7f08001e
+			public const int StatusLabel = 2131230750;
 			
-			// aapt resource value: 0x7f080018
-			public const int TransfersListView = 2131230744;
+			// aapt resource value: 0x7f08001a
+			public const int TransfersListView = 2131230746;
 			
-			// aapt resource value: 0x7f08001d
-			public const int contentFrame = 2131230749;
+			// aapt resource value: 0x7f08001f
+			public const int contentFrame = 2131230751;
 			
-			// aapt resource value: 0x7f080019
-			public const int imageView1 = 2131230745;
+			// aapt resource value: 0x7f08001b
+			public const int imageView1 = 2131230747;
 			
 			// aapt resource value: 0x7f080003
 			public const int linearLayout1 = 2131230723;
@@ -175,17 +184,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f080004
 			public const int linearLayout2 = 2131230724;
 			
+			// aapt resource value: 0x7f08000c
+			public const int textView1 = 2131230732;
+			
+			// aapt resource value: 0x7f08000d
+			public const int textView2 = 2131230733;
+			
+			// aapt resource value: 0x7f08000f
+			public const int textView3 = 2131230735;
+			
 			// aapt resource value: 0x7f080016
-			public const int textView1 = 2131230742;
-			
-			// aapt resource value: 0x7f080010
-			public const int textView2 = 2131230736;
-			
-			// aapt resource value: 0x7f080012
-			public const int textView3 = 2131230738;
-			
-			// aapt resource value: 0x7f080013
-			public const int textView4 = 2131230739;
+			public const int textView4 = 2131230742;
 			
 			static Id()
 			{
@@ -204,31 +213,37 @@ namespace SecureFileTransfer
 			public const int ClientActivity = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int ContactItem = 2130903041;
+			public const int ConnectManuallyDialog = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int ContactListActivity = 2130903042;
+			public const int ContactItem = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Main = 2130903043;
+			public const int ContactListActivity = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int ServerActivity = 2130903044;
+			public const int Main = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int ServerConnectedActivity = 2130903045;
+			public const int ScannerOverlay = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int TransferListCompletedItem = 2130903046;
+			public const int ServerActivity = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int TransferListItem = 2130903047;
+			public const int ServerConnectedActivity = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int zxingscanneractivitylayout = 2130903048;
+			public const int TransferListCompletedItem = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int zxingscannerfragmentlayout = 2130903049;
+			public const int TransferListItem = 2130903049;
+			
+			// aapt resource value: 0x7f03000a
+			public const int zxingscanneractivitylayout = 2130903050;
+			
+			// aapt resource value: 0x7f03000b
+			public const int zxingscannerfragmentlayout = 2130903051;
 			
 			static Layout()
 			{
@@ -271,11 +286,17 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050000
 			public const int ApplicationName = 2131034112;
 			
+			// aapt resource value: 0x7f050015
+			public const int Cancel = 2131034133;
+			
 			// aapt resource value: 0x7f05000c
 			public const int ClientSendContacts = 2131034124;
 			
 			// aapt resource value: 0x7f05000b
 			public const int ClientSendFile = 2131034123;
+			
+			// aapt resource value: 0x7f05001e
+			public const int ConnectManuallyInfo = 2131034142;
 			
 			// aapt resource value: 0x7f05000a
 			public const int ConnectedToFormatStr = 2131034122;
@@ -283,8 +304,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050009
 			public const int Connecting = 2131034121;
 			
-			// aapt resource value: 0x7f050015
-			public const int ContactFormatStr = 2131034133;
+			// aapt resource value: 0x7f050017
+			public const int ContactFormatStr = 2131034135;
 			
 			// aapt resource value: 0x7f05000e
 			public const int CurrentFileTransferRemainingFormatStr = 2131034126;
@@ -292,14 +313,23 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050008
 			public const int Disconnect = 2131034120;
 			
+			// aapt resource value: 0x7f05001f
+			public const int IPAddress = 2131034143;
+			
 			// aapt resource value: 0x7f05000d
 			public const int IncomingFileTransfers = 2131034125;
 			
 			// aapt resource value: 0x7f050013
 			public const int No = 2131034131;
 			
-			// aapt resource value: 0x7f05001a
-			public const int PleaseWaitForServerToInitialize = 2131034138;
+			// aapt resource value: 0x7f050014
+			public const int OK = 2131034132;
+			
+			// aapt resource value: 0x7f050020
+			public const int Password = 2131034144;
+			
+			// aapt resource value: 0x7f05001c
+			public const int PleaseWaitForServerToInitialize = 2131034140;
 			
 			// aapt resource value: 0x7f050005
 			public const int QRCodeInvalid = 2131034117;
@@ -310,23 +340,26 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f050006
 			public const int ReceiveFiles = 2131034118;
 			
-			// aapt resource value: 0x7f050017
-			public const int ReceivingCapitals = 2131034135;
-			
-			// aapt resource value: 0x7f050018
-			public const int ReceivingInfo = 2131034136;
-			
 			// aapt resource value: 0x7f050019
-			public const int ScanCode = 2131034137;
+			public const int ReceivingCapitals = 2131034137;
 			
-			// aapt resource value: 0x7f050014
-			public const int Send = 2131034132;
+			// aapt resource value: 0x7f05001a
+			public const int ReceivingInfo = 2131034138;
+			
+			// aapt resource value: 0x7f05001b
+			public const int ScanCode = 2131034139;
+			
+			// aapt resource value: 0x7f05001d
+			public const int ScannerOverlayPleaseScan = 2131034141;
+			
+			// aapt resource value: 0x7f050016
+			public const int Send = 2131034134;
 			
 			// aapt resource value: 0x7f050007
 			public const int SendFiles = 2131034119;
 			
-			// aapt resource value: 0x7f050016
-			public const int SendingCapitals = 2131034134;
+			// aapt resource value: 0x7f050018
+			public const int SendingCapitals = 2131034136;
 			
 			// aapt resource value: 0x7f050002
 			public const int ServerConnectManually = 2131034114;
@@ -361,6 +394,9 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f060001
 			public const int plain_button = 2131099649;
+			
+			// aapt resource value: 0x7f060003
+			public const int scanner_overlay_text = 2131099651;
 			
 			static Style()
 			{

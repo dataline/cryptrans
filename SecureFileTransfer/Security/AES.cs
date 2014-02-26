@@ -30,7 +30,7 @@ namespace SecureFileTransfer.Security
             {
                 KeySize = KeySize * 8,
                 BlockSize = BlockSize * 8,
-                Padding = PaddingMode.None
+                Padding = PaddingMode.None // Padding is done by Security.Padding
             };
             encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
             decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
@@ -48,7 +48,7 @@ namespace SecureFileTransfer.Security
             {
                 KeySize = KeySize * 8,
                 BlockSize = BlockSize * 8,
-                Padding = PaddingMode.None
+                Padding = PaddingMode.None // Padding is done by Security.Padding
             };
             encryptor = aes.CreateEncryptor(key, iv);
             decryptor = aes.CreateDecryptor(key, iv);

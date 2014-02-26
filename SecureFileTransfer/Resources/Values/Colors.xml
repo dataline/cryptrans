@@ -5,4 +5,6 @@
 
   <item name="text_color" type="color">#DDD</item>
   <item name="text_shadow_color" type="color">#BB000000</item>
+  
+  <item name="scanner_overlay_text_background" type="color">#99000000</item>
 </resources>
