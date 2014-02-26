@@ -22,7 +22,10 @@ namespace SecureFileTransfer.Features
         public static async Task<bool> EstablishClientConnection(Activity ctx, string host, int port, string password)
         {
             var connectingDialog = new Dialogs.ConnectingDialog(ctx);
-            connectingDialog.Show("connecting");
+
+            var fm = ctx.FragmentManager.BeginTransaction();
+            fm.Add(connectingDialog, null);
+            fm.CommitAllowingStateLoss();
 
             var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
 
