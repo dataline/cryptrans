@@ -76,7 +76,7 @@ namespace SecureFileTransfer.Network
         {
             byte[] hello = new byte[5];
             Get(hello);
-            if (ASCII.GetString(hello) != CMD_CONN_MAGIC)
+            if (Encoding.GetString(hello) != CMD_CONN_MAGIC)
                 return false;
 
             ServerInformation si = GetServerInformation();
@@ -92,10 +92,10 @@ namespace SecureFileTransfer.Network
 
             byte[] ok = new byte[2];
             Get(ok);
-            if (ASCII.GetString(ok) != CMD_OK)
+            if (Encoding.GetString(ok) != CMD_OK)
                 return false;
 
-            RemoteName = ASCII.GetString(GetUndefinedLength());
+            RemoteName = Encoding.GetString(GetUndefinedLength());
 
             return true;
 

@@ -55,15 +55,15 @@ namespace SecureFileTransfer.Network
 
             byte[] answer = new byte[2];
             Get(answer);
-            if (ASCII.GetString(answer) != CMD_OK)
+            if (Encoding.GetString(answer) != CMD_OK)
                 return false;
 
             EnableEncryption(EncryptionContext.ConnectionType.Server);
 
-            string password = ASCII.GetString(GetUndefinedLength());
+            string password = Encoding.GetString(GetUndefinedLength());
             if (password != LocalServer.PublicConnectionPassword)
                 return false;
-            RemoteName = ASCII.GetString(GetUndefinedLength());
+            RemoteName = Encoding.GetString(GetUndefinedLength());
 
             SendAccept();
 

@@ -40,7 +40,7 @@ namespace SecureFileTransfer.Network
         {
             byte[] hello = new byte[5];
             Get(hello);
-            if (ASCII.GetString(hello) != CMD_CONN_MAGIC)
+            if (Encoding.GetString(hello) != CMD_CONN_MAGIC)
                 return false;
 
             SendAccept();
@@ -69,7 +69,7 @@ namespace SecureFileTransfer.Network
             SendAccept();
             byte[] ok = new byte[2];
             Get(ok);
-            if (ASCII.GetString(ok) != CMD_OK)
+            if (Encoding.GetString(ok) != CMD_OK)
                 return;
 
             CurrentTransferDataLeft = CurrentTransfer.FileLength;
@@ -93,7 +93,7 @@ namespace SecureFileTransfer.Network
                 catch (Exception ex)
                 {
                     if (!AbortCurrentTransfer &&
-                        !(ex is SocketException && (ex as SocketException).SocketErrorCode == SocketError.Shutdown))
+                        !(ex is SocketException && SocketExceptionIsAbort(ex as SocketException)))
                     {
                         // Connection Failed
                         success = false;
@@ -120,6 +120,11 @@ namespace SecureFileTransfer.Network
             CurrentTransfer = null;
 
             this.Dispose();
+        }
+
+        public bool SocketExceptionIsAbort(SocketException ex)
+        {
+            return ex.SocketErrorCode == SocketError.Shutdown || ex.SocketErrorCode == SocketError.ConnectionReset;
         }
 
         public override void Shutdown()

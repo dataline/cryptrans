@@ -305,7 +305,14 @@ namespace SecureFileTransfer.Activities
 
         void PushedDisconnect()
         {
-            transfers.Abort();
+            try
+            {
+                transfers.Abort();
+            }
+            catch (Exception)
+            {
+                // Unimportant because we are disconnecting anyways.
+            }
 
             Disconnect();
         }

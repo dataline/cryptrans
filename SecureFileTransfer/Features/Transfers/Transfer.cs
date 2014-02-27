@@ -8,6 +8,8 @@ namespace SecureFileTransfer.Features.Transfers
 {
     public abstract class Transfer
     {
+        public const string FolderName = "SecureFileTransfer";
+
         public string FileName { get; set; }
         public long FileLength { get; set; }
 
@@ -86,7 +88,7 @@ namespace SecureFileTransfer.Features.Transfers
             get
             {
                 string storagePath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                string incomingPath = Path.Combine(storagePath, "SecureFileTransfer");
+                string incomingPath = Path.Combine(storagePath, FolderName);
 
                 if (!Directory.Exists(incomingPath))
                 {

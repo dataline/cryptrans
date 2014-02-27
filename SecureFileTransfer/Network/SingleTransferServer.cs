@@ -67,7 +67,7 @@ namespace SecureFileTransfer.Network
             byte[] ok = new byte[2];
             Get(ok);
 
-            if (ASCII.GetString(ok) != CMD_OK)
+            if (Encoding.GetString(ok) != CMD_OK)
                 return false;
 
             Console.WriteLine("SingleTransferServer Connection established.");
@@ -95,7 +95,7 @@ namespace SecureFileTransfer.Network
         {
             byte[] ok = new byte[2];
             Get(ok);
-            if (ASCII.GetString(ok) != CMD_OK)
+            if (Encoding.GetString(ok) != CMD_OK)
             {
                 ParentConnection.SendDecline();
                 return;

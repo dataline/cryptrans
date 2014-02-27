@@ -30,7 +30,7 @@ namespace SecureFileTransfer.Network
             }), null);
         }
 
-        protected Encoding ASCII = new UTF8Encoding(); // war früher ASCII, sollte man mal umbenennen
+        protected Encoding Encoding = System.Text.Encoding.UTF8;
 
         protected EncryptionContext encCtx = null;
 
@@ -94,7 +94,7 @@ namespace SecureFileTransfer.Network
 
         public void WriteRaw(string str)
         {
-            WriteRaw(ASCII.GetBytes(str));
+            WriteRaw(Encoding.GetBytes(str));
         }
 
         public void Get(byte[] buf)
@@ -124,7 +124,7 @@ namespace SecureFileTransfer.Network
         {
             byte[] answer = new byte[2];
             Get(answer);
-            return ASCII.GetString(answer) == CMD_OK;
+            return Encoding.GetString(answer) == CMD_OK;
         }
 
         public byte[] GetUndefinedLength()
@@ -136,7 +136,7 @@ namespace SecureFileTransfer.Network
 
         public string GetUndefinedLengthString()
         {
-            return ASCII.GetString(GetUndefinedLength());
+            return Encoding.GetString(GetUndefinedLength());
         }
 
         public void Write(byte[] buf, bool forceNullTermination = false)
@@ -155,7 +155,7 @@ namespace SecureFileTransfer.Network
 
         public void Write(string str, bool forceNullTermination = false)
         {
-            Write(ASCII.GetBytes(str), forceNullTermination);
+            Write(Encoding.GetBytes(str), forceNullTermination);
         }
 
         public void Write(ServerInformation si)
