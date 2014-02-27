@@ -81,7 +81,9 @@ namespace SecureFileTransfer.Dialogs
 
         public virtual void Show(string tag)
         {
-            Show(context.FragmentManager, tag);
+            var transaction = context.FragmentManager.BeginTransaction();
+            transaction.Add(this, tag);
+            transaction.CommitAllowingStateLoss();
         }
 
         public override void Dismiss()

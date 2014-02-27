@@ -59,10 +59,7 @@ namespace SecureFileTransfer.Features
 
             string resString = result.Text;
             if (!Features.QR.IsValid(resString))
-            {
-                ShowInvalidCodeAlert(ctx);
-                return false;
-            }
+                throw new InvalidQRCodeException();
 
             string host, password;
             int port;
@@ -86,14 +83,9 @@ namespace SecureFileTransfer.Features
 
             return await EstablishClientConnection(ctx, host, port, password);
         }
+    }
 
-        static void ShowInvalidCodeAlert(Context ctx)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-            AlertDialog alert = builder.Create();
-            alert.SetTitle(Resource.String.QRCodeInvalidTitle);
-            alert.SetMessage(ctx.GetString(Resource.String.QRCodeInvalid));
-            alert.Show();
-        }
+    public class InvalidQRCodeException : Exception
+    { 
     }
 }

@@ -11,6 +11,8 @@ namespace SecureFileTransfer.Network
 {
     public abstract class Connection : IDisposable, TrivialEntityBasedProtocol.IConnection
     {
+        const int MicroSecond = 1000000;
+
         public Socket ConnectionSocket { get; protected set; }
 
 
@@ -221,6 +223,14 @@ namespace SecureFileTransfer.Network
         public string Receive()
         {
             return GetUndefinedLengthString();
+        }
+
+        public bool CanSend()
+        {
+            if (ConnectionSocket == null ||
+                !ConnectionSocket.Connected)
+                return false;
+            return ConnectionSocket.Poll(10 * MicroSecond, SelectMode.SelectWrite);
         }
 
         public abstract void Shutdown();

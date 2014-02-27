@@ -13,5 +13,9 @@ namespace SecureFileTransfer.Activities
         {
             Toast.MakeText(ac, resId, ToastLength.Long).Show();
         }
+        public static void ShowToast(this Activity ac, string message)
+        {
+            Toast.MakeText(ac, message, ToastLength.Long).Show();
+        }
     }
 }

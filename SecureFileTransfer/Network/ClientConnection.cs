@@ -22,15 +22,15 @@ namespace SecureFileTransfer.Network
 
         public string ConnectionPassword { get; set; }
 
-        public delegate void FileTransferEndedEventHandler(SingleTransferClient cli, bool success);
+        public delegate void FileTransferEndedEventHandler(SingleTransferClient cli, bool success, bool aborted);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
-        public void RaiseFileTransferEnded(SingleTransferClient cli, bool success)
+        public void RaiseFileTransferEnded(SingleTransferClient cli, bool success, bool aborted)
         {
             UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
                 if (FileTransferEnded != null)
-                    FileTransferEnded(cli, success);
+                    FileTransferEnded(cli, success, aborted);
             }), null);
         }
 
@@ -68,6 +68,7 @@ namespace SecureFileTransfer.Network
             IPEndPoint endPoint = new IPEndPoint(addr, port);
 
             ConnectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ConnectionSocket.NoDelay = true;
             ConnectionSocket.Connect(endPoint);
         }
 

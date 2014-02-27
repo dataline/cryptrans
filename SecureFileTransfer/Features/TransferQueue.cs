@@ -26,6 +26,10 @@ namespace SecureFileTransfer.Features
             }
         }
 
+        public delegate void FileTransferFailedDelegate(Transfer transfer);
+
+        public event FileTransferFailedDelegate FileTransferFailed;
+
         private List<Transfer> Queue = new List<Transfer>();
 
         public Transfer CurrentTransfer { get; private set; }
@@ -40,7 +44,7 @@ namespace SecureFileTransfer.Features
             get { return Queue.Count == 0 ? 0 : Queue.Count - 1; }
         }
 
-        void _connection_FileTransferEnded(SingleTransferClient cli, bool success)
+        void _connection_FileTransferEnded(SingleTransferClient cli, bool success, bool aborted)
         {
             var trans = cli.CurrentTransfer;
             if (Queue.Contains(trans))
@@ -48,7 +52,13 @@ namespace SecureFileTransfer.Features
 
             if (!success)
             {
-                //FIXME
+                if (!aborted)
+                { 
+                    // File Transfer Error
+                    if (FileTransferFailed != null)
+                        FileTransferFailed(trans);
+                }
+
                 CurrentTransfer = null;
                 Abort();
 

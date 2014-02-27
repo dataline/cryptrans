@@ -62,6 +62,7 @@ namespace SecureFileTransfer.Network
             IPEndPoint local = new IPEndPoint(addr, Port);
 
             sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            sock.NoDelay = true;
             sock.Bind(local);
 
             Address = addr.ToString();
@@ -77,6 +78,7 @@ namespace SecureFileTransfer.Network
             try
             {
                 Socket accepted = (ar.AsyncState as Socket).EndAccept(ar);
+                accepted.NoDelay = true;
 
                 var conn = new LocalServerConnection(accepted);
 

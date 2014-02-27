@@ -165,6 +165,10 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
                 throw new ObjectDisposedException(this.ToString(), "The provider was shut down.");
             }
+            if (!Connection.CanSend())
+            {
+                throw new ConnectionBrokenException();
+            }
             if (ent.RequiresAnswer)
             {
                 if (responseDelegate == null)
@@ -182,4 +186,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         }
 
     }
+
+    public class ConnectionBrokenException : Exception
+    { }
 }

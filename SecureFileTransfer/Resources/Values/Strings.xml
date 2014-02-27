@@ -36,7 +36,10 @@
   <string name="ConnectManuallyInfo">Connect manually:</string>
   <string name="IPAddress">IP Address:</string>
   <string name="Password">Password:</string>
+  <string name="OpenHotspotSettings">Open WiFi hotspot settings</string>
   
   <!-- ERRORS -->
   <string name="ErrEstablishServer">The transfer server could not be started. Please check your internet connection.</string>
+  <string name="ErrEstablishClient">Error while trying to establish a connection. Are you connected to the same WiFi hotspot as the receiving device?\n\nYou can also try to enable the WiFi hotspot on your device.</string>
+  <string name="ErrTransferFailedFormatStr">Transfer \"{0}\" failed.</string>
 </resources>

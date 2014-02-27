@@ -356,8 +356,14 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060008
 			public const int Disconnect = 2131099656;
 			
-			// aapt resource value: 0x7f060024
-			public const int ErrEstablishServer = 2131099684;
+			// aapt resource value: 0x7f060026
+			public const int ErrEstablishClient = 2131099686;
+			
+			// aapt resource value: 0x7f060025
+			public const int ErrEstablishServer = 2131099685;
+			
+			// aapt resource value: 0x7f060027
+			public const int ErrTransferFailedFormatStr = 2131099687;
 			
 			// aapt resource value: 0x7f060022
 			public const int IPAddress = 2131099682;
@@ -373,6 +379,9 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f060014
 			public const int OK = 2131099668;
+			
+			// aapt resource value: 0x7f060024
+			public const int OpenHotspotSettings = 2131099684;
 			
 			// aapt resource value: 0x7f060018
 			public const int OpenWifiSettings = 2131099672;

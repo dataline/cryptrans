@@ -14,6 +14,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 {
     public interface IConnection
     {
+        bool CanSend();
         void Send(string str);
         string Receive();
         void Shutdown();

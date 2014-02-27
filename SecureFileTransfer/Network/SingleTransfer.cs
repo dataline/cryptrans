@@ -36,6 +36,9 @@ namespace SecureFileTransfer.Network
         long PreviousDataWritten = 0;
         public void ReloadBytesPerSecond()
         {
+            if (CurrentTransfer == null)
+                return;
+
             long dataWritten = CurrentTransfer.FileLength - CurrentTransferDataLeft;
             BytesPerSecond = (int)(dataWritten - PreviousDataWritten);
             PreviousDataWritten = dataWritten;

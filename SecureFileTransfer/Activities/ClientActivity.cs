@@ -13,6 +13,7 @@ using System.Threading;
 
 using SecureFileTransfer.Features;
 using SecureFileTransfer.Features.Transfers;
+using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Activities
 {
@@ -59,32 +60,20 @@ namespace SecureFileTransfer.Activities
 
             // Establish a connection from various sources:
 
-            if (Network.ClientConnection.CurrentConnection == null && 
-                Intent.Scheme == Features.QR.DataScheme && Intent.Data != null)
+            try
             {
-                // Intent from a barcode scanner or something similar
-                await ClientConnectionEstablisher.EstablishClientConnection(this, Intent.Data);
+                if (!await InitializeConnection())
+                    return;
             }
-
-            if (Network.ClientConnection.CurrentConnection == null)
+            catch (Exception ex)
             {
-                var host = Intent.GetStringExtra(IE_HOST);
-                if (host != null)
-                {
-                    // Intent from a source that specifically defines host, port and password
-                    var port = Intent.GetIntExtra(IE_PORT, 0);
-                    var password = Intent.GetStringExtra(IE_PASSWORD);
-                    if (port != 0 && password != null)
-                    {
-                        await ClientConnectionEstablisher.EstablishClientConnection(this, host, port, password);
-                    }
-                }
-            }
+                this.HandleEx(ex, true);
 
-            if (Network.ClientConnection.CurrentConnection == null && !(await ClientConnectionEstablisher.EstablishClientConnection(this)))
-            {
-                // No connection data and could not read a QR code
-                Finish();
+                // Do not show dialog when the QR code was invalid.
+                if (ex is InvalidQRCodeException)
+                    InvalidQRCode();
+                else
+                    ConnectionFailed();
                 return;
             }
 
@@ -112,16 +101,73 @@ namespace SecureFileTransfer.Activities
             abortButton = FindViewById<Button>(Resource.Id.AbortButton);
             abortButton.Click += abortButton_Click;
 
+            // Handle file transfer intent:
+            var uri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
+            if (uri != null)
+                HandleIntentUri(uri, Intent.Type);
+        }
+
+        async Task<bool> InitializeConnection()
+        {
+            if (Network.ClientConnection.CurrentConnection == null &&
+                Intent.Scheme == Features.QR.DataScheme && Intent.Data != null)
+            {
+                // Intent from a barcode scanner or something similar
+                await ClientConnectionEstablisher.EstablishClientConnection(this, Intent.Data);
+            }
+
+            if (Network.ClientConnection.CurrentConnection == null)
+            {
+                var host = Intent.GetStringExtra(IE_HOST);
+                if (host != null)
+                {
+                    // Intent from a source that specifically defines host, port and password
+                    var port = Intent.GetIntExtra(IE_PORT, 0);
+                    var password = Intent.GetStringExtra(IE_PASSWORD);
+                    if (port != 0 && password != null)
+                    {
+                        await ClientConnectionEstablisher.EstablishClientConnection(this, host, port, password);
+                    }
+                }
+            }
+
+            // If no connection was established, use CCE to read QR code
+            if (Network.ClientConnection.CurrentConnection == null && !await ClientConnectionEstablisher.EstablishClientConnection(this))
+                return false;
+
             Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
             Network.ClientConnection.CurrentConnection.BeginReceiving();
 
             transfers.Connection = Network.ClientConnection.CurrentConnection;
+            transfers.FileTransferFailed += transfers_FileTransferFailed;
 
-            // Handle file transfer intent:
-            var uri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
-            if (uri != null)
-                HandleIntentUri(uri, Intent.Type);
+            return true;
+        }
+
+        void transfers_FileTransferFailed(Transfer transfer)
+        {
+            this.ShowToast(string.Format(GetString(Resource.String.ErrTransferFailedFormatStr), transfer.FileName));
+        }
+
+        void ConnectionFailed()
+        {
+            new Dialogs.ConnectionFailedDialog(this, result =>
+            {
+                if (result == Dialogs.AndroidDialog.AndroidDialogResult.No)
+                {
+                    // Tapped on "Open hotspot settings"
+                    var intent = new Intent(Android.Provider.Settings.ActionWirelessSettings);
+                    StartActivity(intent);
+                }
+
+                Finish();
+            }).Show("connectionfailed");
+        }
+
+        void InvalidQRCode()
+        {
+            new Dialogs.InvalidQRCodeDialog(this, result => Finish()).Show("invalidqr");
         }
 
         void abortButton_Click(object sender, EventArgs e)

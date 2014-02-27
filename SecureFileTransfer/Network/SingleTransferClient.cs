@@ -78,6 +78,8 @@ namespace SecureFileTransfer.Network
             byte[] writeTemp = new byte[Security.AES.BlockSize];
             int n;
 
+            bool success = true;
+
             while (CurrentTransferDataLeft > 0 && !AbortCurrentTransfer)
             {
                 n = CurrentTransfer.GetData(buf);
@@ -90,15 +92,15 @@ namespace SecureFileTransfer.Network
                 }
                 catch (Exception ex)
                 {
-                    if (AbortCurrentTransfer || (ex is SocketException &&
-                        ((ex as SocketException).SocketErrorCode == SocketError.ConnectionReset || (ex as SocketException).SocketErrorCode == SocketError.Shutdown)))
+                    if (!AbortCurrentTransfer &&
+                        !(ex is SocketException && (ex as SocketException).SocketErrorCode == SocketError.Shutdown))
                     {
-                        // Transfer von Gegenstelle abgebrochen.
-                        AbortCurrentTransfer = true;
-
-                        break;
+                        // Connection Failed
+                        success = false;
+                        this.HandleEx(ex, true);
                     }
-                    throw;
+                    AbortCurrentTransfer = true;
+                    break;
                 }
 
                 CurrentTransferDataLeft -= buf.Length;
@@ -113,7 +115,7 @@ namespace SecureFileTransfer.Network
             }
 
 
-            ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer);
+            ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer, AbortCurrentTransfer ? success : false);
 
             CurrentTransfer = null;
 

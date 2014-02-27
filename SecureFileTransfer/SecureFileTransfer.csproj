@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\ConnectionFailedDialog.cs" />
+    <Compile Include="Dialogs\InvalidQRCodeDialog.cs" />
     <Compile Include="Features\ActivityExtensions.cs" />
     <Compile Include="Activities\ClientActivity.cs" />
     <Compile Include="Activities\ContactListActivity.cs" />
