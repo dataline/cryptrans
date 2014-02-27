@@ -75,6 +75,8 @@
     <Compile Include="Dialogs\ConnectManuallyDialog.cs" />
     <Compile Include="Dialogs\NoWifiDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
+    <Compile Include="Network\WiFiDirect\PeerListListener.cs" />
+    <Compile Include="Network\WiFiDirect\WifiActionListener.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />
     <Compile Include="Features\ClientConnectionEstablisher.cs" />
     <Compile Include="Features\ConnectivityTester.cs" />
@@ -111,6 +113,8 @@
     <Compile Include="Network\TrivialEntityBasedProtocol\Request.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Response.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\TEBPProvider.cs" />
+    <Compile Include="Network\WiFiDirect\P2PManager.cs" />
+    <Compile Include="Network\WiFiDirect\WiFiDirectBroadcastReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AES.cs" />

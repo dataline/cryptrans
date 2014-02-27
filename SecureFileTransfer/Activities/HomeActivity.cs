@@ -42,6 +42,14 @@ namespace SecureFileTransfer.Activities
                 throw;
             }
 
+            Network.WiFiDirect.P2PManager.Initialize(this);
+            var peers = Network.WiFiDirect.P2PManager.GetPeersAsync().Result;
+            foreach (var p in peers)
+            {
+                Console.WriteLine(p.PrimaryDeviceType);
+            }
+            return;
+
             qrContainerView = FindViewById<ImageView>(Resource.Id.QRContainerView);
 
             var scanCodeButton = FindViewById<Button>(Resource.Id.ScanCodeButton);
