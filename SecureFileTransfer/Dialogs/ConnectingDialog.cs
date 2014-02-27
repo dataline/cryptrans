@@ -24,9 +24,7 @@ namespace SecureFileTransfer.Dialogs
             var builder = BuildDialog(null, null);
             builder.SetView(view);
 
-            var dialog = builder.Create();
-            dialog.SetCancelable(false);
-            dialog.SetCanceledOnTouchOutside(false);
+            var dialog = BuildFinishedDialog(builder);
 
             ((AnimationDrawable)animationView.Drawable).Start();
 

@@ -9,6 +9,9 @@ using Android.OS;
 using System.Threading.Tasks;
 using System.Threading;
 
+using SecureFileTransfer.Features;
+using Android.Provider;
+
 namespace SecureFileTransfer.Activities
 {
     [Activity(Label = "@string/ApplicationName", 
@@ -22,6 +25,8 @@ namespace SecureFileTransfer.Activities
 
         System.Threading.CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
         Task<Network.LocalServer> getServerTask;
+
+        Dialogs.AndroidDialog currentDialog = null;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -72,8 +77,7 @@ namespace SecureFileTransfer.Activities
 
                 if (srv == null)
                 {
-                    Toast.MakeText(this, Resource.String.PleaseWaitForServerToInitialize, ToastLength.Long)
-                        .Show();
+                    this.ShowToast(Resource.String.PleaseWaitForServerToInitialize);
                 }
                 else
                 {
@@ -94,18 +98,34 @@ namespace SecureFileTransfer.Activities
         {
             base.OnStart();
 
-            await EstablishServer();
+            try
+            {
+                await EstablishServer();
+            }
+            catch (Exception)
+            {
+                this.ShowToast(Resource.String.ErrEstablishServer);
+            }
         }
 
         protected override void OnStop()
         {
             DestroyServer();
 
+            if (currentDialog != null)
+            {
+                currentDialog.Dismiss();
+                currentDialog = null;
+            }
+
             base.OnStop();
         }
 
         public async Task EstablishServer()
         {
+            if (!CheckWifi())
+                return;
+
             getServerTask = Network.LocalServer.GetServerAsync(cts.Token);
             var srv = await getServerTask;
             getServerTask = null;
@@ -124,8 +144,15 @@ namespace SecureFileTransfer.Activities
             if (getServerTask != null)
                 cts.Cancel();
 
-            if (Network.LocalServer.CurrentServer != null)
-                Network.LocalServer.CurrentServer.Dispose();
+            try
+            {
+                if (Network.LocalServer.CurrentServer != null)
+                    Network.LocalServer.CurrentServer.Dispose();
+            }
+            catch (Exception ex)
+            {
+                this.HandleEx(ex);
+            }
 
             qrContainerView.SetImageBitmap(null);
         }
@@ -135,6 +162,35 @@ namespace SecureFileTransfer.Activities
             DestroyServer();
 
             StartActivity(typeof(ServerConnectedActivity));
+        }
+
+        bool CheckWifi()
+        {
+            if (!Features.ConnectivityTester.HasWifi(this))
+            {
+                currentDialog = new Dialogs.NoWifiDialog(this);
+                currentDialog.ShowUntil(() => Features.ConnectivityTester.HasWifi(this),
+                async (res) =>
+                { 
+                    // Tapped on Retry
+                    if (res)
+                        await EstablishServer();
+                },
+                (res) =>
+                {
+                    // Tapped on "Open WLAN settings"
+                    var wifiIntent = new Intent(Settings.ActionWifiSettings);
+                    StartActivity(wifiIntent);
+                },
+                () => 
+                {
+                    currentDialog = null;
+                }, false, "nowifi");
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

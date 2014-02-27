@@ -40,7 +40,7 @@ namespace SecureFileTransfer.Dialogs
 
             builder.SetView(view);
 
-            return builder.Create();
+            return BuildFinishedDialog(builder);
         }
     }
 }

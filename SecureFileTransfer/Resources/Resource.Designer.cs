@@ -338,8 +338,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f06000b
 			public const int ClientSendFile = 2131099659;
 			
-			// aapt resource value: 0x7f06001e
-			public const int ConnectManuallyInfo = 2131099678;
+			// aapt resource value: 0x7f060021
+			public const int ConnectManuallyInfo = 2131099681;
 			
 			// aapt resource value: 0x7f06000a
 			public const int ConnectedToFormatStr = 2131099658;
@@ -347,8 +347,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060009
 			public const int Connecting = 2131099657;
 			
-			// aapt resource value: 0x7f060017
-			public const int ContactFormatStr = 2131099671;
+			// aapt resource value: 0x7f06001a
+			public const int ContactFormatStr = 2131099674;
 			
 			// aapt resource value: 0x7f06000e
 			public const int CurrentFileTransferRemainingFormatStr = 2131099662;
@@ -356,8 +356,11 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060008
 			public const int Disconnect = 2131099656;
 			
-			// aapt resource value: 0x7f06001f
-			public const int IPAddress = 2131099679;
+			// aapt resource value: 0x7f060024
+			public const int ErrEstablishServer = 2131099684;
+			
+			// aapt resource value: 0x7f060022
+			public const int IPAddress = 2131099682;
 			
 			// aapt resource value: 0x7f06000d
 			public const int IncomingFileTransfers = 2131099661;
@@ -365,14 +368,20 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060013
 			public const int No = 2131099667;
 			
+			// aapt resource value: 0x7f060019
+			public const int NoWifiInfo = 2131099673;
+			
 			// aapt resource value: 0x7f060014
 			public const int OK = 2131099668;
 			
-			// aapt resource value: 0x7f060020
-			public const int Password = 2131099680;
+			// aapt resource value: 0x7f060018
+			public const int OpenWifiSettings = 2131099672;
 			
-			// aapt resource value: 0x7f06001c
-			public const int PleaseWaitForServerToInitialize = 2131099676;
+			// aapt resource value: 0x7f060023
+			public const int Password = 2131099683;
+			
+			// aapt resource value: 0x7f06001f
+			public const int PleaseWaitForServerToInitialize = 2131099679;
 			
 			// aapt resource value: 0x7f060005
 			public const int QRCodeInvalid = 2131099653;
@@ -383,17 +392,20 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060006
 			public const int ReceiveFiles = 2131099654;
 			
-			// aapt resource value: 0x7f060019
-			public const int ReceivingCapitals = 2131099673;
-			
-			// aapt resource value: 0x7f06001a
-			public const int ReceivingInfo = 2131099674;
-			
-			// aapt resource value: 0x7f06001b
-			public const int ScanCode = 2131099675;
+			// aapt resource value: 0x7f06001c
+			public const int ReceivingCapitals = 2131099676;
 			
 			// aapt resource value: 0x7f06001d
-			public const int ScannerOverlayPleaseScan = 2131099677;
+			public const int ReceivingInfo = 2131099677;
+			
+			// aapt resource value: 0x7f060017
+			public const int Retry = 2131099671;
+			
+			// aapt resource value: 0x7f06001e
+			public const int ScanCode = 2131099678;
+			
+			// aapt resource value: 0x7f060020
+			public const int ScannerOverlayPleaseScan = 2131099680;
 			
 			// aapt resource value: 0x7f060016
 			public const int Send = 2131099670;
@@ -401,8 +413,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060007
 			public const int SendFiles = 2131099655;
 			
-			// aapt resource value: 0x7f060018
-			public const int SendingCapitals = 2131099672;
+			// aapt resource value: 0x7f06001b
+			public const int SendingCapitals = 2131099675;
 			
 			// aapt resource value: 0x7f060002
 			public const int ServerConnectManually = 2131099650;

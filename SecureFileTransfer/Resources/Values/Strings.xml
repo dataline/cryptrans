@@ -23,6 +23,9 @@
   <string name="OK">OK</string>
   <string name="Cancel">Cancel</string>
   <string name="Send">Send</string>
+  <string name="Retry">Retry</string>
+  <string name="OpenWifiSettings">Open WLAN settings</string>
+  <string name="NoWifiInfo">You do not seem to have a WLAN connection. A secure peer to peer connection can not be established over mobile data.</string>
   <string name="ContactFormatStr">{0} (Contact)</string>
   <string name="SendingCapitals">SENDING</string>
   <string name="ReceivingCapitals">RECEIVING</string>
@@ -33,4 +36,7 @@
   <string name="ConnectManuallyInfo">Connect manually:</string>
   <string name="IPAddress">IP Address:</string>
   <string name="Password">Password:</string>
+  
+  <!-- ERRORS -->
+  <string name="ErrEstablishServer">The transfer server could not be started. Please check your internet connection.</string>
 </resources>
