@@ -68,7 +68,7 @@ namespace SecureFileTransfer.Network
             IPEndPoint endPoint = new IPEndPoint(addr, port);
 
             ConnectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            ConnectionSocket.NoDelay = true;
+            //ConnectionSocket.NoDelay = true;
             ConnectionSocket.Connect(endPoint);
         }
 
