@@ -82,7 +82,7 @@ namespace SecureFileTransfer.Network
 
         protected override void InternalBeginReceiving()
         {
-            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
+            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this, new TrivialEntityBasedProtocol.PlatformDependent.Android());
             TEBPProvider.ReceivedRequest += TEBPProvider_ReceivedRequest;
             TEBPProvider.ReceivedNotice += TEBPProvider_ReceivedNotice;
             TEBPProvider.Init();

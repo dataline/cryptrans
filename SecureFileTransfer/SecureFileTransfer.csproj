@@ -102,9 +102,12 @@
     <Compile Include="Network\SingleTransferServer.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\DeclineResponse.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\DisconnectNotice.cs" />
+    <Compile Include="Network\TrivialEntityBasedProtocol\DefaultEntities\NoResponse.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Entity.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\IConnection.cs" />
+    <Compile Include="Network\TrivialEntityBasedProtocol\ITEBPPlatformDependent.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Notice.cs" />
+    <Compile Include="Network\TrivialEntityBasedProtocol\PlatformDependent\Android.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Request.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\Response.cs" />
     <Compile Include="Network\TrivialEntityBasedProtocol\TEBPProvider.cs" />

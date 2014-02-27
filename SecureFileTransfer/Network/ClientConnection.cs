@@ -22,15 +22,15 @@ namespace SecureFileTransfer.Network
 
         public string ConnectionPassword { get; set; }
 
-        public delegate void FileTransferEndedEventHandler(SingleTransferClient cli, bool success, bool aborted);
+        public delegate void FileTransferEndedEventHandler(Transfer trans, bool success, bool aborted);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
-        public void RaiseFileTransferEnded(SingleTransferClient cli, bool success, bool aborted)
+        public void RaiseFileTransferEnded(Transfer trans, bool success, bool aborted)
         {
             UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
                 if (FileTransferEnded != null)
-                    FileTransferEnded(cli, success, aborted);
+                    FileTransferEnded(trans, success, aborted);
             }), null);
         }
 
@@ -114,7 +114,7 @@ namespace SecureFileTransfer.Network
 
         protected override void InternalBeginReceiving()
         {
-            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this);
+            TEBPProvider = new TrivialEntityBasedProtocol.TEBPProvider(this, new TrivialEntityBasedProtocol.PlatformDependent.Android());
             TEBPProvider.ReceivedNotice += TEBPProvider_ReceivedNotice;
             TEBPProvider.Init();
         }
@@ -192,6 +192,10 @@ namespace SecureFileTransfer.Network
                     DataConnection.ParentConnection = this;
 
                     DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
+                }
+                else if (response is TrivialEntityBasedProtocol.DefaultEntities.NoResponse)
+                {
+                    RaiseFileTransferEnded(transfer, false, false);
                 }
             });
         }

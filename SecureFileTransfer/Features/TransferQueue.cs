@@ -44,9 +44,8 @@ namespace SecureFileTransfer.Features
             get { return Queue.Count == 0 ? 0 : Queue.Count - 1; }
         }
 
-        void _connection_FileTransferEnded(SingleTransferClient cli, bool success, bool aborted)
+        void _connection_FileTransferEnded(Transfer trans, bool success, bool aborted)
         {
-            var trans = cli.CurrentTransfer;
             if (Queue.Contains(trans))
                 Queue.Remove(trans);
 

@@ -115,7 +115,7 @@ namespace SecureFileTransfer.Network
             }
 
 
-            ParentConnection.RaiseFileTransferEnded(this, !AbortCurrentTransfer, AbortCurrentTransfer ? success : false);
+            ParentConnection.RaiseFileTransferEnded(CurrentTransfer, !AbortCurrentTransfer, AbortCurrentTransfer ? success : false);
 
             CurrentTransfer = null;
 

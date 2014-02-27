@@ -18,6 +18,10 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         public bool UseDefaultEntities { get; set; }
 
+
+        public const int RequestTimeoutMilliseconds = 10000;
+
+
         public delegate void EntityResponseDelegate(Response res);
 
         public delegate void ReceivedRequestHandler(Request req);
@@ -30,8 +34,12 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         private Thread ListenerThread;
 
-        public TEBPProvider(IConnection conn)
+        private ITEBPPlatformDependent PlatformDependentFunctions;
+
+        public TEBPProvider(IConnection conn, ITEBPPlatformDependent platformDependent)
         {
+            PlatformDependentFunctions = platformDependent;
+
             Connection = conn;
             IsShutDown = false;
 
@@ -69,7 +77,14 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         {
             if (UseDefaultEntities)
             {
-                Send(new DefaultEntities.DisconnectNotice());
+                try
+                {
+                    Send(new DefaultEntities.DisconnectNotice());
+                }
+                catch (Exception)
+                {
+                    // Connection may already be closed.
+                }
             }
 
             ShutdownWithoutSendingDisconnect(shutDownConnection);
@@ -156,6 +171,25 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
             waiting.Value(res);
         }
 
+        private void CheckIfRequestTimedOut(Entity ent)
+        {
+            if (Unanswered.Any(val => val.Key.Identifier == ent.Identifier))
+            {
+                var responseDelegate = Unanswered[ent];
+                Unanswered.Remove(ent);
+
+                responseDelegate(new DefaultEntities.NoResponse(this));
+            }
+        }
+
+        private void StartTimeoutCheckForEntity(Entity ent)
+        {
+            PlatformDependentFunctions.RunAfterDelay(
+                () => CheckIfRequestTimedOut(ent), 
+                RequestTimeoutMilliseconds
+                );
+        }
+
         public void Send(Entity ent, EntityResponseDelegate responseDelegate = null)
         {
             if (IsShutDown)
@@ -177,6 +211,8 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                     throw new NotSupportedException("Already waiting for a response for this entity.");
 
                 Unanswered[ent] = responseDelegate;
+
+                StartTimeoutCheckForEntity(ent);
             }
 
             string entityString = JsonConvert.SerializeObject(ent, Formatting.None, new JsonSerializerSettings() { });
