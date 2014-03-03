@@ -188,6 +188,7 @@
     <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\values-de\strings.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

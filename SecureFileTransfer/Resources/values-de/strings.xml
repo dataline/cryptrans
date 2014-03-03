@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="ApplicationName">cryptrans</string>
+  <string name="ServerConnectManually">Manuelle Verbindung</string>
+  <string name="ServerConnectManuallyInfoFormatStr">Tippen und halten Sie auf dem anderen Gerät die \"Code scannen"\-Taste, anschließend geben Sie folgende Daten ein:\n\nIP-Adresse\n{0}\n\nPasswort\n{1}</string>
+  <string name="QRCodeInvalid">Der gescannte Code ist ungültig.</string>
+  <string name="ReceiveFiles">Dateien empfangen</string>
+  <string name="SendFiles">Dateien senden</string>
+  <string name="Disconnect">Verbindung trennen</string>
+  <string name="Connecting">Verbinde...</string>
+  <string name="ConnectedToFormatStr">Verbunden mit {0}</string>
+  <string name="ClientSendFile">Datei senden</string>
+  <string name="ClientSendContacts">Kontakte senden</string>
+  <string name="IncomingFileTransfers">Eingehende Transfers:</string>
+  <string name="CurrentFileTransferRemainingFormatStr">Momentaner Transfer ({0} ausstehend)</string>
+  <string name="Abort">Abbrechen</string>
+  <string name="AbortAll">Alle abbrechen</string>
+  <string name="AbortAreYouSure">Wollen Sie diesen Transfer wirklich abbrechen?</string>
+  <string name="Yes">Ja</string>
+  <string name="No">Nein</string>
+  <string name="OK">OK</string>
+  <string name="Cancel">Abbrechen</string>
+  <string name="Send">Senden</string>
+  <string name="Retry">Erneut versuchen</string>
+  <string name="OpenWifiSettings">WiFi-Einstellungen öffnen</string>
+  <string name="NoWifiInfo">Sie haben anscheinend keine WiFi-Verbindung. Eine sichere Peer-To-Peer-Verbindung kann nicht über das Mobilfunknetz aufgebaut werden.</string>
+  <string name="ContactFormatStr">{0} (Kontakt)</string>
+  <string name="SendingCapitals">SENDEN</string>
+  <string name="ReceivingCapitals">EMPFANGEN</string>
+  <string name="ReceivingInfo">Um Kontakte und andere Dateien zu empfangen, scannen Sie diesen Code mit der \"Code scannen\" Funktion auf Ihrem anderen Gerät:</string>
+  <string name="ScanCode">Code scannen</string>
+  <string name="PleaseWaitForServerToInitialize">Bitte warten Sie, bis der Server initialisiert wurde.</string>
+  <string name="ScannerOverlayPleaseScan">Zeigen Sie mit der Kamera auf den Code, der auf dem anderen Gerät angezeigt wird.</string>
+  <string name="ConnectManuallyInfo">Manuelle Verbindung:</string>
+  <string name="IPAddress">IP-Adresse:</string>
+  <string name="Password">Passwort:</string>
+  <string name="OpenHotspotSettings">WiFi Hotspot Einstellungen öffnen</string>
+  
+  <!-- ERRORS -->
+  <string name="ErrEstablishServer">Der Transfer-Server konnte nicht gestartet werden. Bitte überprüfen Sie Ihre Internet-Verbindung.</string>
+  <string name="ErrEstablishClient">Es konnte keine Verbindung aufgebaut werden. Befinden sich beide Geräte im selben WiFi-Netzwerk?\n\nSie können auch versuchen, den WiFi Hotspot zu aktivieren.</string>
+  <string name="ErrTransferFailedFormatStr">Transfer \"{0}\" fehlgeschlagen.</string>
+  <string name="ErrHandshakeInvalidResponse">Das Gerät, mit dem Sie sich verbinden wollen, hat eine ungültige Antwort zurückgegeben.</string>
+  <string name="ErrHandshakeEncryptionFailed">Es konnte kein sicherer, verschlüsselter Kanal aufgebaut werden. Bitte versuchen Sie es erneut.</string>
+  <string name="ErrHandshakeWrongVersion">Die Version dieses Programms ist inkompatibel mit der Version auf dem anderen Gerät. Bitte führen Sie ein Update durch.</string>
+  <string name="ErrHandshakeFeatureReq">Das andere Gerät verlangt eine nicht verfügbare Funktion.</string>
+  <string name="ErrHandshakeAvailableInPro">Das andere Gerät verlangt eine Verschlüsselungsstufe die nur in der Pro-Version verfügbar ist.</string>
+  <string name="ErrHandshakeInvalidPassword">Das andere Gerät hat ein ungültiges Verbindungspasswort gesendet.</string>
+  <string name="ErrUnexpected">Unbekannter Fehler.</string>
+  <string name="ErrInvalidClientFormatStr">Ein Gerät hat versucht sich zu verbinden, wurde aber abgelehnt: {0}</string>
+</resources>

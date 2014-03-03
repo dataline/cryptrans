@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="ApplicationName">SecureFileTransfer</string>
-  <string name="ServerQRCodeInformation">Scan this code using SecureFileTransfer on another device to start receiving files:</string>
+  <string name="ApplicationName">cryptrans</string>
   <string name="ServerConnectManually">Connect manually</string>
   <string name="ServerConnectManuallyInfoFormatStr">On the other device, tap and hold the \"Scan Code\" button, then enter this data to establish a connection:\n\nIP Address\n{0}\n\nPassword\n{1}</string>
-  <string name="QRCodeInvalidTitle">Invalid Code</string>
   <string name="QRCodeInvalid">The code you scanned was invalid.</string>
   <string name="ReceiveFiles">Receive Files</string>
   <string name="SendFiles">Send Files</string>
@@ -24,8 +22,8 @@
   <string name="Cancel">Cancel</string>
   <string name="Send">Send</string>
   <string name="Retry">Retry</string>
-  <string name="OpenWifiSettings">Open WLAN settings</string>
-  <string name="NoWifiInfo">You do not seem to have a WLAN connection. A secure peer to peer connection can not be established over mobile data.</string>
+  <string name="OpenWifiSettings">Open WiFi settings</string>
+  <string name="NoWifiInfo">You do not seem to have a WiFi connection. A secure peer to peer connection can not be established over mobile data.</string>
   <string name="ContactFormatStr">{0} (Contact)</string>
   <string name="SendingCapitals">SENDING</string>
   <string name="ReceivingCapitals">RECEIVING</string>
