@@ -51,6 +51,14 @@ namespace SecureFileTransfer.Network
             return c;
         }
 
+        public static ClientConnection CreateWithoutEndpoint()
+        {
+            CurrentConnection = new ClientConnection();
+            CurrentConnection.ConnectionSocket = null;
+
+            return CurrentConnection;
+        }
+
         public static async Task<ClientConnection> ConnectToAsync(string hostName, int port, string connectionPassword)
         {
             return await Task.Run<ClientConnection>(() =>
@@ -181,30 +189,43 @@ namespace SecureFileTransfer.Network
 
         public void StartFileTransfer(Transfer transfer)
         {
-            TEBPProvider.Send(transfer.GenerateRequest(), response =>
+            var req = transfer.GenerateRequest();
+
+            if (ConnectionSocket != null)
             {
-                if (response.Accepted)
+                // Send transfer request
+                TEBPProvider.Send(req, response =>
                 {
-                    Console.WriteLine("Server accepted FileTransferRequest.");
-                    FileTransferResponse res = response as FileTransferResponse;
+                    if (response.Accepted)
+                    {
+                        Console.WriteLine("Server accepted FileTransferRequest.");
+                        FileTransferResponse res = response as FileTransferResponse;
 
-                    DataConnection = SingleTransferClient.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
-                    if (DataConnection == null)
-                        throw new ConnectionException("Could not establish data connection.");
-                    DataConnection.ParentConnection = this;
+                        DataConnection = SingleTransferClient.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
+                        if (DataConnection == null)
+                            throw new ConnectionException("Could not establish data connection.");
+                        DataConnection.ParentConnection = this;
 
-                    DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
-                }
-                else if (response is TrivialEntityBasedProtocol.DefaultEntities.NoResponse)
-                {
-                    RaiseFileTransferEnded(transfer, false, false);
-                }
-            });
+                        DataConnection.BeginSending(transfer, res.AesKey, res.AesIv);
+                    }
+                    else if (response is TrivialEntityBasedProtocol.DefaultEntities.NoResponse)
+                    {
+                        RaiseFileTransferEnded(transfer, false, false);
+                    }
+                });
+            }
+            else
+            {
+                // Special mode.
+                DataConnection = new SingleTransferClientSpecial();
+                DataConnection.ParentConnection = this;
+                DataConnection.BeginSending(transfer, null, null);
+            }
         }
 
         public void AbortFileTransfer(bool sendAbort = true)
         {
-            if (sendAbort)
+            if (sendAbort && ConnectionSocket != null)
                 TEBPProvider.Send(new FileTransferAbortNotice());
 
             if (DataConnection != null)

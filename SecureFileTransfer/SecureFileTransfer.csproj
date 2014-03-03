@@ -78,6 +78,7 @@
     <Compile Include="Dialogs\NoWifiDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\ExceptionExtensions.cs" />
+    <Compile Include="Network\SingleTransferClientSpecial.cs" />
     <Compile Include="Network\WiFiDirect\PeerListListener.cs" />
     <Compile Include="Network\WiFiDirect\WifiActionListener.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />

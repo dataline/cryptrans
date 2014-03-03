@@ -53,7 +53,7 @@ namespace SecureFileTransfer.Network
             throw new NotImplementedException();
         }
 
-        public void BeginSending(Transfer transfer, byte[] aesKey, byte[] aesIv)
+        public virtual void BeginSending(Transfer transfer, byte[] aesKey, byte[] aesIv)
         {
             CurrentTransfer = transfer;
             AbortCurrentTransfer = false;

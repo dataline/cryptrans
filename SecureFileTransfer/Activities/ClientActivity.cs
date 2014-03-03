@@ -79,28 +79,28 @@ namespace SecureFileTransfer.Activities
 
             var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);
             connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.ClientConnection.CurrentConnection.RemoteName);
-
+            
             var disconnectButton = FindViewById<Button>(Resource.Id.DisconnectButton);
             disconnectButton.Click += (s, e) =>
             {
                 PushedDisconnect();
                 Finish();
             };
-
+            
             var sendPicturesButton = FindViewById<Button>(Resource.Id.SendPicturesButton);
             sendPicturesButton.Click += sendPicturesButton_Click;
             var sendContactsButton = FindViewById<Button>(Resource.Id.SendContactsButton);
             sendContactsButton.Click += sendContactsButton_Click;
-
+            
             currentTransferLayout = FindViewById<LinearLayout>(Resource.Id.CurrentTransferLayout);
             currentTransferTitleLabel = FindViewById<TextView>(Resource.Id.CurrentTransferTitleLabel);
             currentTransferFileNameField = FindViewById<TextView>(Resource.Id.CurrentTransferFileNameField);
             currentTransferStatusField = FindViewById<TextView>(Resource.Id.CurrentTransferStatus);
             currentTransferProgressBar = FindViewById<ProgressBar>(Resource.Id.CurrentTransferProgressBar);
-
+            
             abortButton = FindViewById<Button>(Resource.Id.AbortButton);
             abortButton.Click += abortButton_Click;
-
+            
             // Handle file transfer intent:
             var uri = (Android.Net.Uri)Intent.GetParcelableExtra(Intent.ExtraStream);
             if (uri != null)

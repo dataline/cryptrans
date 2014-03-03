@@ -59,6 +59,16 @@ namespace SecureFileTransfer.Features
                 return false;
 
             string resString = result.Text;
+
+            if (resString == QR.DataSchemeWithSuffix + "sound")
+            {
+                // the secret special mode. makes it possible to test features without another device.
+                // scan this: http://chart.apis.google.com/chart?chs=500x500&cht=qr&chl=dltsec://sound
+                Network.ClientConnection.CreateWithoutEndpoint();
+                Network.ClientConnection.CurrentConnection.RemoteName = "nobody";
+                return true;
+            }
+
             if (!Features.QR.IsValid(resString))
                 throw new InvalidQRCodeException();
 

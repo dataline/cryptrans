@@ -204,6 +204,8 @@ namespace SecureFileTransfer.Network
         {
             if (Receiving)
                 return;
+            if (ConnectionSocket == null)
+                return;
             Receiving = true;
             InternalBeginReceiving();
         }
