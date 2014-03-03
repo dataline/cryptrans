@@ -63,7 +63,10 @@ namespace SecureFileTransfer.Activities
             try
             {
                 if (!await InitializeConnection())
+                {
+                    Finish();
                     return;
+                }
             }
             catch (Exception ex)
             {
