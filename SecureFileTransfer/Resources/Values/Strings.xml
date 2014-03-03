@@ -42,4 +42,12 @@
   <string name="ErrEstablishServer">The transfer server could not be started. Please check your internet connection.</string>
   <string name="ErrEstablishClient">Error while trying to establish a connection. Are you connected to the same WiFi hotspot as the receiving device?\n\nYou can also try to enable the WiFi hotspot on your device.</string>
   <string name="ErrTransferFailedFormatStr">Transfer \"{0}\" failed.</string>
+  <string name="ErrHandshakeInvalidResponse">The device you tried to connect to did return an invalid response.</string>
+  <string name="ErrHandshakeEncryptionFailed">Could not establish a secure encryption channel, please try again.</string>
+  <string name="ErrHandshakeWrongVersion">This version is not compatible with the version of the application on your other device. Please consider updating.</string>
+  <string name="ErrHandshakeFeatureReq">The other device requested a feature that is not available on your device.</string>
+  <string name="ErrHandshakeAvailableInPro">The other device requires an encryption level that is only available in the Pro version of this application.</string>
+  <string name="ErrHandshakeInvalidPassword">The other device sent an invalid connection password.</string>
+  <string name="ErrUnexpected">Unexpected Error.</string>
+  <string name="ErrInvalidClientFormatStr">A client tried to connect, but was rejected: {0}</string>
 </resources>

@@ -77,11 +77,13 @@ namespace SecureFileTransfer.Network
             byte[] hello = new byte[5];
             Get(hello);
             if (Encoding.GetString(hello) != CMD_CONN_MAGIC)
-                return false;
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.InitialHello);
 
             ServerInformation si = GetServerInformation();
             if (si.version != CurrentVersion)
-                return false;
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.VersionExchange);
+
+            // In future versions, we may read the connection flags here.
 
             WriteRaw(CMD_OK);
 
@@ -93,7 +95,7 @@ namespace SecureFileTransfer.Network
             byte[] ok = new byte[2];
             Get(ok);
             if (Encoding.GetString(ok) != CMD_OK)
-                return false;
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.EncryptionChannelTest);
 
             RemoteName = Encoding.GetString(GetUndefinedLength());
 

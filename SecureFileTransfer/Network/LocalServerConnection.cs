@@ -56,13 +56,14 @@ namespace SecureFileTransfer.Network
             byte[] answer = new byte[2];
             Get(answer);
             if (Encoding.GetString(answer) != CMD_OK)
-                return false;
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.InitialHello);
 
             EnableEncryption(EncryptionContext.ConnectionType.Server);
 
             string password = Encoding.GetString(GetUndefinedLength());
             if (password != LocalServer.PublicConnectionPassword)
-                return false;
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.Authentication);
+
             RemoteName = Encoding.GetString(GetUndefinedLength());
 
             SendAccept();

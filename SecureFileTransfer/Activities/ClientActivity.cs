@@ -14,6 +14,7 @@ using System.Threading;
 using SecureFileTransfer.Features;
 using SecureFileTransfer.Features.Transfers;
 using System.Threading.Tasks;
+using SecureFileTransfer.Network;
 
 namespace SecureFileTransfer.Activities
 {
@@ -72,11 +73,7 @@ namespace SecureFileTransfer.Activities
             {
                 this.HandleEx(ex, true);
 
-                // Do not show dialog when the QR code was invalid.
-                if (ex is InvalidQRCodeException)
-                    InvalidQRCode();
-                else
-                    ConnectionFailed();
+                ConnectionFailed(ex);
                 return;
             }
 
@@ -153,24 +150,32 @@ namespace SecureFileTransfer.Activities
             this.ShowToast(string.Format(GetString(Resource.String.ErrTransferFailedFormatStr), transfer.FileName));
         }
 
-        void ConnectionFailed()
+        void ConnectionFailed(Exception ex)
         {
-            new Dialogs.ConnectionFailedDialog(this, result =>
+            this.HandleEx(ex, true);
+
+            if (ex is InvalidQRCodeException)
             {
-                if (result == Dialogs.AndroidDialog.AndroidDialogResult.No)
+                new Dialogs.InvalidQRCodeDialog(this, result => Finish()).Show("invalidqr");
+            }
+            else if (ex is InvalidHandshakeException)
+            {
+                new Dialogs.InvalidHandshakeDialog(this, (InvalidHandshakeException)ex, result => Finish()).Show("invalidhandshake");
+            }
+            else
+            {
+                new Dialogs.ConnectionFailedDialog(this, result =>
                 {
-                    // Tapped on "Open hotspot settings"
-                    var intent = new Intent(Android.Provider.Settings.ActionWirelessSettings);
-                    StartActivity(intent);
-                }
+                    if (result == Dialogs.AndroidDialog.AndroidDialogResult.No)
+                    {
+                        // Tapped on "Open hotspot settings"
+                        var intent = new Intent(Android.Provider.Settings.ActionWirelessSettings);
+                        StartActivity(intent);
+                    }
 
-                Finish();
-            }).Show("connectionfailed");
-        }
-
-        void InvalidQRCode()
-        {
-            new Dialogs.InvalidQRCodeDialog(this, result => Finish()).Show("invalidqr");
+                    Finish();
+                }).Show("connectionfailed");
+            }
         }
 
         void abortButton_Click(object sender, EventArgs e)

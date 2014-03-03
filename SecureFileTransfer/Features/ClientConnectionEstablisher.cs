@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Widget;
+using SecureFileTransfer.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace SecureFileTransfer.Features
 
             connectingDialog.Dismiss();
 
-            return true;
+            return connection != null;
         }
 
         /// <summary>
@@ -79,13 +80,17 @@ namespace SecureFileTransfer.Features
             string host, password;
             int port;
             if (!Features.QR.GetComponents(uri, out host, out port, out password))
-                return false;
+                throw new InvalidQRCodeException();
 
             return await EstablishClientConnection(ctx, host, port, password);
         }
     }
 
     public class InvalidQRCodeException : Exception
+    { 
+    }
+
+    public class ScanningAbortedException : Exception
     { 
     }
 }

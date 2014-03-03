@@ -61,7 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\ConnectionFailedDialog.cs" />
+    <Compile Include="Dialogs\InvalidHandshakeDialog.cs" />
     <Compile Include="Dialogs\InvalidQRCodeDialog.cs" />
+    <Compile Include="Dialogs\MessageDialog.cs" />
     <Compile Include="Features\ActivityExtensions.cs" />
     <Compile Include="Activities\ClientActivity.cs" />
     <Compile Include="Activities\ContactListActivity.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Dialogs\ConnectManuallyDialog.cs" />
     <Compile Include="Dialogs\NoWifiDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
+    <Compile Include="Features\ExceptionExtensions.cs" />
     <Compile Include="Network\WiFiDirect\PeerListListener.cs" />
     <Compile Include="Network\WiFiDirect\WifiActionListener.cs" />
     <Compile Include="Features\AndroidURIResolver.cs" />

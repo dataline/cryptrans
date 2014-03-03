@@ -11,6 +11,7 @@ using System.Threading;
 
 using SecureFileTransfer.Features;
 using Android.Provider;
+using SecureFileTransfer.Network;
 
 namespace SecureFileTransfer.Activities
 {
@@ -135,6 +136,7 @@ namespace SecureFileTransfer.Activities
 
             srv.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
             srv.GotConnection += srv_GotConnection;
+            srv.FailedConnectionAttempt += srv_FailedConnectionAttempt;
 
             qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
         }
@@ -162,6 +164,17 @@ namespace SecureFileTransfer.Activities
             DestroyServer();
 
             StartActivity(typeof(ServerConnectedActivity));
+        }
+
+        void srv_FailedConnectionAttempt(Exception ex)
+        {
+            var errorDesc = ex is InvalidHandshakeException ? 
+                ((InvalidHandshakeException)ex).GetDescriptionResource() : 
+                Resource.String.ErrUnexpected;
+
+            var errorStr = string.Format(GetString(Resource.String.ErrInvalidClientFormatStr), GetString(errorDesc));
+
+            this.ShowToast(errorStr);
         }
 
         bool CheckWifi()

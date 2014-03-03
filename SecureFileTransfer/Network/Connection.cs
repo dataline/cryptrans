@@ -244,4 +244,19 @@ namespace SecureFileTransfer.Network
         }
 
     }
+
+    public class InvalidHandshakeException : Exception
+    {
+        public enum HandshakePhase
+        {
+            InitialHello, VersionExchange, FlagExchange, Authentication, RSAExchange, AESExchange, EncryptionChannelTest, End
+        }
+
+        public HandshakePhase Phase { get; set; }
+
+        public InvalidHandshakeException(HandshakePhase phase)
+        {
+            Phase = phase;
+        }
+    }
 }

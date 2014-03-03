@@ -63,7 +63,15 @@ namespace SecureFileTransfer.Security
             byte[] answer = new byte[Security.RSA.KeySize];
             Connection.GetRaw(answer);
 
-            byte[] decryptedKeyInfo = rsa.Decrypt(answer);
+            byte[] decryptedKeyInfo;
+            try
+            {
+                decryptedKeyInfo = rsa.Decrypt(answer);
+            }
+            catch (CryptographicException)
+            {
+                throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.EncryptionChannelTest);
+            }
 
             byte[] aeskey = decryptedKeyInfo.Take(Security.AES.KeySize).ToArray();
             byte[] aesivec = decryptedKeyInfo.Skip(Security.AES.KeySize).Take(Security.AES.BlockSize).ToArray();

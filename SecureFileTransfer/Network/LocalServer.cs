@@ -18,8 +18,10 @@ namespace SecureFileTransfer.Network
         public static LocalServer CurrentServer { get; private set; }
 
         public delegate void GotConnectionEventHandler(LocalServerConnection connection);
-
         public event GotConnectionEventHandler GotConnection;
+
+        public delegate void FailedConnectionAttemptEventHandler(Exception ex);
+        public event FailedConnectionAttemptEventHandler FailedConnectionAttempt;
 
         public static async Task<LocalServer> GetServerAsync(CancellationToken ct)
         {
@@ -78,30 +80,54 @@ namespace SecureFileTransfer.Network
             try
             {
                 Socket accepted = (ar.AsyncState as Socket).EndAccept(ar);
-                //accepted.NoDelay = true;
 
-                var conn = new LocalServerConnection(accepted);
-
-                if (conn.DoInitialHandshake() && GotConnection != null)
-                {
-                    RaiseGotConnection(conn);
-                }
-                else
-                {
-                    conn.Dispose();
-                    sock.BeginAccept(new AsyncCallback(AcceptCallback), sock);
-                }
+                if (!CreateConnection(accepted))
+                    sock.BeginAccept(new AsyncCallback(AcceptCallback), sock); // try again.
             }
             catch (ObjectDisposedException)
             {
             }
         }
 
+        bool CreateConnection(Socket connection)
+        {
+            var conn = new LocalServerConnection(connection);
+
+            bool accepted = false;
+            try
+            {
+                accepted = conn.DoInitialHandshake();
+            }
+            catch (InvalidHandshakeException ex)
+            {
+                RaiseFailedConnectionAttempt(ex);
+            }
+
+            if (accepted)
+                RaiseGotConnection(conn);
+            else
+                conn.Dispose();
+
+            return accepted;
+        }
+            
+
+
         void RaiseGotConnection(LocalServerConnection conn)
         {
             UIThreadSyncContext.Send(new SendOrPostCallback(state =>
             {
-                GotConnection(conn);
+                if (GotConnection != null)
+                    GotConnection(conn);
+            }), null);
+        }
+
+        void RaiseFailedConnectionAttempt(Exception ex)
+        {
+            UIThreadSyncContext.Send(new SendOrPostCallback(state =>
+            {
+                if (FailedConnectionAttempt != null)
+                    FailedConnectionAttempt(ex);
             }), null);
         }
 

@@ -362,8 +362,32 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f060025
 			public const int ErrEstablishServer = 2131099685;
 			
+			// aapt resource value: 0x7f06002c
+			public const int ErrHandshakeAvailableInPro = 2131099692;
+			
+			// aapt resource value: 0x7f060029
+			public const int ErrHandshakeEncryptionFailed = 2131099689;
+			
+			// aapt resource value: 0x7f06002b
+			public const int ErrHandshakeFeatureReq = 2131099691;
+			
+			// aapt resource value: 0x7f06002d
+			public const int ErrHandshakeInvalidPassword = 2131099693;
+			
+			// aapt resource value: 0x7f060028
+			public const int ErrHandshakeInvalidResponse = 2131099688;
+			
+			// aapt resource value: 0x7f06002a
+			public const int ErrHandshakeWrongVersion = 2131099690;
+			
+			// aapt resource value: 0x7f06002f
+			public const int ErrInvalidClientFormatStr = 2131099695;
+			
 			// aapt resource value: 0x7f060027
 			public const int ErrTransferFailedFormatStr = 2131099687;
+			
+			// aapt resource value: 0x7f06002e
+			public const int ErrUnexpected = 2131099694;
 			
 			// aapt resource value: 0x7f060022
 			public const int IPAddress = 2131099682;

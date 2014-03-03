@@ -6,19 +6,10 @@ using System.Text;
 
 namespace SecureFileTransfer.Dialogs
 {
-    public class InvalidQRCodeDialog : AndroidDialog
+    public class InvalidQRCodeDialog : MessageDialog
     {
         public InvalidQRCodeDialog(Activity ctx, DialogDidEndDelegate didEnd)
-            : base(ctx, Resource.String.OK, NoValue, didEnd)
+            : base(ctx, Resource.String.QRCodeInvalid, didEnd)
         { }
-
-        public override Dialog OnCreateDialog(Android.OS.Bundle savedInstanceState)
-        {
-            var builder = BuildDialog();
-
-            builder.SetMessage(Resource.String.QRCodeInvalid);
-
-            return BuildFinishedDialog(builder);
-        }
     }
 }
