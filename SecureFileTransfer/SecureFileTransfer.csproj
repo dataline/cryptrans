@@ -169,9 +169,6 @@
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\menu\ContactListMenu.xml" />
     <AndroidResource Include="Resources\drawable\bkg.png" />
@@ -187,6 +184,10 @@
     <AndroidResource Include="Resources\drawable\wlan_anim_4.png" />
     <AndroidResource Include="Resources\drawable\wlan_anim_5.png" />
     <AndroidResource Include="Resources\drawable\wlan_anim.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">
