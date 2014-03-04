@@ -13,16 +13,17 @@ namespace SecureFileTransfer.Security
 
 
         public const int KeySize = 128; // 1024 bits
-
-        const int Exponent = 17;
+        public const int ExponentSize = 4;
 
         public RSA() { }
 
-        public RSA(byte[] pubkey)
+        public RSA(byte[] pubkey, byte[] exponent)
         {
-            RSAParameters rsaParams = new RSAParameters();
-            rsaParams.Exponent = new byte[] { (byte)Exponent };
-            rsaParams.Modulus = pubkey;
+            RSAParameters rsaParams = new RSAParameters()
+            {
+                Exponent = exponent,
+                Modulus = pubkey
+            };
 
             rsaProvider = new RSACryptoServiceProvider(KeySize * 8);
             rsaProvider.ImportParameters(rsaParams);
@@ -55,6 +56,23 @@ namespace SecureFileTransfer.Security
                 if (rsaParameters == null)
                     return null;
                 return rsaParameters.Value.Modulus;
+            }
+        }
+
+        public byte[] Exponent
+        {
+            get
+            {
+                if (rsaParameters == null)
+                    return null;
+                byte[] rsaExp = rsaParameters.Value.Exponent;
+                if (rsaExp.Length > 4)
+                    throw new NotSupportedException("RSA exponent is too big. Are you living in the far future?");
+
+                byte[] exp = new byte[ExponentSize];
+                Array.Copy(rsaExp, exp, rsaExp.Length);
+
+                return exp;
             }
         }
 

@@ -56,8 +56,9 @@ namespace SecureFileTransfer.Security
         {
             rsa = Security.KeyProvider.GetRSA();
 
-            // Send Public Modulus
+            // Send Public Modulus and Exponent
             Connection.WriteRaw(rsa.PublicKey);
+            Connection.WriteRaw(rsa.Exponent);
 
             // Receive 64 bytes (padded to RSA key size) containing AES Key and Ivec
             byte[] answer = new byte[Security.RSA.KeySize];
@@ -82,9 +83,11 @@ namespace SecureFileTransfer.Security
         void PerformEncryptionHandshakeClient()
         {
             byte[] pubkey = new byte[Security.RSA.KeySize];
+            byte[] exponent = new byte[Security.RSA.ExponentSize];
             Connection.GetRaw(pubkey);
+            Connection.GetRaw(exponent);
 
-            rsa = new Security.RSA(pubkey);
+            rsa = new Security.RSA(pubkey, exponent);
 
             aes = Security.KeyProvider.GetAES();
 
