@@ -2,7 +2,7 @@
 <resources>
   <string name="ApplicationName">cryptrans</string>
   <string name="ServerConnectManually">Manuelle Verbindung</string>
-  <string name="ServerConnectManuallyInfoFormatStr">Tippen und halten Sie auf dem anderen Gerät die \"Code scannen"\-Taste, anschließend geben Sie folgende Daten ein:\n\nIP-Adresse\n{0}\n\nPasswort\n{1}</string>
+  <string name="ServerConnectManuallyInfoFormatStr">Tippen und halten Sie auf dem anderen Gerät die \"Code scannen\"-Taste, anschließend geben Sie folgende Daten ein:\n\nIP-Adresse\n{0}\n\nPasswort\n{1}</string>
   <string name="QRCodeInvalid">Der gescannte Code ist ungültig.</string>
   <string name="ReceiveFiles">Dateien empfangen</string>
   <string name="SendFiles">Dateien senden</string>
