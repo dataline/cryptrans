@@ -1,4 +1,6 @@
-﻿using Android.Net.Wifi.P2p;
+﻿#if WIFIDIRECT
+
+using Android.Net.Wifi.P2p;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,3 +32,5 @@ namespace SecureFileTransfer.Network.WiFiDirect
         }
     }
 }
+
+#endif

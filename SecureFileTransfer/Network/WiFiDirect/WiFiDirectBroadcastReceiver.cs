@@ -1,3 +1,5 @@
+#if WIFIDIRECT
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,3 +55,5 @@ namespace SecureFileTransfer.Network.WiFiDirect
         }
     }
 }
+
+#endif
