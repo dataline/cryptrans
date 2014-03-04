@@ -16,8 +16,7 @@ using SecureFileTransfer.Network;
 namespace SecureFileTransfer.Activities
 {
     [Activity(Label = "@string/ApplicationName", 
-        MainLauncher = true, 
-        Icon = "@drawable/icon",
+        MainLauncher = true,
         ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, 
         ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.KeyboardHidden)]
     public class HomeActivity : Activity

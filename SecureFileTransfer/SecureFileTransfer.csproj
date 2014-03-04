@@ -184,11 +184,11 @@
     <AndroidResource Include="Resources\drawable\wlan_anim_4.png" />
     <AndroidResource Include="Resources\drawable\wlan_anim_5.png" />
     <AndroidResource Include="Resources\drawable\wlan_anim.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\values-de\strings.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">
