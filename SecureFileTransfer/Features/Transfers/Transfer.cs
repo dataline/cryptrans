@@ -8,7 +8,7 @@ namespace SecureFileTransfer.Features.Transfers
 {
     public abstract class Transfer
     {
-        public const string FolderName = "SecureFileTransfer";
+        public const string FolderName = "cryptrans";
 
         public string FileName { get; set; }
         public long FileLength { get; set; }
