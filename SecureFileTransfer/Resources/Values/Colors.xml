@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <item name="plain_button_background_normal" type="color">#99000000</item>
-  <item name="plain_button_background_pressed" type="color">#33DDDDDD</item>
+  <item name="plain_button_background_normal" type="color">#400094D9</item>
+  <item name="plain_button_background_pressed" type="color">#A00094D9</item>
 
   <item name="text_color" type="color">#DDD</item>
   <item name="text_shadow_color" type="color">#BB000000</item>
