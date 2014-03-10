@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Android.Content;
+using System.Threading;
 
 namespace SecureFileTransfer.Features.Transfers
 {
@@ -101,10 +102,19 @@ namespace SecureFileTransfer.Features.Transfers
             Context.SendBroadcast(mediaScanner);
 
             // Get Thumbnail:
-            var type = Java.Net.URLConnection.GuessContentTypeFromName(AbsoluteFilePath);
-            if (type.StartsWith("image/"))
-                ThumbnailUri = Android.Net.Uri.Parse("file://" + AbsoluteFilePath);
-            //TODO: "generic" file icon?
+            var uriList = new List<PathAndDrawable>();
+            uriList.Add(new PathAndDrawable(AbsoluteFilePath));
+            Preview.InitPreviewForUris(
+                uriList,
+                new CancellationTokenSource().Token,
+                ThumbnailChangedCallbackSyncContext,
+                Context.Resources,
+                () =>
+                {
+                    Thumbnail = uriList[0].drawable;
+                    NotifyThumbnailChanged();
+                }
+                );
         }
 
         public override void Close()

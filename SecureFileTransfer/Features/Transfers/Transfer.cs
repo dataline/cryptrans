@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Android.Graphics.Drawables;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SecureFileTransfer.Features.Transfers
 {
@@ -13,7 +15,24 @@ namespace SecureFileTransfer.Features.Transfers
         public string FileName { get; set; }
         public long FileLength { get; set; }
 
-        public Android.Net.Uri ThumbnailUri { get; set; }
+        public Drawable Thumbnail { get; set; }
+        public Action ThumbnailChangedCallback { get; set; }
+        public SynchronizationContext ThumbnailChangedCallbackSyncContext { get; set; }
+
+        public void SetThumbnailCallback(Action callback, SynchronizationContext ctx)
+        {
+            ThumbnailChangedCallback = callback;
+            ThumbnailChangedCallbackSyncContext = ctx;
+        }
+
+        protected void NotifyThumbnailChanged()
+        {
+            if (ThumbnailChangedCallback != null &&
+                ThumbnailChangedCallbackSyncContext != null)
+                ThumbnailChangedCallbackSyncContext.Send(
+                    new SendOrPostCallback(state => ThumbnailChangedCallback()),
+                    null);
+        }
 
         public Android.Content.Context Context { get; set; }
 

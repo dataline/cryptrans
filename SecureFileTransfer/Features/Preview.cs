@@ -62,7 +62,7 @@ namespace SecureFileTransfer.Features
 
                 list[i] = uad;
 
-                if (!ct.IsCancellationRequested && callback != null)
+                if (!ct.IsCancellationRequested && callback != null && sync != null)
                     sync.Send(new SendOrPostCallback(state => callback()), null);
             }
         }

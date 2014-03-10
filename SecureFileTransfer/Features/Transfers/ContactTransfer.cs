@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Provider;
 using Newtonsoft.Json;
 using System;
@@ -48,7 +49,12 @@ namespace SecureFileTransfer.Features.Transfers
             ContactId = ContactProvider.ImportContact(Context, ResultingContact);
 
             // Get Thumbnail:
-            ThumbnailUri = ContactProvider.GetContactThumbnailUri(Context, ContactId);
+            var thumbnailUri = ContactProvider.GetContactThumbnailUri(Context, ContactId);
+            if (thumbnailUri != null)
+            {
+                Thumbnail = Drawable.CreateFromPath(thumbnailUri.Path);
+                NotifyThumbnailChanged();
+            }
             //TODO: silhouette?
         }
 

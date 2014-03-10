@@ -26,6 +26,8 @@ namespace SecureFileTransfer.Activities
 
         bool statusReloadingHandlerEnabled = false;
 
+        SynchronizationContext mainUISyncCtx;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -54,8 +56,10 @@ namespace SecureFileTransfer.Activities
             transfersListView.Adapter = transfersListAdapter;
             transfersListView.ItemClick += transfersListView_ItemClick;
 
+            mainUISyncCtx = SynchronizationContext.Current ?? new SynchronizationContext();
+
             var currentConnection = Network.LocalServerConnection.CurrentConnection;
-            currentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
+            currentConnection.UIThreadSyncContext = mainUISyncCtx;
             currentConnection.Disconnected += CurrentConnection_Disconnected;
             currentConnection.FileTransferStarted += CurrentConnection_FileTransferStarted;
             currentConnection.FileTransferEnded += CurrentConnection_FileTransferEnded;
@@ -106,6 +110,10 @@ namespace SecureFileTransfer.Activities
         void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)
         {
             srv.CurrentTransfer.Context = this;
+            srv.CurrentTransfer.SetThumbnailCallback(
+                () => transfersListAdapter.NotifyDataSetChanged(),
+                mainUISyncCtx
+                );
 
             transfersListAdapter.CurrentTransfer = srv.CurrentTransfer;
             transfersListAdapter.CurrentProgress = 0;
