@@ -21,7 +21,7 @@ namespace SecureFileTransfer.Security
         {
             RSAParameters rsaParams = new RSAParameters()
             {
-                Exponent = exponent,
+                Exponent = GetCorrectExponent(exponent),
                 Modulus = pubkey
             };
 
@@ -70,10 +70,16 @@ namespace SecureFileTransfer.Security
                     throw new NotSupportedException("RSA exponent is too big. Are you living in the far future?");
 
                 byte[] exp = new byte[ExponentSize];
-                Array.Copy(rsaExp, exp, rsaExp.Length);
+                Array.Copy(rsaExp, 0, exp, exp.Length - rsaExp.Length, rsaExp.Length);
 
                 return exp;
             }
+        }
+
+        private byte[] GetCorrectExponent(byte[] exp)
+        {
+            var realExp = exp.SkipWhile(b => b == 0x0).ToArray();
+            return realExp;
         }
 
         public byte[] Encrypt(byte[] buf)
