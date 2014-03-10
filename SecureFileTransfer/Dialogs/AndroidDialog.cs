@@ -38,7 +38,10 @@ namespace SecureFileTransfer.Dialogs
 
         protected AlertDialog.Builder BuildDialog(Action positiveAction, Action negativeAction)
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            this.Cancelable = false;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .SetCancelable(false);
 
             if (dlgYesResID != NoValue)
                 builder.SetPositiveButton(dlgYesResID, (s, e) => positiveAction());
