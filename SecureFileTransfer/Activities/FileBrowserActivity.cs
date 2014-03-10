@@ -25,9 +25,11 @@ namespace SecureFileTransfer.Activities
 
         public const string IE_PATH = "Path";
 
-        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationTokenSource cts;
 
         string currentPath;
+
+        SynchronizationContext mainUISyncCtx;
 
         protected override async void OnCreate(Bundle bundle)
         {
@@ -50,21 +52,62 @@ namespace SecureFileTransfer.Activities
 
             ActionBar.Title = Path.GetFileName(currentPath);
 
-            var syncCtx = SynchronizationContext.Current ?? new SynchronizationContext();
+            mainUISyncCtx = SynchronizationContext.Current ?? new SynchronizationContext();
 
+            await ReloadFileList();
+        }
+
+        async Task ReloadFileList()
+        {
             if (Directory.Exists(currentPath))
             {
-                await Task.Run(() => GetListing(syncCtx));
+                await Task.Run(() => GetListing(mainUISyncCtx));
                 adapter.NotifyDataSetChanged();
             }
         }
 
         void listView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
+            if (cts != null)
+                cts.Cancel();
+
+            var path = adapter.Contents[e.Position].path;
+
+            new Dialogs.YesNoDialog(
+                this,
+                string.Format(GetString(Resource.String.DeleteConfirmFormatStr), Path.GetFileName(path)),
+                Resource.String.Yes,
+                Resource.String.No,
+                async result =>
+                {
+                    if (result == Dialogs.YesNoDialog.AndroidDialogResult.Yes)
+                    {
+                        PerformDelete(path);
+                        await ReloadFileList();
+                    }
+                }).Show("deleteconf");
+        }
+
+        void PerformDelete(string path)
+        {
+            try
+            {
+                if (Directory.Exists(path))
+                    Directory.Delete(path, true);
+                else if (File.Exists(path))
+                    File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                ex.Handle(true);
+            }
         }
 
         void listView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            if (cts != null)
+                cts.Cancel();
+
             var path = adapter.Contents[e.Position].path;
 
             if (Directory.Exists(path))
@@ -85,7 +128,8 @@ namespace SecureFileTransfer.Activities
 
         protected override void OnStop()
         {
-            cts.Cancel();
+            if (cts != null)
+                cts.Cancel();
 
             base.OnStop();
         }
@@ -101,12 +145,16 @@ namespace SecureFileTransfer.Activities
         {
             try
             {
+                adapter.DisposeContent();
+
                 adapter.Contents = Directory.GetFiles(currentPath)
                     .Concat(Directory.GetDirectories(currentPath))
                     .OrderBy(path => path, new FileFolderComparator())
                     .ThenBy(path => Path.GetFileName(path))
                     .Select(path => new PathAndDrawable(path))
                     .ToList();
+
+                cts = new CancellationTokenSource();
 
                 Preview.InitPreviewForUris(
                     adapter.Contents,

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using SecureFileTransfer.Features;
+using Android.Graphics.Drawables;
 
 namespace SecureFileTransfer.Adapters
 {
@@ -53,9 +54,29 @@ namespace SecureFileTransfer.Adapters
             return view;
         }
 
+        /// <summary>
+        /// BitmapDrawables are not properly disposed automatically and produce OutOfMemoryErrors.
+        /// </summary>
+        public void DisposeContent()
+        {
+            if (Contents != null)
+            {
+                foreach (var item in Contents)
+                {
+                    if (item.drawable != null)
+                    {
+                        ((BitmapDrawable)item.drawable).Bitmap.Dispose();
+                        item.drawable.Dispose();
+                    }
+                }
+                Contents.Clear();
+                Contents = null;
+            }
+        }
+
         public new void Dispose()
         {
-            Contents.Clear();
+            DisposeContent();
 
             base.Dispose();
         }

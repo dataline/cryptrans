@@ -15,8 +15,10 @@ namespace SecureFileTransfer.Features
             if (!doNotThrow)
                 throw ex;
             else
+                Console.WriteLine("ERROR: " + ex.ToString() + "\n" + ex.Message + "\nStack Trace:\n" + ex.StackTrace);
+#else
+            Console.WriteLine("Handled exception: " + ex.ToString());
 #endif
-            Console.WriteLine("ERROR: " + ex.ToString() + "\n" + ex.Message + "\nStack Trace:\n" + ex.StackTrace);
         }
 
         public static int GetDescriptionResource(this InvalidHandshakeException ex)

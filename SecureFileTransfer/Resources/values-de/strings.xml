@@ -36,6 +36,7 @@
   <string name="Password">Passwort:</string>
   <string name="OpenHotspotSettings">WiFi Hotspot Einstellungen öffnen</string>
   <string name="BrowseReceivedFiles">Empfangene Dateien durchsuchen</string>
+  <string name="DeleteConfirmFormatStr">Wollen Sie \"{0}\" wirklich löschen?</string>
   
   <!-- ERRORS -->
   <string name="ErrEstablishServer">Der Transfer-Server konnte nicht gestartet werden. Bitte überprüfen Sie Ihre Internet-Verbindung.</string>

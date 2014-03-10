@@ -374,41 +374,44 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f06000c
 			public const int CurrentFileTransferRemainingFormatStr = 2131099660;
 			
+			// aapt resource value: 0x7f060024
+			public const int DeleteConfirmFormatStr = 2131099684;
+			
 			// aapt resource value: 0x7f060006
 			public const int Disconnect = 2131099654;
 			
+			// aapt resource value: 0x7f060026
+			public const int ErrEstablishClient = 2131099686;
+			
 			// aapt resource value: 0x7f060025
-			public const int ErrEstablishClient = 2131099685;
-			
-			// aapt resource value: 0x7f060024
-			public const int ErrEstablishServer = 2131099684;
-			
-			// aapt resource value: 0x7f06002b
-			public const int ErrHandshakeAvailableInPro = 2131099691;
-			
-			// aapt resource value: 0x7f060028
-			public const int ErrHandshakeEncryptionFailed = 2131099688;
-			
-			// aapt resource value: 0x7f06002a
-			public const int ErrHandshakeFeatureReq = 2131099690;
+			public const int ErrEstablishServer = 2131099685;
 			
 			// aapt resource value: 0x7f06002c
-			public const int ErrHandshakeInvalidPassword = 2131099692;
-			
-			// aapt resource value: 0x7f060027
-			public const int ErrHandshakeInvalidResponse = 2131099687;
+			public const int ErrHandshakeAvailableInPro = 2131099692;
 			
 			// aapt resource value: 0x7f060029
-			public const int ErrHandshakeWrongVersion = 2131099689;
+			public const int ErrHandshakeEncryptionFailed = 2131099689;
 			
-			// aapt resource value: 0x7f06002e
-			public const int ErrInvalidClientFormatStr = 2131099694;
-			
-			// aapt resource value: 0x7f060026
-			public const int ErrTransferFailedFormatStr = 2131099686;
+			// aapt resource value: 0x7f06002b
+			public const int ErrHandshakeFeatureReq = 2131099691;
 			
 			// aapt resource value: 0x7f06002d
-			public const int ErrUnexpected = 2131099693;
+			public const int ErrHandshakeInvalidPassword = 2131099693;
+			
+			// aapt resource value: 0x7f060028
+			public const int ErrHandshakeInvalidResponse = 2131099688;
+			
+			// aapt resource value: 0x7f06002a
+			public const int ErrHandshakeWrongVersion = 2131099690;
+			
+			// aapt resource value: 0x7f06002f
+			public const int ErrInvalidClientFormatStr = 2131099695;
+			
+			// aapt resource value: 0x7f060027
+			public const int ErrTransferFailedFormatStr = 2131099687;
+			
+			// aapt resource value: 0x7f06002e
+			public const int ErrUnexpected = 2131099694;
 			
 			// aapt resource value: 0x7f060020
 			public const int IPAddress = 2131099680;

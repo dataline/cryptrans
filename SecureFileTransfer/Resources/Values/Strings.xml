@@ -36,6 +36,7 @@
   <string name="Password">Password:</string>
   <string name="OpenHotspotSettings">Open WiFi hotspot settings</string>
   <string name="BrowseReceivedFiles">Browse received files</string>
+  <string name="DeleteConfirmFormatStr">Do you want to delete \"{0}\"?</string>
 
 
   <!-- ERRORS -->

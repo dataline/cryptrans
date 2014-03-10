@@ -98,6 +98,7 @@ namespace SecureFileTransfer.Features
 
             var resized = Bitmap.CreateScaledBitmap(src.Bitmap, (int)width, (int)height, false);
 
+            src.Bitmap.Dispose();
             src.Dispose();
 
             return new BitmapDrawable(res, resized);
