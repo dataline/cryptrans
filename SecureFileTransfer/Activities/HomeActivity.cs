@@ -121,6 +121,22 @@ namespace SecureFileTransfer.Activities
             base.OnStop();
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.HomeMenu, menu);
+            return true;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.BrowseReceivedFiles)
+            {
+                StartActivity(typeof(FileBrowserActivity));
+                return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
         public async Task EstablishServer()
         {
             if (!CheckWifi())

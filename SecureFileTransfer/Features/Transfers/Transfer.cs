@@ -85,7 +85,7 @@ namespace SecureFileTransfer.Features.Transfers
             };
         }
 
-        protected string IncomingPath
+        public static string IncomingPath
         {
             get
             {

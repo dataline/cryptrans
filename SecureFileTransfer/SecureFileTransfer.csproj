@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\FileBrowserActivity.cs" />
+    <Compile Include="Adapters\FileBrowserAdapter.cs" />
     <Compile Include="Dialogs\ConnectionFailedDialog.cs" />
     <Compile Include="Dialogs\InvalidHandshakeDialog.cs" />
     <Compile Include="Dialogs\InvalidQRCodeDialog.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Dialogs\NoWifiDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Features\ExceptionExtensions.cs" />
+    <Compile Include="Features\Preview.cs" />
     <Compile Include="Network\SingleTransferClientSpecial.cs" />
     <Compile Include="Network\WiFiDirect\PeerListListener.cs" />
     <Compile Include="Network\WiFiDirect\WifiActionListener.cs" />
@@ -161,6 +164,12 @@
     <AndroidResource Include="Resources\layout\ConnectingDialog.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\FileItem.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\FileBrowserActivity.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -189,6 +198,7 @@
     <AndroidResource Include="Resources\drawable-mdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
+    <AndroidResource Include="Resources\menu\HomeMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

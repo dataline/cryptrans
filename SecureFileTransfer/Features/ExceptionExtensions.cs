@@ -10,6 +10,7 @@ namespace SecureFileTransfer.Features
     {
         public static void Handle(this Exception ex, bool doNotThrow = false)
         {
+            Console.WriteLine("Error handling routine entered.");
 #if DEBUG
             if (!doNotThrow)
                 throw ex;

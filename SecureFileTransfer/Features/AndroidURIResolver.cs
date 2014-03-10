@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.IO;
+using Android.Webkit;
 
 namespace SecureFileTransfer.Features
 {
@@ -31,6 +32,20 @@ namespace SecureFileTransfer.Features
         public static Stream GetInputStreamFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver)
         {
             return contentResolver.OpenInputStream(uri);
+        }
+
+        public static bool IsImage(this Android.Net.Uri uri)
+        { 
+            string ext = MimeTypeMap.GetFileExtensionFromUrl(uri.Path);
+            string mtype;
+            return (ext != null && (mtype = MimeTypeMap.Singleton.GetMimeTypeFromExtension(ext)) != null &&
+                mtype.StartsWith("image/"));
+        }
+
+        public static bool IsImage(this string path)
+        { 
+            string mtype;
+            return (mtype = Java.Net.URLConnection.GuessContentTypeFromName(path)) != null && mtype.StartsWith("image/");
         }
     }
 }

@@ -35,6 +35,7 @@
   <string name="IPAddress">IP-Adresse:</string>
   <string name="Password">Passwort:</string>
   <string name="OpenHotspotSettings">WiFi Hotspot Einstellungen öffnen</string>
+  <string name="BrowseReceivedFiles">Empfangene Dateien durchsuchen</string>
   
   <!-- ERRORS -->
   <string name="ErrEstablishServer">Der Transfer-Server konnte nicht gestartet werden. Bitte überprüfen Sie Ihre Internet-Verbindung.</string>
