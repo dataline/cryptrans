@@ -99,6 +99,12 @@ namespace SecureFileTransfer.Features.Transfers
 
             mediaScanner.SetData(uri);
             Context.SendBroadcast(mediaScanner);
+
+            // Get Thumbnail:
+            var type = Java.Net.URLConnection.GuessContentTypeFromName(AbsoluteFilePath);
+            if (type.StartsWith("image/"))
+                ThumbnailUri = Android.Net.Uri.Parse("file://" + AbsoluteFilePath);
+            //TODO: "generic" file icon?
         }
 
         public override void Close()

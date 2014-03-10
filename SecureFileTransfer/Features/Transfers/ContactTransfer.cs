@@ -46,6 +46,10 @@ namespace SecureFileTransfer.Features.Transfers
             ResultingContact = JsonConvert.DeserializeObject<AndroidContact>(contactJson, JsonSettings);
 
             ContactId = ContactProvider.ImportContact(Context, ResultingContact);
+
+            // Get Thumbnail:
+            ThumbnailUri = ContactProvider.GetContactThumbnailUri(Context, ContactId);
+            //TODO: silhouette?
         }
 
         public override void OpenPreview(Android.App.Activity androidActivity)

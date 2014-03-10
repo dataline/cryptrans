@@ -188,8 +188,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f090012
 			public const int PasswordField = 2131296274;
 			
-			// aapt resource value: 0x7f09001e
-			public const int ProgressBar = 2131296286;
+			// aapt resource value: 0x7f09001f
+			public const int ProgressBar = 2131296287;
 			
 			// aapt resource value: 0x7f090019
 			public const int QRContainerView = 2131296281;
@@ -197,8 +197,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f090017
 			public const int ScanCodeButton = 2131296279;
 			
-			// aapt resource value: 0x7f090021
-			public const int Send = 2131296289;
+			// aapt resource value: 0x7f090022
+			public const int Send = 2131296290;
 			
 			// aapt resource value: 0x7f090002
 			public const int SendContactsButton = 2131296258;
@@ -206,20 +206,23 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f090001
 			public const int SendPicturesButton = 2131296257;
 			
-			// aapt resource value: 0x7f09001f
-			public const int StatusLabel = 2131296287;
+			// aapt resource value: 0x7f090020
+			public const int StatusLabel = 2131296288;
 			
 			// aapt resource value: 0x7f09000d
 			public const int TextView = 2131296269;
 			
+			// aapt resource value: 0x7f09001c
+			public const int ThumbnailView = 2131296284;
+			
 			// aapt resource value: 0x7f09001b
 			public const int TransfersListView = 2131296283;
 			
-			// aapt resource value: 0x7f090020
-			public const int contentFrame = 2131296288;
+			// aapt resource value: 0x7f090021
+			public const int contentFrame = 2131296289;
 			
-			// aapt resource value: 0x7f09001c
-			public const int imageView1 = 2131296284;
+			// aapt resource value: 0x7f09001e
+			public const int imageView1 = 2131296286;
 			
 			// aapt resource value: 0x7f090003
 			public const int linearLayout1 = 2131296259;

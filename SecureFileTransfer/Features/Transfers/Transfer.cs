@@ -13,6 +13,8 @@ namespace SecureFileTransfer.Features.Transfers
         public string FileName { get; set; }
         public long FileLength { get; set; }
 
+        public Android.Net.Uri ThumbnailUri { get; set; }
+
         public Android.Content.Context Context { get; set; }
 
         public bool IsReading { get; set; }
