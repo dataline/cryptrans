@@ -208,7 +208,9 @@ namespace SecureFileTransfer.Activities
 
                 currentTransferTitleLabel.Text = string.Format(GetString(Resource.String.CurrentFileTransferRemainingFormatStr), transfers.Remaining);
                 currentTransferFileNameField.Text = transfers.CurrentTransfer.FileName;
-                currentTransferStatusField.Text = dataConnection == null ? "Preparing..." : dataConnection.BytesPerSecond.HumanReadableSizePerSecond();
+                currentTransferStatusField.Text = dataConnection == null ?
+                    GetString(Resource.String.Preparing) :
+                    dataConnection.BytesPerSecond.HumanReadableSizePerSecond();
                 currentTransferProgressBar.Progress = dataConnection == null ? 0 : dataConnection.Progress;
 
                 abortButton.SetText(transfers.HasQueuedTransfers ? Resource.String.AbortAll : Resource.String.Abort);
