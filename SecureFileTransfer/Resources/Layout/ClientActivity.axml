@@ -60,7 +60,7 @@
             android:layout_marginRight="10.0dp"
             android:layout_marginLeft="10.0dp"
             android:layout_marginBottom="8.0dp"
-            android:visibility="visible">
+            android:visibility="invisible">
             <TextView
                 style="@style/menu_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
