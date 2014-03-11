@@ -20,7 +20,6 @@ namespace SecureFileTransfer.Security
                     RSA r = new RSA();
                     r.Generate();
                     _rsa = r;
-                    rsaGenerationTask = null;
                 });
             }
         }
@@ -33,6 +32,7 @@ namespace SecureFileTransfer.Security
                 StartKeyGeneration();
 
             await rsaGenerationTask;
+            rsaGenerationTask = null;
 
             return _rsa;
         }
