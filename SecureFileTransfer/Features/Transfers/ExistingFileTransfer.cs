@@ -107,7 +107,7 @@ namespace SecureFileTransfer.Features.Transfers
             Preview.InitPreviewForUris(
                 uriList,
                 new CancellationTokenSource().Token,
-                ThumbnailChangedCallbackSyncContext,
+                MainUISyncContext,
                 Context.Resources,
                 () =>
                 {

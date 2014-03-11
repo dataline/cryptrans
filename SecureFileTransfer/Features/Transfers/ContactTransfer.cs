@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Provider;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SecureFileTransfer.Features.Transfers
 {
@@ -48,14 +50,19 @@ namespace SecureFileTransfer.Features.Transfers
 
             ContactId = ContactProvider.ImportContact(Context, ResultingContact);
 
-            // Get Thumbnail:
-            var thumbnailUri = ContactProvider.GetContactThumbnailUri(Context, ContactId);
-            if (thumbnailUri != null)
+            if (ResultingContact.Photo != null)
             {
-                Thumbnail = Drawable.CreateFromPath(thumbnailUri.Path);
-                NotifyThumbnailChanged();
+                var list = new List<ByteArrayAndDrawable>();
+                list.Add(new ByteArrayAndDrawable(ResultingContact.Photo));
+
+                Preview.InitPreviewForByteArrays(list, new CancellationTokenSource().Token,
+                    MainUISyncContext, Context.Resources,
+                    () =>
+                    {
+                        Thumbnail = list[0].drawable;
+                        NotifyThumbnailChanged();
+                    });
             }
-            //TODO: silhouette?
         }
 
         public override void OpenPreview(Android.App.Activity androidActivity)

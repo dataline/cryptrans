@@ -20,6 +20,17 @@ namespace SecureFileTransfer.Features
             drawable = null;
         }
 	}
+    public struct ByteArrayAndDrawable
+	{
+        public byte[] array;
+        public Drawable drawable;
+
+        public ByteArrayAndDrawable(byte[] b)
+        {
+            array = b;
+            drawable = null;
+        }
+	}
     public static class Preview
     {
 
@@ -34,6 +45,17 @@ namespace SecureFileTransfer.Features
             Action callback)
         {
             var t = new Thread(() => __InitPreviewForUris(list, ct, sync, res, callback));
+            t.Start();
+        }
+
+        public static void InitPreviewForByteArrays(
+            List<ByteArrayAndDrawable> list,
+            CancellationToken ct,
+            SynchronizationContext sync,
+            Android.Content.Res.Resources res,
+            Action callback)
+        { 
+            var t = new Thread(() => __InitPreviewForByteArrays(list, ct, sync, res, callback));
             t.Start();
         }
 
@@ -67,18 +89,45 @@ namespace SecureFileTransfer.Features
             }
         }
 
+        static void __InitPreviewForByteArrays(
+            List<ByteArrayAndDrawable> list,
+            CancellationToken ct,
+            SynchronizationContext sync,
+            Android.Content.Res.Resources res,
+            Action callback)
+        {
+            for (int i = 0; i < list.Count && !ct.IsCancellationRequested; i++)
+            {
+                var bad = list[i];
+
+                bad.drawable = GetResized(BitmapFactory.DecodeByteArray(bad.array, 0, bad.array.Length), res);
+
+                list[i] = bad;
+
+                if (!ct.IsCancellationRequested && callback != null && sync != null)
+                    sync.Send(new SendOrPostCallback(state => callback()), null);
+            }
+        }
+
         static Drawable GetResized(Drawable d, Android.Content.Res.Resources res)
         {
             if (d == null)
                 return null;
 
             var src = (BitmapDrawable)d;
+            var result = GetResized(src.Bitmap, res);
 
-            double width = (double)src.IntrinsicWidth;
-            double height = (double)src.IntrinsicHeight;
+            src.Dispose();
+            return result;
+        }
+
+        static Drawable GetResized(Bitmap b, Android.Content.Res.Resources res)
+        {
+            double width = (double)b.Width;
+            double height = (double)b.Height;
 
             if (width <= MaxWidth && height <= MaxHeight)
-                return d;
+                return new BitmapDrawable(res, b);
 
             if (width > height)
             {
@@ -96,10 +145,9 @@ namespace SecureFileTransfer.Features
                 height = MaxHeight;
             }
 
-            var resized = Bitmap.CreateScaledBitmap(src.Bitmap, (int)width, (int)height, false);
+            var resized = Bitmap.CreateScaledBitmap(b, (int)width, (int)height, false);
 
-            src.Bitmap.Dispose();
-            src.Dispose();
+            b.Dispose();
 
             return new BitmapDrawable(res, resized);
         }

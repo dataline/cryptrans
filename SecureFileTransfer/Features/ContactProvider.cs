@@ -91,26 +91,28 @@ namespace SecureFileTransfer.Features
             cursor.Close();
         }
 
-        public static Android.Net.Uri GetContactThumbnailUri(Context ctx, string id)
-        {
-            string[] projection = { ContactsContract.Contacts.InterfaceConsts.PhotoThumbnailUri };
-
-            var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentUri, projection, null, null, null);
-            var cursor = (ICursor)loader.LoadInBackground();
-
-            Android.Net.Uri uri = null;
-
-            if (cursor.MoveToFirst())
-            {
-                var uristr = cursor.GetString(0);
-                if (uristr != null)
-                    uri = Android.Net.Uri.Parse(uristr);
-            }
-
-            cursor.Close();
-
-            return uri;
-        }
+        //public static Android.Net.Uri GetContactThumbnailUri(Context ctx, string id)
+        //{
+        //    string[] projection = { ContactsContract.Contacts.InterfaceConsts.PhotoUri };
+        //
+        //    var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentUri, projection,
+        //        ContactsContract.Contacts.InterfaceConsts.Id + " = ?", new string[] { id },
+        //        null);
+        //    var cursor = (ICursor)loader.LoadInBackground();
+        //
+        //    Android.Net.Uri uri = null;
+        //
+        //    if (cursor.MoveToFirst())
+        //    {
+        //        var uristr = cursor.GetString(0);
+        //        if (uristr != null)
+        //            uri = Android.Net.Uri.Parse(uristr);
+        //    }
+        //
+        //    cursor.Close();
+        //
+        //    return uri;
+        //}
 
         public static string GetContactIDFromLookupKey(Context ctx, string lookupKey)
         {

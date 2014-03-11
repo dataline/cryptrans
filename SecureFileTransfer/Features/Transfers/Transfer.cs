@@ -17,19 +17,19 @@ namespace SecureFileTransfer.Features.Transfers
 
         public Drawable Thumbnail { get; set; }
         public Action ThumbnailChangedCallback { get; set; }
-        public SynchronizationContext ThumbnailChangedCallbackSyncContext { get; set; }
+        public SynchronizationContext MainUISyncContext { get; set; }
 
         public void SetThumbnailCallback(Action callback, SynchronizationContext ctx)
         {
             ThumbnailChangedCallback = callback;
-            ThumbnailChangedCallbackSyncContext = ctx;
+            MainUISyncContext = ctx;
         }
 
         protected void NotifyThumbnailChanged()
         {
             if (ThumbnailChangedCallback != null &&
-                ThumbnailChangedCallbackSyncContext != null)
-                ThumbnailChangedCallbackSyncContext.Send(
+                MainUISyncContext != null)
+                MainUISyncContext.Send(
                     new SendOrPostCallback(state => ThumbnailChangedCallback()),
                     null);
         }
@@ -47,6 +47,10 @@ namespace SecureFileTransfer.Features.Transfers
         public abstract void Close();
 
         public abstract void OpenPreview(Android.App.Activity androidActivity);
+
+        public virtual void PrepareThumbnail()
+        {
+        }
 
         public static Transfer GetForRequest(Network.Entities.FileTransferRequest req)
         {
