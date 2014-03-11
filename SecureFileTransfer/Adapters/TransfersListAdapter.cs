@@ -95,8 +95,10 @@ namespace SecureFileTransfer.Adapters
                 view.FindViewById<TextView>(Resource.Id.StatusLabel).Text = CurrentStatusString;
                 view.FindViewById<ProgressBar>(Resource.Id.ProgressBar).Progress = CurrentProgress;
             }
-
-            view.FindViewById<ImageView>(Resource.Id.ThumbnailView).SetImageDrawable(transfer.Thumbnail);
+            else
+            {
+                view.FindViewById<ImageView>(Resource.Id.ThumbnailView).SetImageDrawable(transfer.Thumbnail);
+            }
 
             return view;
         }
