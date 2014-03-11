@@ -23,7 +23,7 @@ namespace SecureFileTransfer.Activities
     {
         ImageView qrContainerView;
 
-        System.Threading.CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
+        System.Threading.CancellationTokenSource cts;
         Task<Network.LocalServer> getServerTask;
 
         Dialogs.AndroidDialog currentDialog = null;
@@ -142,6 +142,7 @@ namespace SecureFileTransfer.Activities
             if (!CheckWifi())
                 return;
 
+            cts = new CancellationTokenSource();
             getServerTask = Network.LocalServer.GetServerAsync(cts.Token);
             var srv = await getServerTask;
             getServerTask = null;
@@ -158,7 +159,7 @@ namespace SecureFileTransfer.Activities
 
         public void DestroyServer()
         {
-            if (getServerTask != null)
+            if (getServerTask != null && cts != null)
                 cts.Cancel();
 
             try
