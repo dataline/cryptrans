@@ -49,7 +49,11 @@ namespace SecureFileTransfer.Adapters
 
             view.FindViewById<TextView>(Resource.Id.FileName).Text = Path.GetFileName(cururi.path);
 
-            view.FindViewById<ImageView>(Resource.Id.ThumbnailView).SetImageDrawable(cururi.drawable);
+            var thumbnail = view.FindViewById<ImageView>(Resource.Id.ThumbnailView);
+            if (cururi.drawable != null)
+                thumbnail.SetImageDrawable(cururi.drawable);
+            else
+                thumbnail.SetImageResource(Resource.Drawable.file);
 
             return view;
         }
@@ -63,7 +67,7 @@ namespace SecureFileTransfer.Adapters
             {
                 foreach (var item in Contents)
                 {
-                    if (item.drawable != null)
+                    if (item.drawable != null && item.drawable is BitmapDrawable)
                     {
                         ((BitmapDrawable)item.drawable).Bitmap.Dispose();
                         item.drawable.Dispose();

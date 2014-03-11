@@ -97,7 +97,17 @@ namespace SecureFileTransfer.Adapters
             }
             else
             {
-                view.FindViewById<ImageView>(Resource.Id.ThumbnailView).SetImageDrawable(transfer.Thumbnail);
+                var thumbnail = view.FindViewById<ImageView>(Resource.Id.ThumbnailView);
+
+                if (transfer.Thumbnail != null)
+                    thumbnail.SetImageDrawable(transfer.Thumbnail);
+                else
+                    thumbnail.SetImageResource(
+                        transfer is ContactTransfer ?
+                        Resource.Drawable.contact :
+                        Resource.Drawable.file
+                        );
+                
             }
 
             return view;

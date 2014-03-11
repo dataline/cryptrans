@@ -202,6 +202,14 @@
     <AndroidResource Include="Resources\drawable-xhdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
     <AndroidResource Include="Resources\menu\HomeMenu.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\file.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\file.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\file.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\file.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\contact.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\contact.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\contact.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\contact.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">
