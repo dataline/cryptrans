@@ -149,11 +149,11 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f090012
 			public const int AbortButton = 2131296274;
 			
-			// aapt resource value: 0x7f09002c
-			public const int About = 2131296300;
+			// aapt resource value: 0x7f09002d
+			public const int About = 2131296301;
 			
-			// aapt resource value: 0x7f09002b
-			public const int BrowseReceivedFiles = 2131296299;
+			// aapt resource value: 0x7f09002c
+			public const int BrowseReceivedFiles = 2131296300;
 			
 			// aapt resource value: 0x7f090019
 			public const int CheckBox = 2131296281;
@@ -215,8 +215,8 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f09001f
 			public const int ScanCodeButton = 2131296287;
 			
-			// aapt resource value: 0x7f09002a
-			public const int Send = 2131296298;
+			// aapt resource value: 0x7f09002b
+			public const int Send = 2131296299;
 			
 			// aapt resource value: 0x7f090007
 			public const int SendContactsButton = 2131296263;
@@ -226,6 +226,9 @@ namespace SecureFileTransfer
 			
 			// aapt resource value: 0x7f090027
 			public const int StatusLabel = 2131296295;
+			
+			// aapt resource value: 0x7f090028
+			public const int TapHereToBeginButton = 2131296296;
 			
 			// aapt resource value: 0x7f090015
 			public const int TextView = 2131296277;
@@ -239,11 +242,11 @@ namespace SecureFileTransfer
 			// aapt resource value: 0x7f090003
 			public const int VersionInfo = 2131296259;
 			
-			// aapt resource value: 0x7f090029
-			public const int Web = 2131296297;
+			// aapt resource value: 0x7f09002a
+			public const int Web = 2131296298;
 			
-			// aapt resource value: 0x7f090028
-			public const int contentFrame = 2131296296;
+			// aapt resource value: 0x7f090029
+			public const int contentFrame = 2131296297;
 			
 			// aapt resource value: 0x7f090001
 			public const int imageView1 = 2131296257;
@@ -334,10 +337,13 @@ namespace SecureFileTransfer
 			public const int TransferListItem = 2130903052;
 			
 			// aapt resource value: 0x7f03000d
-			public const int zxingscanneractivitylayout = 2130903053;
+			public const int WelcomeActivity = 2130903053;
 			
 			// aapt resource value: 0x7f03000e
-			public const int zxingscannerfragmentlayout = 2130903054;
+			public const int zxingscanneractivitylayout = 2130903054;
+			
+			// aapt resource value: 0x7f03000f
+			public const int zxingscannerfragmentlayout = 2130903055;
 			
 			static Layout()
 			{
@@ -374,164 +380,170 @@ namespace SecureFileTransfer
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060011
-			public const int Abort = 2131099665;
-			
-			// aapt resource value: 0x7f060012
-			public const int AbortAll = 2131099666;
-			
 			// aapt resource value: 0x7f060013
-			public const int AbortAreYouSure = 2131099667;
+			public const int Abort = 2131099667;
+			
+			// aapt resource value: 0x7f060014
+			public const int AbortAll = 2131099668;
+			
+			// aapt resource value: 0x7f060015
+			public const int AbortAreYouSure = 2131099669;
+			
+			// aapt resource value: 0x7f060003
+			public const int About = 2131099651;
 			
 			// aapt resource value: 0x7f060002
-			public const int About = 2131099650;
+			public const int ApplicationName = 2131099650;
 			
-			// aapt resource value: 0x7f060001
-			public const int ApplicationName = 2131099649;
+			// aapt resource value: 0x7f060029
+			public const int BrowseReceivedFiles = 2131099689;
 			
-			// aapt resource value: 0x7f060027
-			public const int BrowseReceivedFiles = 2131099687;
-			
-			// aapt resource value: 0x7f060017
-			public const int Cancel = 2131099671;
-			
-			// aapt resource value: 0x7f06000e
-			public const int ClientSendContacts = 2131099662;
-			
-			// aapt resource value: 0x7f06000d
-			public const int ClientSendFile = 2131099661;
-			
-			// aapt resource value: 0x7f060023
-			public const int ConnectManuallyInfo = 2131099683;
-			
-			// aapt resource value: 0x7f06000c
-			public const int ConnectedToFormatStr = 2131099660;
-			
-			// aapt resource value: 0x7f06000b
-			public const int Connecting = 2131099659;
-			
-			// aapt resource value: 0x7f06001c
-			public const int ContactFormatStr = 2131099676;
+			// aapt resource value: 0x7f060019
+			public const int Cancel = 2131099673;
 			
 			// aapt resource value: 0x7f060010
-			public const int CurrentFileTransferRemainingFormatStr = 2131099664;
-			
-			// aapt resource value: 0x7f060028
-			public const int DeleteConfirmFormatStr = 2131099688;
-			
-			// aapt resource value: 0x7f06000a
-			public const int Disconnect = 2131099658;
-			
-			// aapt resource value: 0x7f06002b
-			public const int ErrEstablishClient = 2131099691;
-			
-			// aapt resource value: 0x7f06002a
-			public const int ErrEstablishServer = 2131099690;
-			
-			// aapt resource value: 0x7f060031
-			public const int ErrHandshakeAvailableInPro = 2131099697;
-			
-			// aapt resource value: 0x7f06002e
-			public const int ErrHandshakeEncryptionFailed = 2131099694;
-			
-			// aapt resource value: 0x7f060030
-			public const int ErrHandshakeFeatureReq = 2131099696;
-			
-			// aapt resource value: 0x7f060032
-			public const int ErrHandshakeInvalidPassword = 2131099698;
-			
-			// aapt resource value: 0x7f06002d
-			public const int ErrHandshakeInvalidResponse = 2131099693;
-			
-			// aapt resource value: 0x7f06002f
-			public const int ErrHandshakeWrongVersion = 2131099695;
-			
-			// aapt resource value: 0x7f060034
-			public const int ErrInvalidClientFormatStr = 2131099700;
-			
-			// aapt resource value: 0x7f06002c
-			public const int ErrTransferFailedFormatStr = 2131099692;
-			
-			// aapt resource value: 0x7f060033
-			public const int ErrUnexpected = 2131099699;
-			
-			// aapt resource value: 0x7f060024
-			public const int IPAddress = 2131099684;
+			public const int ClientSendContacts = 2131099664;
 			
 			// aapt resource value: 0x7f06000f
-			public const int IncomingFileTransfers = 2131099663;
+			public const int ClientSendFile = 2131099663;
+			
+			// aapt resource value: 0x7f060025
+			public const int ConnectManuallyInfo = 2131099685;
+			
+			// aapt resource value: 0x7f06000e
+			public const int ConnectedToFormatStr = 2131099662;
+			
+			// aapt resource value: 0x7f06000d
+			public const int Connecting = 2131099661;
+			
+			// aapt resource value: 0x7f06001e
+			public const int ContactFormatStr = 2131099678;
+			
+			// aapt resource value: 0x7f060012
+			public const int CurrentFileTransferRemainingFormatStr = 2131099666;
+			
+			// aapt resource value: 0x7f06002a
+			public const int DeleteConfirmFormatStr = 2131099690;
+			
+			// aapt resource value: 0x7f06000c
+			public const int Disconnect = 2131099660;
+			
+			// aapt resource value: 0x7f06002d
+			public const int ErrEstablishClient = 2131099693;
+			
+			// aapt resource value: 0x7f06002c
+			public const int ErrEstablishServer = 2131099692;
+			
+			// aapt resource value: 0x7f060033
+			public const int ErrHandshakeAvailableInPro = 2131099699;
+			
+			// aapt resource value: 0x7f060030
+			public const int ErrHandshakeEncryptionFailed = 2131099696;
+			
+			// aapt resource value: 0x7f060032
+			public const int ErrHandshakeFeatureReq = 2131099698;
+			
+			// aapt resource value: 0x7f060034
+			public const int ErrHandshakeInvalidPassword = 2131099700;
+			
+			// aapt resource value: 0x7f06002f
+			public const int ErrHandshakeInvalidResponse = 2131099695;
+			
+			// aapt resource value: 0x7f060031
+			public const int ErrHandshakeWrongVersion = 2131099697;
+			
+			// aapt resource value: 0x7f060036
+			public const int ErrInvalidClientFormatStr = 2131099702;
+			
+			// aapt resource value: 0x7f06002e
+			public const int ErrTransferFailedFormatStr = 2131099694;
+			
+			// aapt resource value: 0x7f060035
+			public const int ErrUnexpected = 2131099701;
+			
+			// aapt resource value: 0x7f060026
+			public const int IPAddress = 2131099686;
+			
+			// aapt resource value: 0x7f060011
+			public const int IncomingFileTransfers = 2131099665;
 			
 			// aapt resource value: 0x7f060000
 			public const int LicenseText = 2131099648;
 			
-			// aapt resource value: 0x7f060015
-			public const int No = 2131099669;
-			
-			// aapt resource value: 0x7f06001b
-			public const int NoWifiInfo = 2131099675;
-			
-			// aapt resource value: 0x7f060016
-			public const int OK = 2131099670;
-			
-			// aapt resource value: 0x7f060026
-			public const int OpenHotspotSettings = 2131099686;
-			
-			// aapt resource value: 0x7f06001a
-			public const int OpenWifiSettings = 2131099674;
-			
-			// aapt resource value: 0x7f060025
-			public const int Password = 2131099685;
-			
-			// aapt resource value: 0x7f060021
-			public const int PleaseWaitForServerToInitialize = 2131099681;
-			
-			// aapt resource value: 0x7f060029
-			public const int Preparing = 2131099689;
-			
-			// aapt resource value: 0x7f060007
-			public const int QRCodeInvalid = 2131099655;
-			
-			// aapt resource value: 0x7f060008
-			public const int ReceiveFiles = 2131099656;
-			
-			// aapt resource value: 0x7f06001e
-			public const int ReceivingCapitals = 2131099678;
-			
-			// aapt resource value: 0x7f06001f
-			public const int ReceivingInfo = 2131099679;
-			
-			// aapt resource value: 0x7f060019
-			public const int Retry = 2131099673;
-			
-			// aapt resource value: 0x7f060020
-			public const int ScanCode = 2131099680;
-			
-			// aapt resource value: 0x7f060022
-			public const int ScannerOverlayPleaseScan = 2131099682;
-			
-			// aapt resource value: 0x7f060018
-			public const int Send = 2131099672;
-			
-			// aapt resource value: 0x7f060009
-			public const int SendFiles = 2131099657;
+			// aapt resource value: 0x7f060017
+			public const int No = 2131099671;
 			
 			// aapt resource value: 0x7f06001d
-			public const int SendingCapitals = 2131099677;
+			public const int NoWifiInfo = 2131099677;
+			
+			// aapt resource value: 0x7f060018
+			public const int OK = 2131099672;
+			
+			// aapt resource value: 0x7f060028
+			public const int OpenHotspotSettings = 2131099688;
+			
+			// aapt resource value: 0x7f06001c
+			public const int OpenWifiSettings = 2131099676;
+			
+			// aapt resource value: 0x7f060027
+			public const int Password = 2131099687;
+			
+			// aapt resource value: 0x7f060023
+			public const int PleaseWaitForServerToInitialize = 2131099683;
+			
+			// aapt resource value: 0x7f06002b
+			public const int Preparing = 2131099691;
+			
+			// aapt resource value: 0x7f060009
+			public const int QRCodeInvalid = 2131099657;
+			
+			// aapt resource value: 0x7f06000a
+			public const int ReceiveFiles = 2131099658;
+			
+			// aapt resource value: 0x7f060020
+			public const int ReceivingCapitals = 2131099680;
+			
+			// aapt resource value: 0x7f060021
+			public const int ReceivingInfo = 2131099681;
+			
+			// aapt resource value: 0x7f06001b
+			public const int Retry = 2131099675;
+			
+			// aapt resource value: 0x7f060022
+			public const int ScanCode = 2131099682;
+			
+			// aapt resource value: 0x7f060024
+			public const int ScannerOverlayPleaseScan = 2131099684;
+			
+			// aapt resource value: 0x7f06001a
+			public const int Send = 2131099674;
+			
+			// aapt resource value: 0x7f06000b
+			public const int SendFiles = 2131099659;
+			
+			// aapt resource value: 0x7f06001f
+			public const int SendingCapitals = 2131099679;
+			
+			// aapt resource value: 0x7f060007
+			public const int ServerConnectManually = 2131099655;
+			
+			// aapt resource value: 0x7f060008
+			public const int ServerConnectManuallyInfoFormatStr = 2131099656;
 			
 			// aapt resource value: 0x7f060005
-			public const int ServerConnectManually = 2131099653;
+			public const int TapHereToBegin = 2131099653;
 			
 			// aapt resource value: 0x7f060006
-			public const int ServerConnectManuallyInfoFormatStr = 2131099654;
+			public const int VersionFormatStr = 2131099654;
 			
 			// aapt resource value: 0x7f060004
-			public const int VersionFormatStr = 2131099652;
+			public const int Web = 2131099652;
 			
-			// aapt resource value: 0x7f060003
-			public const int Web = 2131099651;
+			// aapt resource value: 0x7f060001
+			public const int Welcome = 2131099649;
 			
-			// aapt resource value: 0x7f060014
-			public const int Yes = 2131099668;
+			// aapt resource value: 0x7f060016
+			public const int Yes = 2131099670;
 			
 			static String()
 			{

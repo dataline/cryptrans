@@ -37,13 +37,21 @@
         android:id="@+id/VersionInfo"
         android:gravity="center_horizontal"
         android:text="Version 0" />
-    <TextView
-        android:text="@string/LicenseText"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/textView2"
         android:layout_marginTop="12.0dp"
+        android:layout_marginBottom="6.0dp"
         android:layout_marginRight="4.0dp"
-        android:layout_marginLeft="4.0dp" />
+        android:layout_marginLeft="4.0dp"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="20dp"
+        android:overScrollMode="never">
+        <TextView
+            android:text="@string/LicenseText"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/textView2" />
+    </ScrollView>
 </LinearLayout>

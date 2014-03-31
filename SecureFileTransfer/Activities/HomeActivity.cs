@@ -12,6 +12,7 @@ using System.Threading;
 using SecureFileTransfer.Features;
 using Android.Provider;
 using SecureFileTransfer.Network;
+using Android.Preferences;
 
 namespace SecureFileTransfer.Activities
 {
@@ -92,6 +93,15 @@ namespace SecureFileTransfer.Activities
 
             // Start generation of RSA keys in background (could take up to 10 seconds, we do not want the user to wait too long)
             Security.KeyProvider.StartKeyGeneration();
+
+            // First start?
+            if (!Features.Preferences.GetBool(
+                    PreferenceManager.GetDefaultSharedPreferences(this),
+                    Features.Preferences.PrefInfoActivityShown))
+            {
+                StartActivity(typeof(WelcomeActivity));
+                Finish();
+            }
         }
 
         protected override async void OnStart()

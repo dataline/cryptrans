@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/main_layout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="13.3dp"
+        android:layout_marginLeft="13.3dp"
+        android:layout_marginTop="21.3dp"
+        android:layout_weight="1"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="20dp"
+        android:overScrollMode="never">
+        <TextView
+            style="@style/menu_text"
+            android:text="@string/Welcome"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/textView1"
+            android:gravity="center_horizontal"
+            android:textSize="18sp" />
+    </ScrollView>
+    <Button
+        style="@style/plain_button"
+        android:text="@string/TapHereToBegin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TapHereToBeginButton"
+        android:layout_marginTop="16.0dp"
+        android:layout_marginBottom="20.0dp"
+        android:layout_marginLeft="26.0dp"
+        android:layout_marginRight="26.0dp" />
+</LinearLayout>

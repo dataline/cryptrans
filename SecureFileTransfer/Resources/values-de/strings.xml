@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="LicenseText">License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text</string>
+  <string name="Welcome">Willkommen zu cryptrans.\n\nMit cryptrans ist es möglich, private Daten wie Kontakte oder Fotos zwischen mehreren Mobilgeräten einfach und sicher auszutauschen.\nScannen Sie mit einem Gerät einfach den Code, der auf dem anderen angezeigt wird, um eine sichere Verbindung aufzubauen. Alle Daten werden verschlüsselt übertragen und verlassen niemals Ihr lokales Netzwerk.\n\nFür eine sichere Verbindung ist es erforderlich, dass sich die beiden Geräte im selben WLAN-Netzwerk befinden.</string>
 
   <string name="ApplicationName">cryptrans</string>
   <string name="About">Info</string>
   <string name="Web">Web</string>
+  <string name="TapHereToBegin">Tippen Sie hier um zu beginnen.</string>
   <string name="VersionFormatStr">Version {0}</string>
   <string name="ServerConnectManually">Manuelle Verbindung</string>
   <string name="ServerConnectManuallyInfoFormatStr">Tippen und halten Sie auf dem anderen Gerät die \"Code scannen\"-Taste, anschließend geben Sie folgende Daten ein:\n\nIP-Adresse\n{0}\n\nPasswort\n{1}</string>

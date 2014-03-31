@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="LicenseText">License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text</string>
+  <string name="Welcome">Welcome to cryptrans.\n\ncryptrans enables you to easily and securely share private data such as contacts and photos between multiple mobile devices.\nJust scan the code shown on another device and a secure connection is established. All transferred data is encrypted and never leaves your local network.\n\nFor a secure connection, both devices are required to be connected to the same WLAN network.</string>
 
   <string name="ApplicationName">cryptrans</string>
   <string name="About">Info</string>
   <string name="Web">Web</string>
+  <string name="TapHereToBegin">Tap here to begin.</string>
   <string name="VersionFormatStr">Version {0}</string>
   <string name="ServerConnectManually">Connect manually</string>
   <string name="ServerConnectManuallyInfoFormatStr">On the other device, tap and hold the \"Scan Code\" button, then enter this data to establish a connection:\n\nIP Address\n{0}\n\nPassword\n{1}</string>
