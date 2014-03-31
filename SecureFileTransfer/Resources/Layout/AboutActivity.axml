@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/main_layout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout1"
+        android:layout_marginTop="20.0dp"
+        android:layout_marginBottom="17.3dp">
+        <ImageView
+            android:src="@drawable/dataline_logo"
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageView1"
+            android:scaleType="fitCenter"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <TextView
+        android:text="@string/ApplicationName"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="6.7dp" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/VersionInfo"
+        android:gravity="center_horizontal"
+        android:text="Version 0" />
+    <TextView
+        android:text="@string/LicenseText"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textView2"
+        android:layout_marginTop="12.0dp"
+        android:layout_marginRight="4.0dp"
+        android:layout_marginLeft="4.0dp" />
+</LinearLayout>

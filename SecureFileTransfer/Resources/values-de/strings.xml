@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="LicenseText">License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text License Text</string>
+
   <string name="ApplicationName">cryptrans</string>
+  <string name="About">Info</string>
+  <string name="Web">Web</string>
+  <string name="VersionFormatStr">Version {0}</string>
   <string name="ServerConnectManually">Manuelle Verbindung</string>
   <string name="ServerConnectManuallyInfoFormatStr">Tippen und halten Sie auf dem anderen Gerät die \"Code scannen\"-Taste, anschließend geben Sie folgende Daten ein:\n\nIP-Adresse\n{0}\n\nPasswort\n{1}</string>
   <string name="QRCodeInvalid">Der gescannte Code ist ungültig.</string>

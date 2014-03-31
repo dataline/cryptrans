@@ -10,13 +10,18 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecureFileTransfer</RootNamespace>
-    <AssemblyName>SecureFileTransfer</AssemblyName>
+    <AssemblyName>cryptrans</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize />
+    <JavaOptions />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\AboutActivity.cs" />
     <Compile Include="Activities\FileBrowserActivity.cs" />
     <Compile Include="Adapters\FileBrowserAdapter.cs" />
     <Compile Include="Dialogs\ConnectionFailedDialog.cs" />
@@ -173,6 +179,9 @@
     <AndroidResource Include="Resources\layout\FileBrowserActivity.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\AboutActivity.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -210,6 +219,8 @@
     <AndroidResource Include="Resources\drawable-hdpi\contact.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\contact.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\contact.png" />
+    <AndroidResource Include="Resources\drawable\dataline_logo.png" />
+    <AndroidResource Include="Resources\menu\AboutMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

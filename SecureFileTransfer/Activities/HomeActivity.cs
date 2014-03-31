@@ -134,6 +134,11 @@ namespace SecureFileTransfer.Activities
                 StartActivity(typeof(FileBrowserActivity));
                 return true;
             }
+            else if (item.ItemId == Resource.Id.About)
+            {
+                StartActivity(typeof(AboutActivity));
+                return true;
+            }
             return base.OnOptionsItemSelected(item);
         }
 
