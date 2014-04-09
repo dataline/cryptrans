@@ -184,7 +184,7 @@ namespace SecureFileTransfer.Activities
             }
             catch (Exception ex)
             {
-                this.HandleEx(ex);
+                ex.Handle();
             }
 
             qrContainerView.SetImageBitmap(null);

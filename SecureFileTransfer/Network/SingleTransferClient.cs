@@ -97,7 +97,7 @@ namespace SecureFileTransfer.Network
                     {
                         // Connection Failed
                         success = false;
-                        this.HandleEx(ex, true);
+                        ex.Handle(true);
                     }
                     AbortCurrentTransfer = true;
                     break;

@@ -4,12 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.Threading;
 using System.Net.Sockets;
+using Newtonsoft.Json;
 
 namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 {
+    /// <summary>
+    /// This is the implementation of a trivial entity based protocol.
+    /// 
+    /// An entity consists of a name, an id and multiple parameters. While TEBP
+    /// is active, the two clients will communicate using entities.
+    /// 
+    /// There are multiple types of entities: Request, which requires an
+    /// answer from the receiver; Response, which answers a Request; and
+    /// Notice, which is independent and does not require any acknowledgment
+    /// from the receiver.
+    /// </summary>
     public class TEBPProvider
     {
         public IConnection Connection { get; private set; }
@@ -27,7 +38,13 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         public delegate void ReceivedRequestHandler(Request req);
         public delegate void ReceivedNoticeHandler(Notice not);
 
+        /// <summary>
+        /// Is raised when a request was received.
+        /// </summary>
         public event ReceivedRequestHandler ReceivedRequest;
+        /// <summary>
+        /// Is raised when a notice was received.
+        /// </summary>
         public event ReceivedNoticeHandler ReceivedNotice;
 
         private Dictionary<Entity, EntityResponseDelegate> Unanswered = new Dictionary<Entity, EntityResponseDelegate>();
@@ -36,6 +53,11 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         private ITEBPPlatformDependent PlatformDependentFunctions;
 
+        /// <summary>
+        /// Creates a new TEBP Provider
+        /// </summary>
+        /// <param name="conn">The connection the provider will use</param>
+        /// <param name="platformDependent">Platform dependent functions</param>
         public TEBPProvider(IConnection conn, ITEBPPlatformDependent platformDependent)
         {
             PlatformDependentFunctions = platformDependent;
@@ -48,11 +70,19 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
 
         static int CurrentIdentifier = 1;
 
+        /// <summary>
+        /// Gets a unique identifier for a request
+        /// </summary>
+        /// <returns>An unique identifier</returns>
         public static int GetNextIdentifier()
         {
             return CurrentIdentifier++;
         }
 
+        /// <summary>
+        /// Claim the connection, enter TEBP mode.
+        /// Do not use the connection directly after this call.
+        /// </summary>
         public void Init()
         {
             ListenerThread = new Thread(() =>
@@ -73,6 +103,11 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 Connection.Shutdown();
         }
 
+        /// <summary>
+        /// Ends the TEBP mode. If UseDefaultEntities is enabled, this method
+        /// will send a disconnect notice.
+        /// </summary>
+        /// <param name="shutDownConnection">Sets whether the connection should automatically be shut down.</param>
         public void Shutdown(bool shutDownConnection = true)
         {
             if (UseDefaultEntities)
@@ -102,7 +137,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
             {
                 if (ex is ObjectDisposedException || ex is SocketException)
                 {
-                    // Socket unterbrochen
+                    // Socket disconnected
                     Shutdown();
                     return;
                 }
@@ -190,12 +225,21 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 );
         }
 
+        /// <summary>
+        /// Sends an entity to the TEBP receiver
+        /// </summary>
+        /// <param name="ent">The entity to send</param>
+        /// <param name="responseDelegate">
+        /// If the entity requires an answer (for example a request), this delegate is called when a response was received.
+        /// In case the request timed out, the response delegate will contain a NoResponse object, so make sure to check
+        /// for the correct response object type before using it.
+        /// </param>
         public void Send(Entity ent, EntityResponseDelegate responseDelegate = null)
         {
             if (IsShutDown)
             {
                 if (ent is DefaultEntities.DisconnectNotice)
-                    return; // Disconnect wird verworfen, wenn Connection schon down ist.
+                    return; // Disconnect is discarded if connection is already down.
 
                 throw new ObjectDisposedException(this.ToString(), "The provider was shut down.");
             }

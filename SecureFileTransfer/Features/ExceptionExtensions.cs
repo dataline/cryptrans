@@ -8,6 +8,11 @@ namespace SecureFileTransfer.Features
 {
     public static class ExceptionExtensions
     {
+        /// <summary>
+        /// Handle this exception.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="doNotThrow">If this is true, an exception is never re-thrown even when in Debug mode.</param>
         public static void Handle(this Exception ex, bool doNotThrow = false)
         {
             Console.WriteLine("Error handling routine entered.");

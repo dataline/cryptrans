@@ -100,7 +100,6 @@
     <Compile Include="Features\ClientConnectionEstablisher.cs" />
     <Compile Include="Features\ConnectivityTester.cs" />
     <Compile Include="Features\ContactProvider.cs" />
-    <Compile Include="Features\ObjectExtensions.cs" />
     <Compile Include="Features\Transfers\ContactTransfer.cs" />
     <Compile Include="Features\Transfers\ExistingFileTransfer.cs" />
     <Compile Include="Features\FileSizeExtensions.cs" />

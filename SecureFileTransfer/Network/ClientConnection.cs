@@ -25,15 +25,6 @@ namespace SecureFileTransfer.Network
         public delegate void FileTransferEndedEventHandler(Transfer trans, bool success, bool aborted);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
-        public void RaiseFileTransferEnded(Transfer trans, bool success, bool aborted)
-        {
-            UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
-            {
-                if (FileTransferEnded != null)
-                    FileTransferEnded(trans, success, aborted);
-            }), null);
-        }
-
         public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
             if (CurrentConnection != null)
@@ -108,18 +99,6 @@ namespace SecureFileTransfer.Network
             RemoteName = Encoding.GetString(GetUndefinedLength());
 
             return true;
-
-            //string dcAddress = GetUndefinedLengthString();
-            //int dcPort = Convert.ToInt32(GetUndefinedLengthString());
-            //
-            ////byte[] dcAesKey = new byte[Security.AES.KeySize];
-            ////byte[] dcAesIv = new byte[Security.AES.BlockSize];
-            ////Get(dcAesKey);
-            ////Get(dcAesIv);
-            //
-            //DataConnection = SingleTransferClient.ConnectTo(dcAddress, dcPort);
-            //
-            //return DataConnection != null;
         }
 
         protected override void InternalBeginReceiving()
@@ -144,27 +123,11 @@ namespace SecureFileTransfer.Network
         {
             RaiseDisconnected();
         }
-
-        //public void FileTransferTest()
-        //{
-        //    var testTransfer = new UnsavedBinaryTransfer()
-        //    {
-        //        FileName = "Testdaten.txt",
-        //        FileLength = 200000
-        //    };
-        //
-        //    TEBPProvider.Send(testTransfer.GenerateRequest(), response =>
-        //    {
-        //        if (response.Accepted)
-        //        {
-        //            Console.WriteLine("Server accepted FileTransferRequest.");
-        //            FileTransferResponse res = response as FileTransferResponse;
-        //
-        //            DataConnection.BeginSending(testTransfer, res.AesKey, res.AesIv);
-        //        }
-        //    });
-        //}
-
+    
+        /// <summary>
+        /// Start a transfer for a local file
+        /// </summary>
+        /// <param name="localFilePath">Path to a local file</param>
         public void StartFileTransfer(string localFilePath)
         {
             var fileTransfer = new ExistingFileTransfer()
@@ -175,6 +138,12 @@ namespace SecureFileTransfer.Network
             StartFileTransfer(fileTransfer);
         }
 
+        /// <summary>
+        /// Start a transfer for local data
+        /// </summary>
+        /// <param name="fileStream">A data stream</param>
+        /// <param name="size">The stream length</param>
+        /// <param name="name">A file name representing the data</param>
         public void StartFileTransfer(System.IO.Stream fileStream, long size, string name)
         {
             var fileTransfer = new ExistingFileTransfer()
@@ -187,6 +156,10 @@ namespace SecureFileTransfer.Network
             StartFileTransfer(fileTransfer);
         }
 
+        /// <summary>
+        /// Start a transfer
+        /// </summary>
+        /// <param name="transfer"></param>
         public void StartFileTransfer(Transfer transfer)
         {
             var req = transfer.GenerateRequest();
@@ -223,6 +196,10 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        /// <summary>
+        /// Abort the current transfer
+        /// </summary>
+        /// <param name="sendAbort"></param>
         public void AbortFileTransfer(bool sendAbort = true)
         {
             if (sendAbort && ConnectionSocket != null)
@@ -230,6 +207,15 @@ namespace SecureFileTransfer.Network
 
             if (DataConnection != null)
                 DataConnection.Abort();
+        }
+
+        public void RaiseFileTransferEnded(Transfer trans, bool success, bool aborted)
+        {
+            UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
+            {
+                if (FileTransferEnded != null)
+                    FileTransferEnded(trans, success, aborted);
+            }), null);
         }
 
         public override void Dispose()

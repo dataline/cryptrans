@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
 {
+    /// <summary>
+    /// A server that waits for a connection from a client.
+    /// 
+    /// This is active as long as the QR code is shown in the main activity.
+    /// </summary>
     public class LocalServer : IDisposable
     {
         public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);

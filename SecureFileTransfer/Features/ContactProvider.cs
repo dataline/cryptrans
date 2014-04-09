@@ -91,29 +91,6 @@ namespace SecureFileTransfer.Features
             cursor.Close();
         }
 
-        //public static Android.Net.Uri GetContactThumbnailUri(Context ctx, string id)
-        //{
-        //    string[] projection = { ContactsContract.Contacts.InterfaceConsts.PhotoUri };
-        //
-        //    var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentUri, projection,
-        //        ContactsContract.Contacts.InterfaceConsts.Id + " = ?", new string[] { id },
-        //        null);
-        //    var cursor = (ICursor)loader.LoadInBackground();
-        //
-        //    Android.Net.Uri uri = null;
-        //
-        //    if (cursor.MoveToFirst())
-        //    {
-        //        var uristr = cursor.GetString(0);
-        //        if (uristr != null)
-        //            uri = Android.Net.Uri.Parse(uristr);
-        //    }
-        //
-        //    cursor.Close();
-        //
-        //    return uri;
-        //}
-
         public static string GetContactIDFromLookupKey(Context ctx, string lookupKey)
         {
             var loader = new CursorLoader(ctx, ContactsContract.Contacts.ContentUri,
@@ -133,12 +110,6 @@ namespace SecureFileTransfer.Features
             return id;
         }
 
-        /// <summary>
-        /// Holt unglaublich umständlich Kontaktdaten aus dem Tabellen-Wirrwarr Androids
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="contactId"></param>
-        /// <returns></returns>
         public static AndroidContact GetContactInformation(Context ctx, string contactId)
         {
             var contact = new AndroidContact();

@@ -11,24 +11,17 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
         public int Identifier { get; set; }
         public bool RequiresAnswer { get; set; }
 
-        //public int Type { get; set; }
-        //
-        //public const int TYPE_REQUEST = 1;
-        //public const int TYPE_RESPONSE = 2;
-        //public const int TYPE_NOTICE = 3;
-
         public bool Responded { get; protected set; }
 
 
         [JsonIgnore]
         public TEBPProvider Provider { get; set; }
 
-        public Entity(int identifier, bool requiresAnswer/*, int type*/)
+        public Entity(int identifier, bool requiresAnswer)
         {
             Identifier = identifier;
             RequiresAnswer = requiresAnswer;
             Responded = false;
-            //Type = type;
         }
     }
 }

@@ -72,11 +72,20 @@ namespace SecureFileTransfer.Network
             };
         }
 
+        /// <summary>
+        /// Enables encryption for this connection
+        /// </summary>
+        /// <param name="type"></param>
         public void EnableEncryption(EncryptionContext.ConnectionType type)
         {
             encCtx = new EncryptionContext(this);
             encCtx.PerformEncryptionHandshake(type);
         }
+
+        /// <summary>
+        /// Get raw bytes from the connection
+        /// </summary>
+        /// <param name="buf"></param>
         public void GetRaw(byte[] buf)
         {
             int written = 0;
@@ -86,17 +95,29 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        /// <summary>
+        /// Write raw bytes to the connection
+        /// </summary>
+        /// <param name="buf"></param>
         public void WriteRaw(byte[] buf)
         {
             ConnectionSocket.Send(buf);
-            //Console.WriteLine("Wrote {0} bytes.", buf.Length);
         }
 
+        /// <summary>
+        /// Write raw bytes to the connection
+        /// </summary>
+        /// <param name="str">The string to write</param>
         public void WriteRaw(string str)
         {
             WriteRaw(Encoding.GetBytes(str));
         }
 
+        /// <summary>
+        /// Get bytes from the connection.
+        /// This uses encryption if it is enabled.
+        /// </summary>
+        /// <param name="buf"></param>
         public void Get(byte[] buf)
         {
             if (encCtx != null)
@@ -105,28 +126,12 @@ namespace SecureFileTransfer.Network
                 GetRaw(buf);
         }
 
-        public void SendAccept()
-        {
-            Write(CMD_OK);
-        }
-
-        public void SendDecline()
-        {
-            Write(CMD_DECLINE);
-        }
-
-        public void SendShutdown()
-        {
-            Write(CMD_SHUTDOWN);
-        }
-
-        public virtual bool DoesAccept()
-        {
-            byte[] answer = new byte[2];
-            Get(answer);
-            return Encoding.GetString(answer) == CMD_OK;
-        }
-
+        /// <summary>
+        /// Get bytes with undefined length from the connection.
+        /// This requires encryption to be enabled as the data length is determined
+        /// from the padding.
+        /// </summary>
+        /// <returns></returns>
         public byte[] GetUndefinedLength()
         {
             if (encCtx == null)
@@ -134,11 +139,26 @@ namespace SecureFileTransfer.Network
             return encCtx.GetEncryptedUndefinedLength();
         }
 
+        /// <summary>
+        /// Get bytes with undefined length from the connection.
+        /// This requires encryption to be enabled as the data length is determined
+        /// from the padding.
+        /// </summary>
+        /// <returns>A string with undefined length</returns>
         public string GetUndefinedLengthString()
         {
             return Encoding.GetString(GetUndefinedLength());
         }
 
+        /// <summary>
+        /// Writes bytes to the connection.
+        /// This uses encryption if it is enabled.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="forceNullTermination">
+        /// This will pad the data so that the receiver is able to determine its exact
+        /// length. This is required for the undefined length methods to work.
+        /// </param>
         public void Write(byte[] buf, bool forceNullTermination = false)
         {
             if (encCtx != null)
@@ -153,11 +173,24 @@ namespace SecureFileTransfer.Network
             }
         }
 
+        /// <summary>
+        /// Writes bytes to the connection.
+        /// This uses encryption if it is enabled.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="forceNullTermination">
+        /// This will pad the data so that the receiver is able to determine its exact
+        /// length. This is required for the undefined length methods to work.
+        /// </param>
         public void Write(string str, bool forceNullTermination = false)
         {
             Write(Encoding.GetBytes(str), forceNullTermination);
         }
 
+        /// <summary>
+        /// Writes the server information to the connection
+        /// </summary>
+        /// <param name="si"></param>
         public void Write(ServerInformation si)
         {
             byte[] version = BitConverter.GetBytes(si.version);
@@ -167,25 +200,64 @@ namespace SecureFileTransfer.Network
         }
 
         /// <summary>
-        /// Schreibt einen verschlüsselten Block ohne Überprüfung und ohne Padding (wesentlich schneller als Write)
+        /// Writes a single encrypted block without validation and padding (much faster than Write)
         /// </summary>
-        /// <param name="singleBlock">Block der geschrieben werden soll</param>
-        /// <param name="tempStorage">Zwischenspeicher, der wiederverwendet werden sollte (auch Block-Größe)</param>
+        /// <param name="singleBlock">Block to write (has to be of length Security.AES.BlockSize)</param>
+        /// <param name="tempStorage">Temporary storage that should be reused (same size as block)</param>
         public void WriteSingleBlockFast(byte[] singleBlock, byte[] tempStorage)
         {
             encCtx.WriteEncryptedSingleBlockFast(singleBlock, tempStorage);
         }
 
         /// <summary>
-        /// Holt einen verschlüsselten Block ohne Überprüfung und ohne Padding-Entfernung (wesentlich schneller als Get)
+        /// Gets a single encrypted block without validation and padding removal (much faster than Get)
         /// </summary>
-        /// <param name="singleBlock">Ziel für den Datenblock</param>
-        /// <param name="tempStorage">Zwischenspeicher, der wiederverwendet werden sollte (auch Block-Größe)</param>
+        /// <param name="singleBlock">Destination (has to be of length Security.AES.BlockSize)</param>
+        /// <param name="tempStorage">Temporary storage that should be reused (same size as block)</param>
         public void GetSingleBlockFast(byte[] singleBlock, byte[] tempStorage)
         {
             encCtx.GetEncryptedSingleBlockFast(singleBlock, tempStorage);
         }
 
+        /// <summary>
+        /// Sends an accept signal (non-TEBP)
+        /// </summary>
+        public void SendAccept()
+        {
+            Write(CMD_OK);
+        }
+
+        /// <summary>
+        /// Sends a decline signal (non-TEBP)
+        /// </summary>
+        public void SendDecline()
+        {
+            Write(CMD_DECLINE);
+        }
+
+        /// <summary>
+        /// Sends a shutdown signal (non-TEBP)
+        /// </summary>
+        public void SendShutdown()
+        {
+            Write(CMD_SHUTDOWN);
+        }
+
+        /// <summary>
+        /// Gets a signal from the connection and checks for an accept signal
+        /// </summary>
+        /// <returns>Returns whether the client has sent an accept signal</returns>
+        public virtual bool DoesAccept()
+        {
+            byte[] answer = new byte[2];
+            Get(answer);
+            return Encoding.GetString(answer) == CMD_OK;
+        }
+
+        /// <summary>
+        /// Gets the server information from the connection
+        /// </summary>
+        /// <returns></returns>
         public ServerInformation GetServerInformation()
         {
             byte[] version = new byte[2];
@@ -200,6 +272,9 @@ namespace SecureFileTransfer.Network
             };
         }
 
+        /// <summary>
+        /// Starts the receive loop
+        /// </summary>
         public void BeginReceiving()
         {
             if (Receiving)
@@ -210,12 +285,9 @@ namespace SecureFileTransfer.Network
             InternalBeginReceiving();
         }
 
-        public void Close()
-        {
-            ConnectionSocket.Close();
-        }
-
         #region IConnection
+
+        // Implementation of the IConnection interface
 
         public void Send(string str)
         {

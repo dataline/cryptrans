@@ -60,7 +60,6 @@ namespace SecureFileTransfer.Activities
             SetContentView(Resource.Layout.ClientActivity);
 
             // Establish a connection from various sources:
-
             try
             {
                 if (!await InitializeConnection())
@@ -71,9 +70,9 @@ namespace SecureFileTransfer.Activities
             }
             catch (Exception ex)
             {
-                this.HandleEx(ex, true);
+                ex.Handle(true);
 
-                ConnectionFailed(ex);
+                FinishWithFailedConnection(ex);
                 return;
             }
 
@@ -150,9 +149,9 @@ namespace SecureFileTransfer.Activities
             this.ShowToast(string.Format(GetString(Resource.String.ErrTransferFailedFormatStr), transfer.FileName));
         }
 
-        void ConnectionFailed(Exception ex)
+        void FinishWithFailedConnection(Exception ex)
         {
-            this.HandleEx(ex, true);
+            ex.Handle(true);
 
             if (ex is InvalidQRCodeException)
             {
