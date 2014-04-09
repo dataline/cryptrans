@@ -10,9 +10,9 @@ namespace SecureFileTransfer.Features
 {
     public class TransferQueue
     {
-        private ClientConnection _connection = null;
+        private SenderConnection _connection = null;
 
-        public ClientConnection Connection
+        public SenderConnection Connection
         {
             get { return _connection; }
             set {

@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Network
 {
-    public class SingleTransferServer : SingleTransfer<LocalServerConnection>
+    /// <summary>
+    /// A single data transfer on the receiving device.
+    /// </summary>
+    public class SingleTransferReceiver : SingleTransfer<ReceiverConnection>
     {
-        public static SingleTransferServer GetServer()
+        public static SingleTransferReceiver GetServer()
         {
-            var srv = new SingleTransferServer();
+            var srv = new SingleTransferReceiver();
 
             srv.EstablishSocket();
 

@@ -7,6 +7,10 @@ using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
+    /// <summary>
+    /// A single data transfer.
+    /// </summary>
+    /// <typeparam name="ParentConnectionType"></typeparam>
     public abstract class SingleTransfer<ParentConnectionType> : Connection
         where ParentConnectionType : Connection
     {

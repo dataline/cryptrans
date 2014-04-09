@@ -22,7 +22,7 @@ namespace SecureFileTransfer.Network
 
         public static LocalServer CurrentServer { get; private set; }
 
-        public delegate void GotConnectionEventHandler(LocalServerConnection connection);
+        public delegate void GotConnectionEventHandler(ReceiverConnection connection);
         public event GotConnectionEventHandler GotConnection;
 
         public delegate void FailedConnectionAttemptEventHandler(Exception ex);
@@ -38,7 +38,7 @@ namespace SecureFileTransfer.Network
 
         public static async Task<LocalServer> CreateServerAsync(CancellationToken ct)
         {
-            if (LocalServerConnection.CurrentConnection != null)
+            if (ReceiverConnection.CurrentConnection != null)
                 throw new NotSupportedException("There is already a server connection available.");
 
             var srv = new LocalServer();
@@ -96,7 +96,7 @@ namespace SecureFileTransfer.Network
 
         bool CreateConnection(Socket connection)
         {
-            var conn = new LocalServerConnection(connection);
+            var conn = new ReceiverConnection(connection);
 
             bool accepted = false;
             try
@@ -118,7 +118,7 @@ namespace SecureFileTransfer.Network
             
 
 
-        void RaiseGotConnection(LocalServerConnection conn)
+        void RaiseGotConnection(ReceiverConnection conn)
         {
             UIThreadSyncContext.Send(new SendOrPostCallback(state =>
             {

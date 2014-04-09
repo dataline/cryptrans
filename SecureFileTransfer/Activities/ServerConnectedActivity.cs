@@ -34,14 +34,14 @@ namespace SecureFileTransfer.Activities
 
             SetContentView(Resource.Layout.ServerConnectedActivity);
 
-            if (Network.LocalServerConnection.CurrentConnection == null)
+            if (Network.ReceiverConnection.CurrentConnection == null)
             {
                 Finish();
                 return;
             }
 
             var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);
-            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.LocalServerConnection.CurrentConnection.RemoteName);
+            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.ReceiverConnection.CurrentConnection.RemoteName);
 
             var disconnectButton = FindViewById<Button>(Resource.Id.DisconnectButton);
             disconnectButton.Click += (s, e) =>
@@ -58,7 +58,7 @@ namespace SecureFileTransfer.Activities
 
             mainUISyncCtx = SynchronizationContext.Current ?? new SynchronizationContext();
 
-            var currentConnection = Network.LocalServerConnection.CurrentConnection;
+            var currentConnection = Network.ReceiverConnection.CurrentConnection;
             currentConnection.UIThreadSyncContext = mainUISyncCtx;
             currentConnection.Disconnected += CurrentConnection_Disconnected;
             currentConnection.FileTransferStarted += CurrentConnection_FileTransferStarted;
@@ -78,7 +78,7 @@ namespace SecureFileTransfer.Activities
                     {
                         if (result == YesNoDialog.AndroidDialogResult.Yes)
                         {
-                            Network.LocalServerConnection.CurrentConnection.AbortFileTransfer();
+                            Network.ReceiverConnection.CurrentConnection.AbortFileTransfer();
                         }
 
                         abortCurrentTransferDialog = null;
@@ -92,7 +92,7 @@ namespace SecureFileTransfer.Activities
             }
         }
 
-        void CurrentConnection_FileTransferEnded(Network.SingleTransferServer srv, bool success)
+        void CurrentConnection_FileTransferEnded(Network.SingleTransferReceiver srv, bool success)
         {
             if (success)
                 transfersListAdapter.CompletedTransfers.Insert(0, srv.CurrentTransfer);
@@ -107,7 +107,7 @@ namespace SecureFileTransfer.Activities
 
         }
 
-        void CurrentConnection_FileTransferStarted(Network.SingleTransferServer srv)
+        void CurrentConnection_FileTransferStarted(Network.SingleTransferReceiver srv)
         {
             srv.CurrentTransfer.Context = this;
             srv.CurrentTransfer.SetThumbnailCallback(
@@ -127,7 +127,7 @@ namespace SecureFileTransfer.Activities
         {
             if (statusReloadingHandlerEnabled && handler == null)
                 return;
-            if (Network.LocalServerConnection.CurrentConnection == null)
+            if (Network.ReceiverConnection.CurrentConnection == null)
                 return;
 
             statusReloadingHandlerEnabled = true;
@@ -135,7 +135,7 @@ namespace SecureFileTransfer.Activities
             if (handler == null)
                 handler = new Handler();
 
-            var dc = Network.LocalServerConnection.CurrentConnection.DataConnection;
+            var dc = Network.ReceiverConnection.CurrentConnection.DataConnection;
 
             if (dc != null && dc.CurrentTransfer != null)
             {
@@ -170,8 +170,8 @@ namespace SecureFileTransfer.Activities
 
         public void Disconnect()
         {
-            if (Network.LocalServerConnection.CurrentConnection != null)
-                Network.LocalServerConnection.CurrentConnection.Dispose();
+            if (Network.ReceiverConnection.CurrentConnection != null)
+                Network.ReceiverConnection.CurrentConnection.Dispose();
         }
     }
 }

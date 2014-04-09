@@ -12,11 +12,14 @@ using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Network
 {
-    public class ClientConnection : Connection
+    /// <summary>
+    /// An open connection on the sending device.
+    /// </summary>
+    public class SenderConnection : Connection
     {
-        public static ClientConnection CurrentConnection { get; private set; }
+        public static SenderConnection CurrentConnection { get; private set; }
 
-        public SingleTransferClient DataConnection { get; set; }
+        public SingleTransferSender DataConnection { get; set; }
 
         public TrivialEntityBasedProtocol.TEBPProvider TEBPProvider;
 
@@ -25,12 +28,12 @@ namespace SecureFileTransfer.Network
         public delegate void FileTransferEndedEventHandler(Transfer trans, bool success, bool aborted);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
-        public static ClientConnection ConnectTo(string hostName, int port, string connectionPassword)
+        public static SenderConnection ConnectTo(string hostName, int port, string connectionPassword)
         {
             if (CurrentConnection != null)
                 throw new NotSupportedException("There is already a client connection available.");
 
-            ClientConnection c = new ClientConnection();
+            SenderConnection c = new SenderConnection();
             c.ConnectionPassword = connectionPassword;
             c.Connect(hostName, port);
 
@@ -42,23 +45,23 @@ namespace SecureFileTransfer.Network
             return c;
         }
 
-        public static ClientConnection CreateWithoutEndpoint()
+        public static SenderConnection CreateWithoutEndpoint()
         {
-            CurrentConnection = new ClientConnection();
+            CurrentConnection = new SenderConnection();
             CurrentConnection.ConnectionSocket = null;
 
             return CurrentConnection;
         }
 
-        public static async Task<ClientConnection> ConnectToAsync(string hostName, int port, string connectionPassword)
+        public static async Task<SenderConnection> ConnectToAsync(string hostName, int port, string connectionPassword)
         {
-            return await Task.Run<ClientConnection>(() =>
+            return await Task.Run<SenderConnection>(() =>
             {
                 return ConnectTo(hostName, port, connectionPassword);
             });
         }
 
-        private ClientConnection() { }
+        private SenderConnection() { }
 
         private void Connect(string host, int port)
         {
@@ -174,7 +177,7 @@ namespace SecureFileTransfer.Network
                         Console.WriteLine("Server accepted FileTransferRequest.");
                         FileTransferResponse res = response as FileTransferResponse;
 
-                        DataConnection = SingleTransferClient.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
+                        DataConnection = SingleTransferSender.ConnectTo(res.DataConnectionAddress, res.DataConnectionPort);
                         if (DataConnection == null)
                             throw new ConnectionException("Could not establish data connection.");
                         DataConnection.ParentConnection = this;
@@ -190,7 +193,7 @@ namespace SecureFileTransfer.Network
             else
             {
                 // Special mode.
-                DataConnection = new SingleTransferClientSpecial();
+                DataConnection = new SingleTransferSenderSpecial();
                 DataConnection.ParentConnection = this;
                 DataConnection.BeginSending(transfer, null, null);
             }
@@ -228,7 +231,7 @@ namespace SecureFileTransfer.Network
 
             CurrentConnection = null;
 
-            Console.WriteLine("ClientConnection terminated.");
+            Console.WriteLine("SenderConnection terminated.");
 
             base.Dispose();
         }

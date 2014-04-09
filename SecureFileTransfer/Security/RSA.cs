@@ -39,6 +39,7 @@ namespace SecureFileTransfer.Security
 
         public void Generate()
         {
+            // This takes quite long on mobile devices.
             Console.WriteLine("Generating RSA Keys ...");
             rsaProvider = new RSACryptoServiceProvider(KeySize * 8);
             rsaParameters = rsaProvider.ExportParameters(true);

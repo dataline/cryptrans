@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Features
 {
-    public static class ClientConnectionEstablisher
+    public static class SenderConnectionEstablisher
     {
         /// <summary>
         /// Create connection from host, port and password.
@@ -20,7 +20,7 @@ namespace SecureFileTransfer.Features
         /// <param name="port"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Activity ctx, string host, int port, string password)
+        public static async Task<bool> EstablishSenderConnection(Activity ctx, string host, int port, string password)
         {
             var connectingDialog = new Dialogs.ConnectingDialog(ctx);
 
@@ -28,7 +28,7 @@ namespace SecureFileTransfer.Features
             fm.Add(connectingDialog, null);
             fm.CommitAllowingStateLoss();
 
-            var connection = await Network.ClientConnection.ConnectToAsync(host, port, password);
+            var connection = await Network.SenderConnection.ConnectToAsync(host, port, password);
 
             connectingDialog.Dismiss();
 
@@ -40,7 +40,7 @@ namespace SecureFileTransfer.Features
         /// </summary>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Activity ctx)
+        public static async Task<bool> EstablishSenderConnection(Activity ctx)
         {
             var overlay = ctx.LayoutInflater.Inflate(Resource.Layout.ScannerOverlay, null);
 
@@ -64,8 +64,8 @@ namespace SecureFileTransfer.Features
             {
                 // the secret special mode. makes it possible to test features without another device.
                 // scan this: http://chart.apis.google.com/chart?chs=500x500&cht=qr&chl=dltsec://sound
-                Network.ClientConnection.CreateWithoutEndpoint();
-                Network.ClientConnection.CurrentConnection.RemoteName = "nobody";
+                Network.SenderConnection.CreateWithoutEndpoint();
+                Network.SenderConnection.CurrentConnection.RemoteName = "nobody";
                 return true;
             }
 
@@ -76,7 +76,7 @@ namespace SecureFileTransfer.Features
             int port;
             Features.QR.GetComponents(resString, out host, out port, out password);
 
-            return await EstablishClientConnection(ctx, host, port, password);
+            return await EstablishSenderConnection(ctx, host, port, password);
         }
 
         /// <summary>
@@ -85,14 +85,14 @@ namespace SecureFileTransfer.Features
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public static async Task<bool> EstablishClientConnection(Activity ctx, Android.Net.Uri uri)
+        public static async Task<bool> EstablishSenderConnection(Activity ctx, Android.Net.Uri uri)
         {
             string host, password;
             int port;
             if (!Features.QR.GetComponents(uri, out host, out port, out password))
                 throw new InvalidQRCodeException();
 
-            return await EstablishClientConnection(ctx, host, port, password);
+            return await EstablishSenderConnection(ctx, host, port, password);
         }
     }
 

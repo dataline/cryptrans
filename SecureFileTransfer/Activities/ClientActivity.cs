@@ -77,7 +77,7 @@ namespace SecureFileTransfer.Activities
             }
 
             var connectedToLabel = FindViewById<TextView>(Resource.Id.ConnectedToField);
-            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.ClientConnection.CurrentConnection.RemoteName);
+            connectedToLabel.Text = string.Format(GetString(Resource.String.ConnectedToFormatStr), Network.SenderConnection.CurrentConnection.RemoteName);
             
             var disconnectButton = FindViewById<Button>(Resource.Id.DisconnectButton);
             disconnectButton.Click += (s, e) =>
@@ -108,14 +108,14 @@ namespace SecureFileTransfer.Activities
 
         async Task<bool> InitializeConnection()
         {
-            if (Network.ClientConnection.CurrentConnection == null &&
+            if (Network.SenderConnection.CurrentConnection == null &&
                 Intent.Scheme == Features.QR.DataScheme && Intent.Data != null)
             {
                 // Intent from a barcode scanner or something similar
-                await ClientConnectionEstablisher.EstablishClientConnection(this, Intent.Data);
+                await SenderConnectionEstablisher.EstablishSenderConnection(this, Intent.Data);
             }
 
-            if (Network.ClientConnection.CurrentConnection == null)
+            if (Network.SenderConnection.CurrentConnection == null)
             {
                 var host = Intent.GetStringExtra(IE_HOST);
                 if (host != null)
@@ -125,20 +125,20 @@ namespace SecureFileTransfer.Activities
                     var password = Intent.GetStringExtra(IE_PASSWORD);
                     if (port != 0 && password != null)
                     {
-                        await ClientConnectionEstablisher.EstablishClientConnection(this, host, port, password);
+                        await SenderConnectionEstablisher.EstablishSenderConnection(this, host, port, password);
                     }
                 }
             }
 
             // If no connection was established, use CCE to read QR code
-            if (Network.ClientConnection.CurrentConnection == null && !await ClientConnectionEstablisher.EstablishClientConnection(this))
+            if (Network.SenderConnection.CurrentConnection == null && !await SenderConnectionEstablisher.EstablishSenderConnection(this))
                 return false;
 
-            Network.ClientConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
-            Network.ClientConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
-            Network.ClientConnection.CurrentConnection.BeginReceiving();
+            Network.SenderConnection.CurrentConnection.UIThreadSyncContext = SynchronizationContext.Current ?? new SynchronizationContext();
+            Network.SenderConnection.CurrentConnection.Disconnected += CurrentConnection_Disconnected;
+            Network.SenderConnection.CurrentConnection.BeginReceiving();
 
-            transfers.Connection = Network.ClientConnection.CurrentConnection;
+            transfers.Connection = Network.SenderConnection.CurrentConnection;
             transfers.FileTransferFailed += transfers_FileTransferFailed;
 
             return true;
@@ -200,7 +200,7 @@ namespace SecureFileTransfer.Activities
             }
             else
             {
-                var dataConnection = Network.ClientConnection.CurrentConnection.DataConnection;
+                var dataConnection = Network.SenderConnection.CurrentConnection.DataConnection;
 
                 if (invokeCount % 5 == 0 && dataConnection != null)
                     dataConnection.ReloadBytesPerSecond();
@@ -334,8 +334,8 @@ namespace SecureFileTransfer.Activities
 
         public void Disconnect()
         {
-            if (Network.ClientConnection.CurrentConnection != null)
-                Network.ClientConnection.CurrentConnection.Dispose();
+            if (Network.SenderConnection.CurrentConnection != null)
+                Network.SenderConnection.CurrentConnection.Dispose();
         }
     }
 }

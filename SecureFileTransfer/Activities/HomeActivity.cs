@@ -190,7 +190,7 @@ namespace SecureFileTransfer.Activities
             qrContainerView.SetImageBitmap(null);
         }
 
-        void srv_GotConnection(Network.LocalServerConnection connection)
+        void srv_GotConnection(Network.ReceiverConnection connection)
         {
             DestroyServer();
 

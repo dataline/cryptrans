@@ -5,6 +5,13 @@ using System.Text;
 
 namespace SecureFileTransfer.Security
 {
+    /// <summary>
+    /// This is the cryptrans padding algorithm.
+    /// 
+    /// As we know the size of encrypted AES blocks at all time (using null-termination
+    /// or because it is sent in the transfer request), we do not use standard padding
+    /// but instead pad with random data.
+    /// </summary>
     public class Padding
     {
         public static byte[] GetSecurelyPaddedData(byte[] buf, int blockSize, bool forceNullTermination = false)

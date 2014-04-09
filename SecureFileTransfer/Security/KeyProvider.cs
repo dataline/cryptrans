@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace SecureFileTransfer.Security
 {
+    /// <summary>
+    /// This creates AES and RSA keys.
+    /// 
+    /// As mobile devices take a long time generating RSA keypairs, only one
+    /// keypair is generated and reused until the app is restarted.
+    /// The generation of this key can be done in background and should be started
+    /// as soon as the app starts.
+    /// </summary>
     public static class KeyProvider
     {
         static RSA _rsa = null;
         static Task rsaGenerationTask = null;
 
+        /// <summary>
+        /// Starts RSA key generation in background.
+        /// </summary>
         public static void StartKeyGeneration()
         {
             if (_rsa == null && rsaGenerationTask == null)

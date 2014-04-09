@@ -139,7 +139,8 @@ namespace SecureFileTransfer.Security
         }
 
         /// <summary>
-        /// Hierfür müssen die übertragenen Daten null-terminiert sein und dürfen selber kein Null-Byte enthalten.
+        /// Important: For this method to work, the data must be "forced null-terminated" (see Network.Connection.Write)
+        /// and must not contain null bytes themselves.
         /// </summary>
         /// <returns></returns>
         public byte[] GetEncryptedUndefinedLength()

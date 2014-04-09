@@ -10,7 +10,7 @@ namespace SecureFileTransfer.Network
 { 
     
     /// <summary>
-    /// This serializes a file into sound and plays it through your speaker, if encrypted Wifi transfers
+    /// This converts a file into sound and plays it through your speaker, if encrypted Wifi transfers
     /// are not your thing.
     /// 
     /// Algorithm by windytan, check her out, she is awesome.
@@ -19,7 +19,7 @@ namespace SecureFileTransfer.Network
     /// </summary>
 
 
-    public class SingleTransferClientSpecial : SingleTransferClient
+    public class SingleTransferSenderSpecial : SingleTransferSender
     {
         const int Bitlen = 8;
 

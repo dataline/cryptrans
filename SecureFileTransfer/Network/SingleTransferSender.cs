@@ -11,11 +11,14 @@ using System.Threading;
 
 namespace SecureFileTransfer.Network
 {
-    public class SingleTransferClient : SingleTransfer<ClientConnection>
+    /// <summary>
+    /// A single data transfer on the sending device.
+    /// </summary>
+    public class SingleTransferSender : SingleTransfer<SenderConnection>
     {
-        public static SingleTransferClient ConnectTo(string hostName, int port)
+        public static SingleTransferSender ConnectTo(string hostName, int port)
         {
-            var client = new SingleTransferClient();
+            var client = new SingleTransferSender();
             client.Connect(hostName, port);
 
             if (!client.DoInitialHandshake())

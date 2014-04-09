@@ -11,26 +11,29 @@ using SecureFileTransfer.Features.Transfers;
 
 namespace SecureFileTransfer.Network
 {
-    public class LocalServerConnection : Connection
+    /// <summary>
+    /// An open connection on the receiving device.
+    /// </summary>
+    public class ReceiverConnection : Connection
     {
-        public static LocalServerConnection CurrentConnection { get; set; }
+        public static ReceiverConnection CurrentConnection { get; set; }
 
-        public SingleTransferServer DataConnection { get; set; }
+        public SingleTransferReceiver DataConnection { get; set; }
 
         public TrivialEntityBasedProtocol.TEBPProvider TEBPProvider;
 
-        public delegate void FileTransferStartedEventHandler(SingleTransferServer srv);
+        public delegate void FileTransferStartedEventHandler(SingleTransferReceiver srv);
         public event FileTransferStartedEventHandler FileTransferStarted;
 
-        public delegate void FileTransferEndedEventHandler(SingleTransferServer srv, bool success);
+        public delegate void FileTransferEndedEventHandler(SingleTransferReceiver srv, bool success);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
 
-        public LocalServerConnection(Socket sock) : base(sock) {
+        public ReceiverConnection(Socket sock) : base(sock) {
             CurrentConnection = this;
         }
 
-        public void RaiseFileTransferStarted(SingleTransferServer srv)
+        public void RaiseFileTransferStarted(SingleTransferReceiver srv)
         {
             UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
@@ -39,7 +42,7 @@ namespace SecureFileTransfer.Network
             }), null);
         }
 
-        public void RaiseFileTransferEnded(SingleTransferServer srv, bool success)
+        public void RaiseFileTransferEnded(SingleTransferReceiver srv, bool success)
         {
             UIThreadSyncContext.Send(new System.Threading.SendOrPostCallback(state =>
             {
@@ -69,14 +72,6 @@ namespace SecureFileTransfer.Network
             SendAccept();
 
             Write(Android.OS.Build.Model, true);
-
-            //AES dataConnectionAES = new AES();
-            //dataConnectionAES.Generate();
-            
-            //Write(SingleTransferServer.Port.ToString(), true);
-            //Write(DataConnection.Address, true);
-            //Write(dataConnectionAES.aesKey);
-            //Write(dataConnectionAES.aesIV);
 
             return true;
         }
@@ -111,7 +106,7 @@ namespace SecureFileTransfer.Network
 
                 Transfer transfer = Transfer.GetForRequest(req as FileTransferRequest);
 
-                DataConnection = SingleTransferServer.GetServer();
+                DataConnection = SingleTransferReceiver.GetServer();
                 DataConnection.ParentConnection = this;
 
                 FileTransferResponse resp = new FileTransferResponse()
@@ -119,7 +114,7 @@ namespace SecureFileTransfer.Network
                     AesKey = fileAES.aesKey,
                     AesIv = fileAES.aesIV,
                     DataConnectionAddress = DataConnection.Address,
-                    DataConnectionPort = SingleTransferServer.Port
+                    DataConnectionPort = SingleTransferReceiver.Port
                 };
                 req.Respond(resp);
 
