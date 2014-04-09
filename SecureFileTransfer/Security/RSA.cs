@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace SecureFileTransfer.Security
 {
-    public class RSA : ICryptoKey
+    public class RSA : ICryptoKey, IDisposable
     {
         RSACryptoServiceProvider rsaProvider = null;
         RSAParameters? rsaParameters = null;
@@ -29,6 +29,12 @@ namespace SecureFileTransfer.Security
             rsaProvider.ImportParameters(rsaParams);
 
             rsaParameters = rsaParams;
+        }
+
+        public void Dispose()
+        {
+            if (rsaProvider != null)
+                rsaProvider.Dispose();
         }
 
         public void Generate()

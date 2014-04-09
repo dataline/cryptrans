@@ -14,7 +14,7 @@ using Android.OS;
 
 namespace SecureFileTransfer.Security
 {
-    public class EncryptionContext
+    public class EncryptionContext : IDisposable
     {
         public Connection Connection { get; private set; }
 
@@ -37,6 +37,12 @@ namespace SecureFileTransfer.Security
             : this(conn)
         {
             this.aes = aes;
+        }
+
+        public void Dispose()
+        {
+            if (rsa != null)
+                rsa.Dispose();
         }
 
         public enum ConnectionType

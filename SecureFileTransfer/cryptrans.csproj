@@ -92,6 +92,7 @@
     <Compile Include="Features\ExceptionExtensions.cs" />
     <Compile Include="Features\Preferences.cs" />
     <Compile Include="Features\Preview.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Network\SingleTransferClientSpecial.cs" />
     <Compile Include="Network\WiFiDirect\PeerListListener.cs" />
     <Compile Include="Network\WiFiDirect\WifiActionListener.cs" />

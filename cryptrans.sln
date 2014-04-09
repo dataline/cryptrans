@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureFileTransfer", "SecureFileTransfer\SecureFileTransfer.csproj", "{2F4D1774-5C25-4380-816D-F7F941F0E746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cryptrans", "SecureFileTransfer\cryptrans.csproj", "{2F4D1774-5C25-4380-816D-F7F941F0E746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

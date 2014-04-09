@@ -243,6 +243,8 @@ namespace SecureFileTransfer.Network
         {
             if (ConnectionSocket != null)
                 ConnectionSocket.Close();
+            if (encCtx != null)
+                encCtx.Dispose();
         }
 
     }

@@ -108,7 +108,7 @@ namespace SecureFileTransfer.Network.TrivialEntityBasedProtocol
                 }
                 else
                 {
-                    throw ex;
+                    throw;
                 }
             }
 
