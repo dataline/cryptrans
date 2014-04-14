@@ -16,7 +16,7 @@ namespace SecureFileTransfer.Network
     /// </summary>
     public class LocalServer : IDisposable
     {
-        public static string PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
+        public string PublicConnectionPassword;
 
         public SynchronizationContext UIThreadSyncContext { get; set; }
 
@@ -60,7 +60,10 @@ namespace SecureFileTransfer.Network
         public string Address { get; set; }
         public const int Port = 23956;
 
-        private LocalServer() { }
+        private LocalServer() 
+        {
+            PublicConnectionPassword = Security.PasswordGenerator.Generate(8);
+        }
 
         void EstablishSocket()
         {
@@ -96,7 +99,7 @@ namespace SecureFileTransfer.Network
 
         bool CreateConnection(Socket connection)
         {
-            var conn = new ReceiverConnection(connection);
+            var conn = new ReceiverConnection(connection, new[] { PublicConnectionPassword });
 
             bool accepted = false;
             try

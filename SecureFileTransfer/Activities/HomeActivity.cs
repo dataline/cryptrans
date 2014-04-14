@@ -86,7 +86,7 @@ namespace SecureFileTransfer.Activities
                     AlertDialog info = builder.Create();
 
                     info.SetTitle(Resource.String.ServerConnectManually);
-                    info.SetMessage(string.Format(GetString(Resource.String.ServerConnectManuallyInfoFormatStr), srv.Address, Network.LocalServer.PublicConnectionPassword));
+                    info.SetMessage(string.Format(GetString(Resource.String.ServerConnectManuallyInfoFormatStr), srv.Address, srv.PublicConnectionPassword));
                     info.Show();
                 }
             };
@@ -169,7 +169,7 @@ namespace SecureFileTransfer.Activities
             srv.GotConnection += srv_GotConnection;
             srv.FailedConnectionAttempt += srv_FailedConnectionAttempt;
 
-            qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, Network.LocalServer.PublicConnectionPassword));
+            qrContainerView.SetImageBitmap(Features.QR.Create(srv.Address, Network.LocalServer.Port, srv.PublicConnectionPassword));
         }
 
         public void DestroyServer()

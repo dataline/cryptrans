@@ -28,9 +28,12 @@ namespace SecureFileTransfer.Network
         public delegate void FileTransferEndedEventHandler(SingleTransferReceiver srv, bool success);
         public event FileTransferEndedEventHandler FileTransferEnded;
 
+        private List<string> AcceptablePasswords;
 
-        public ReceiverConnection(Socket sock) : base(sock) {
+
+        public ReceiverConnection(Socket sock, IEnumerable<string> acceptablePasswords) : base(sock) {
             CurrentConnection = this;
+            AcceptablePasswords = acceptablePasswords.ToList();
         }
 
         public void RaiseFileTransferStarted(SingleTransferReceiver srv)
@@ -64,7 +67,7 @@ namespace SecureFileTransfer.Network
             EnableEncryption(EncryptionContext.ConnectionType.Server);
 
             string password = Encoding.GetString(GetUndefinedLength());
-            if (password != LocalServer.PublicConnectionPassword)
+            if (!AcceptablePasswords.Contains(password))
                 throw new InvalidHandshakeException(InvalidHandshakeException.HandshakePhase.Authentication);
 
             RemoteName = Encoding.GetString(GetUndefinedLength());
