@@ -11,7 +11,7 @@ namespace SecureFileTransfer.Dialogs
     public class ConnectingDialog : AndroidDialog
     {
         public ConnectingDialog(Activity ctx)
-            : base(ctx, NoValue, NoValue)
+            : base(ctx)
         { }
 
         public override Dialog OnCreateDialog(Android.OS.Bundle savedInstanceState)

@@ -28,7 +28,7 @@ namespace SecureFileTransfer.Dialogs
             Yes, No
         }
 
-        public AndroidDialog(Activity ctx, int yesResId, int noResId, DialogDidEndDelegate didEnd = null)
+        public AndroidDialog(Activity ctx, int yesResId = NoValue, int noResId = NoValue, DialogDidEndDelegate didEnd = null)
         {
             context = ctx;
             dlgYesResID = yesResId;

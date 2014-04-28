@@ -21,12 +21,34 @@ namespace SecureFileTransfer.Features
             using (var fd = contentResolver.OpenFileDescriptor(uri, "r"))
                 size = fd.StatSize;
             using (var cursor = contentResolver.Query(uri, new string[] {
-                Android.Provider.OpenableColumns.DisplayName 
+                Android.Provider.OpenableColumns.DisplayName
             }, null, null, null))
             {
                 cursor.MoveToFirst();
-                fileName = cursor.GetString(0);
+                fileName = GetFixedFileName(cursor.GetString(0), contentResolver.GetType(uri));
             }
+        }
+
+        private static string GetFixedFileName(string rawName, string type)
+        {
+            if (Path.GetExtension(rawName).Length == 0)
+            {
+                foreach (char inval in Path.GetInvalidFileNameChars())
+                    rawName = rawName.Replace(inval, '_');
+                rawName = rawName.Replace(' ', '_');
+
+                rawName += "." + GetExtensionForType(type);
+            }
+
+            return rawName;
+        }
+
+        private static string GetExtensionForType(string type)
+        {
+            if (type == "audio/mp4")
+                return "m4a"; // ?!
+
+            return MimeTypeMap.Singleton.GetExtensionFromMimeType(type);
         }
 
         public static Stream GetInputStreamFromContentURI(this Android.Net.Uri uri, ContentResolver contentResolver)
