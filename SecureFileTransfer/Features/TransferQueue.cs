@@ -44,6 +44,19 @@ namespace SecureFileTransfer.Features
             get { return Queue.Count == 0 ? 0 : Queue.Count - 1; }
         }
 
+        void StartFileTransfer(Transfer trans)
+        {
+            try
+            {
+                Connection.StartFileTransfer(trans);
+            }
+            catch (Exception ex)
+            {
+                ex.Handle();
+                _connection_FileTransferEnded(trans, false, false);
+            }
+        }
+
         void _connection_FileTransferEnded(Transfer trans, bool success, bool aborted)
         {
             if (Queue.Contains(trans))
@@ -67,7 +80,7 @@ namespace SecureFileTransfer.Features
             if (Queue.Count > 0)
             {
                 CurrentTransfer = Queue[0];
-                Connection.StartFileTransfer(CurrentTransfer);
+                StartFileTransfer(CurrentTransfer);
             }
             else
             {
@@ -82,7 +95,7 @@ namespace SecureFileTransfer.Features
             if (CurrentTransfer == null)
             {
                 CurrentTransfer = trans;
-                Connection.StartFileTransfer(CurrentTransfer);
+                StartFileTransfer(CurrentTransfer);
             }
         }
 
